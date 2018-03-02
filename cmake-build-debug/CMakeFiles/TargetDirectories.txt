@@ -1,3 +1,0 @@
-/Users/fredericopinto/Documents/CG-18/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/fredericopinto/Documents/CG-18/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/fredericopinto/Documents/CG-18/cmake-build-debug/CMakeFiles/TP.dir
