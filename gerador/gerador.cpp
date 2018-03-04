@@ -288,5 +288,9 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
 }*/
+<<<<<<< HEAD
     box(4, 4, 4, 4, "caixinha.txt");
+=======
+    box(4, 4, 4, 2, "box.3d");
+>>>>>>> 7a23a2e9b2fd2073380f39c92ed29f31f340ed89
 }
