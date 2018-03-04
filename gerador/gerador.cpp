@@ -51,7 +51,7 @@ void box(double c, double l, double a, int camadas, string f) {
     z = l / 2;
     zz = -z;
 
-    // fazer o lado que tem que ficar do virado para o lado oposto do ciclo
+    // fazer o lado que tem que ficar do virado para o lado oposto do ciclo  ---- ???????????????????
     printf("%f %f %f\n", x, yy, z);
     file << x << "," << yy << "," << z << endl;
     printf("%f %f %f\n", xx, yy, z);
