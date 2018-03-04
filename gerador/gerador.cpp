@@ -291,5 +291,5 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
 }*/
-    cone(2, 4, 6, 6, "caixinha.txt");
+    box(4, 4, 4, 2, "box.3d");
 }
