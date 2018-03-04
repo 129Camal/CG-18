@@ -31,16 +31,16 @@ void plano(float ladox, float ladoz, string f){
 
 
 void box(double c, double l, double a, int camadas, string f) {
-    double x, xx, xxx, y, yy, yyy, z, zz, zzz;
+    double x, xx, y, yy, z, zz;
     double espC, espL, espA;
     ofstream file(f);
-    int i, j;
+    int i;
 
     //definição dos espaços entre camadas;
 
-    espC = c / camadas;
-    espL = l / camadas;
-    espA = a / camadas;
+    espC = c / (camadas-1);
+    espL = l / (camadas-1);
+    espA = a / (camadas-1);
 
     //fazer as camadas cima e baixo;
 
@@ -66,10 +66,10 @@ void box(double c, double l, double a, int camadas, string f) {
     printf("%f %f %f\n", x, yy, z);
     file << x << "," << yy << "," << z << endl;
 
-    yy += espA;
+    yy = yy + espA;
 
 
-    for (i = 0; i < camadas-1 && yy <= y; i++) {
+    for (i = 0; i < camadas-1; i++) {
 
         printf("%f %f %f\n", x, yy, zz);
         file << x << "," << yy << "," << zz << endl;
@@ -288,9 +288,5 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
 }*/
-<<<<<<< HEAD
-    box(4, 4, 4, 4, "caixinha.txt");
-=======
-    box(4, 4, 4, 2, "box.3d");
->>>>>>> 7a23a2e9b2fd2073380f39c92ed29f31f340ed89
+    box(4, 4, 4, 2, "caixinha.txt");
 }

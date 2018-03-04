@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/fredericopinto/Documents/CG-18/gerador/gerador.cpp
+gerador.h
+/Users/fredericopinto/Documents/CG-18/gerador/gerador.h
+
+/Users/fredericopinto/Documents/CG-18/gerador/gerador.h
+math.h
+-
+stdio.h
+-
+string.h
+-
+iostream
+-
+fstream
+-
+stdlib.h
+-
+
