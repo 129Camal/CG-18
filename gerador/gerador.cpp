@@ -28,8 +28,11 @@ void plano(float ladox, float ladoz, string f){
     file.close();
 }
 
+void box(double c, double l, double a, int camadas, string f){
+    
+}
 
-
+/*
 void box(double c, double l, double a, int camadas, string f) {
     double x, xx, y, yy, z, zz;
     double espC, espL, espA;
@@ -181,7 +184,7 @@ void box(double c, double l, double a, int camadas, string f) {
     }
     file.close();
 }
-
+*/
 
 void cone(float r, float a, int cV, int cH, string f){
     ofstream file(f);
@@ -288,5 +291,5 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
 }*/
-    box(4, 4, 4, 2, "caixinha.txt");
+
 }
