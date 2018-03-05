@@ -165,10 +165,7 @@ void readFile(string fich){
         else {
 
         cout << "ERRO AO LER FICHEIRO" << endl;
-
     }
-
-
 }
 
 //método para ler ficheiro xml
