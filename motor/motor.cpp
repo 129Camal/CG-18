@@ -115,7 +115,6 @@ void keyboard(unsigned char key, int a, int b) {
 }
 
 //método para ler ficheiro xml
-
 //método para ler o ficheiro e preencher vetor
 
 
