@@ -31,16 +31,16 @@ void plano(float ladox, float ladoz, string f){
 
 
 void box(double c, double l, double a, int camadas, string f) {
-    double x, xx, xxx, y, yy, yyy, z, zz, zzz;
+    double x, xx, y, yy, z, zz;
     double espC, espL, espA;
     ofstream file(f);
-    int i, j;
+    int i;
 
     //definição dos espaços entre camadas;
 
-    espC = c / camadas;
-    espL = l / camadas;
-    espA = a / camadas;
+    espC = c / (camadas-1);
+    espL = l / (camadas-1);
+    espA = a / (camadas-1);
 
     //fazer as camadas cima e baixo;
 
@@ -66,10 +66,10 @@ void box(double c, double l, double a, int camadas, string f) {
     printf("%f %f %f\n", x, yy, z);
     file << x << "," << yy << "," << z << endl;
 
-    yy += espA;
+    yy = yy + espA;
 
 
-    for (i = 0; i < camadas-1 && yy <= y; i++) {
+    for (i = 0; i < camadas-1; i++) {
 
         printf("%f %f %f\n", x, yy, zz);
         file << x << "," << yy << "," << zz << endl;
@@ -221,7 +221,7 @@ void cone(float r, float a, int cV, int cH, string f){
 
         for(int a = 0; a < cV; a += espV){
 
-            float patamar = r + i*espH;
+            float patamarB = r + i*espH;
             float patamarA = r + (i+1) * espH;
 
             float raioB = r - (r * i);
@@ -232,7 +232,7 @@ void cone(float r, float a, int cV, int cH, string f){
             z4 = raioA * cos(a);
 
             x5 = raioB * sin(a);
-            y5 = patamar;
+            y5 = patamarB;
             z5 = raioB * cos(a);
 
             x6 = raioA * sin(a + espV);
@@ -247,11 +247,11 @@ void cone(float r, float a, int cV, int cH, string f){
             file << x3 << "," << y3 << "," << z3 << endl;
 
             x7 = raioB * sin(a);
-            y7 = patamar ;
+            y7 = patamarB;
             z7 = raioB * cos(a);
 
             x8 = raioB * sin(a + espV);
-            y8 = patamar;
+            y8 = patamarB;
             z8 = raioB * cos(a + espV);
 
             x9 = raioA * sin(a + espV);
@@ -272,13 +272,10 @@ void cone(float r, float a, int cV, int cH, string f){
 
 }
 
-void sphere(float r, int cv, int ch, string f){
-    //ofstream file(f);
-    float espV = 2* M_PI; //camadasV
-    float espH = M_PI;  //camadasH
-
-
-}
+//void sphere(float r, int cv, int ch, string f){
+//    ofstream file(f);
+//    float espV = 2* M_PI / ch;
+//    float espH = M_PI / cv;
 
 
 int main(int argc, char **argv) {
@@ -291,5 +288,5 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
 }*/
-    cone(2, 4, 6, 6, "caixinha.txt");
+    box(4, 4, 4, 2, "caixinha.txt");
 }

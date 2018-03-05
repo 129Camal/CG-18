@@ -19,6 +19,8 @@ if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
 
-add_executable(${PROJECT_NAME} gerador/gerador.cpp motor/motor.cpp)
+add_executable(Gerados gerador/gerador.cpp )
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+add_executable(Motor motor/motor.cpp motor/tinyxml2.cpp)
+
+target_link_libraries(Motor ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

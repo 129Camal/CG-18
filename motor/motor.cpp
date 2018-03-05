@@ -4,7 +4,8 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 using namespace std;
-//using namespace tinyxml2;
+using namespace tinyxml2;
+
 struct Point {
     float x;
     float y;
@@ -33,8 +34,14 @@ void renderScene(void){
     glTranslatef(xx, yy, zz);
     glRotatef(angleY, 0.0, 1.0, 0.0);
     glRotatef(angleX, 1.0, 0.0, 0.0);
+    glBegin(GL_TRIANGLES);
+    glColor3f(1,1,1);
+
+    for(int i =0; i< vertexes.size(); i++)
+        glVertex3f(vertexes[i].x, vertexes[i].y, vertexes[i].z);
 
 
+    glEnd();
     //End of frame
     glutSwapBuffers();
 }
@@ -113,12 +120,83 @@ void keyboard(unsigned char key, int a, int b) {
     }
     glutPostRedisplay();
 }
+//método para ler o ficheiro e preencher vetor
+
+void readFile(string fich){
+	string linha;
+    string novo;
+    string delimiter = ",";
+    int pos;
+    float xx,yy,zz;
+    Point p ;
+
+    ifstream file(fich);
+
+    if(file.is_open()){
+
+        while(getline (file,linha)) {
+
+            pos = linha.find(delimiter);
+            novo = linha.substr(0, pos);
+            xx = atof(novo.c_str());
+            linha.erase(0, pos + delimiter.length());
+            p.x = xx;
+
+            pos = linha.find(delimiter);
+            novo = linha.substr(0, pos);
+            yy = atof(novo.c_str());
+            linha.erase(0, pos + delimiter.length());
+            p.y = yy;
+
+            pos = linha.find(delimiter);
+            novo = linha.substr(0, pos);
+            zz = atof(novo.c_str());
+            linha.erase(0, pos + delimiter.length());
+            p.z = zz;
+
+            vertexes.push_back(p);
+
+        }
+
+        file.close();
+
+
+        }
+        else {
+
+        cout << "ERRO AO LER FICHEIRO" << endl;
+
+    }
+
+
+}
 
 //método para ler ficheiro xml
-//método para ler o ficheiro e preencher vetor
+
+void lerXML(string fich) {
+    XMLDocument doc;
+    XMLElement *root;
+
+    if (!(doc.LoadFile(fich.c_str()))) {
+        root = doc.FirstChildElement();
+        for (XMLElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
+            string ficheiro = elem->Attribute("file");
+            cout << "Ficheiro:" << ficheiro << "lido com sucesso" << endl;
+            readFile(ficheiro);
+        }
+    } else {
+        cout << "Ficheiro XML não foi encontrado" << endl;
+    }
+}
+
 
 
 int main(int argc, char** argv){
+
+	    if (argc > 1){
+        lerXML(argv[1]);
+}
+
 //init glut and the window
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
