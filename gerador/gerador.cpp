@@ -280,7 +280,6 @@ void cone(float r, float a, int cV, int cH, string f){
 
 
 int main(int argc, char **argv) {
-    /*printf("dhuhfis");
     if(argc < 1) {
         printf("Faltam argumentos\n");
         return 1;
@@ -288,7 +287,8 @@ int main(int argc, char **argv) {
 
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
-}*/
-    box(4, 4, 4, 5,"box.3d");
+    if(strcmp(argv[1], "box") == 0){
+        box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
+    }
     return 0;
 }
