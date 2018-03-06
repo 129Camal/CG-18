@@ -95,6 +95,16 @@ void keyboard(unsigned char key, int a, int b) {
             angleY += 10;
             break;
 
+        case 'w':
+        case 'W':
+            angleX -= 10;
+
+            break;
+        case 's':
+        case 'S':
+            angleX += 10;
+            break;
+
         case 'p':
         case 'P':
             draw = GL_POINT;
@@ -208,7 +218,8 @@ int main(int argc, char** argv){
     glutDisplayFunc( renderScene );
     glutReshapeFunc( reshape );
     glutIdleFunc( renderScene);
-
+    glutSpecialFunc(keyboardspecial);
+    glutKeyboardFunc(keyboard);
 // OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
