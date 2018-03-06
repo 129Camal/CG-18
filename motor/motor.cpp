@@ -6,18 +6,11 @@
 using namespace std;
 using namespace tinyxml2;
 
-struct Point {
-    float x;
-    float y;
-    float z;
-};
-
 float lx = 5.0f, ly = 5.0f, lz = 5.0f; //coordenadas para o lookAt
 float xx = 0.0f, yy = 0.0f, zz = 0.0f; // coordenadas para a camara
 float angleY = 0.0f, angleX = 0.0f; //TODO: ver se é 1 ou 0
-int draw = GL_LINE;
+int draw = GL_LINE; //maneira de desenho: linhas, pontos, preenchido
 vector<Point> vertexes; //vertices lidos do ficheiro
-//maneira de desenhi: linhas, pontos, preenchido
 
 void renderScene(void){
     // clear buffers
