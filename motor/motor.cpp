@@ -120,6 +120,18 @@ void keyboard(unsigned char key, int a, int b) {
         case '+':
             gluLookAt(lx-=2,ly-=2,lz-=2,0.0,0.0,0.0,0.0f,1.0f,0.0f);
             break;
+
+        case 'r':
+        case 'R':
+            glColor3f(1.0,1.0,1.0); // todo: verificar isto depois
+            gluLookAt(lx=5,ly=5,lz=5,
+                      0.0,0.0,0.0,
+                      0.0f,1.0f,0.0f);
+            glTranslatef(xx=0 ,yy=0,zz=0);
+            glRotatef(angleY=1,0,1,0);
+            glRotatef(angleX=1,1,0,0);
+            draw = GL_LINE;
+            break;
     }
     glutPostRedisplay();
 }

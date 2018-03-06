@@ -269,8 +269,6 @@ void cone(float r, float a, int cV, int cH, string f){
 
     }
     file.close();
-
-
 }
 
 //void sphere(float r, int cv, int ch, string f){
@@ -285,7 +283,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if(strcmp(argv[1], "plano") == 0)
+    if(strcmp(argv[1], "plane") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
     if(strcmp(argv[1], "box") == 0){
         box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
