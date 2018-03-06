@@ -1,26 +1,15 @@
 cmake_minimum_required(VERSION 3.9)
+project(gerador)
 
-PROJECT(TP)
+set(CMAKE_CXX_STANDARD 17)
 
-find_package(GLUT REQUIRED)
-include_directories(${GLUT_INCLUDE_DIR})
-link_directories(${GLUT_LIBRARY_DIRS})
-add_definitions(${GLUT_DEFINITIONS})
+add_executable(gerador gerador/gerador.cpp)
 
-if(NOT OPENGL_FOUND)
-    message(ERROR " OPENGL not found!")
-endif(NOT OPENGL_FOUND)
+
+project(motor)
 
 find_package(OpenGL REQUIRED)
-include_directories(${OpenGL_INCLUDE_DIRS})
-link_directories(${OpenGL_LIBRARY_DIRS})
-add_definitions(${OpenGL_DEFINITIONS})
-if(NOT OPENGL_FOUND)
-    message(ERROR " OPENGL not found!")
-endif(NOT OPENGL_FOUND)
+find_package(GLUT REQUIRED)
+add_executable(motor motor/motor.cpp motor/tinyxml2.cpp)
 
-add_executable(Gerados gerador/gerador.cpp )
-
-add_executable(Motor motor/motor.cpp motor/tinyxml2.cpp)
-
-target_link_libraries(Motor ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+target_link_libraries(motor ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

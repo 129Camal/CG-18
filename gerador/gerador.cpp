@@ -4,6 +4,7 @@ void plano(float ladox, float ladoz, string f){
     float x, y = 0, z;
     ofstream file(f);
 
+
     x = ladox/2;
     z = ladoz/2;
 
@@ -27,25 +28,63 @@ void plano(float ladox, float ladoz, string f){
 
     file.close();
 }
-
-void box(double c, double l, double a, int camadas, string f){
-    
-}
-
-/*
-void box(double c, double l, double a, int camadas, string f) {
-    double x, xx, y, yy, z, zz;
-    double espC, espL, espA;
+void box(float c, float l, float a, int camadas, string f){
     ofstream file(f);
-    int i;
+    float x,y,z, xx, yy, zz;
+    int i, j;
 
-    //definição dos espaços entre camadas;
+    //definição dos espaços entre as camadas
+    float espC = c / camadas;
+    float espL = l / camadas;
+    float espA = a / camadas;
 
-    espC = c / (camadas-1);
-    espL = l / (camadas-1);
-    espA = a / (camadas-1);
+    //fazer as faces da frente e face de trás.
+    y = a / 2;
+    yy = -y;
+    x = c / 2;
+    xx = -x;
+    z = l / 2;
+    zz = -z;
 
-    //fazer as camadas cima e baixo;
+    for (i = yy; i < y; i+=espA) {
+
+        for (j = xx; j < x; j += espC) {
+            float pontoX = j + espC;
+            float pontoY = i + espA;
+
+            //face da frente
+            //printf("%f %f %f\n", j, i, z);
+            file << j << "," << i << "," << z << endl;
+            //printf("%f %f %f\n", pontoX, i, z);
+            file << pontoX << "," << i << "," << z << endl;
+            //printf("%f %f %f\n", pontoX, pontoY, z);
+            file << pontoX << "," << pontoY << "," << z << endl;
+
+            //printf("%f %f %f\n", pontoX, pontoY, z);
+            file << pontoX << "," << pontoY << "," << z << endl;
+            //printf("%f %f %f\n", j, pontoY, z);
+            file << j << "," << pontoY << "," << z << endl;
+            //printf("%f %f %f\n", j, i, z);
+            file << j << "," << i << "," << z << endl;
+
+            //face de trás
+            //printf("%f %f %f\n", j, i, zz);
+            file << j << "," << i << "," << zz << endl;
+            //printf("%f %f %f\n", j, pontoY, zz);
+            file << j << "," << pontoY << "," << zz << endl;
+            //printf("%f %f %f\n", pontoX, pontoY, zz);
+            file << pontoX << "," << pontoY << "," << zz << endl;
+
+            //printf("%f %f %f\n", pontoX, pontoY, zz);
+            file << pontoX << "," << pontoY << "," << zz << endl;
+            //printf("%f %f %f\n", pontoX, i, zz);
+            file << pontoX << "," << i << "," << zz << endl;
+            //printf("%f %f %f\n", j, i, zz);
+            file << j << "," << i << "," << zz << endl;
+        }
+    }
+
+    //face de cima e de baixo
 
     y = a / 2;
     yy = -y;
@@ -54,137 +93,96 @@ void box(double c, double l, double a, int camadas, string f) {
     z = l / 2;
     zz = -z;
 
-    // fazer o lado que tem que ficar do virado para o lado oposto do ciclo  ---- ???????????????????
-    printf("%f %f %f\n", x, yy, z);
-    file << x << "," << yy << "," << z << endl;
-    printf("%f %f %f\n", xx, yy, z);
-    file << xx << "," << yy << "," << z << endl;
-    printf("%f %f %f\n", xx, yy, zz);
-    file << xx << "," << yy << "," << zz << endl;
+    for (i = zz; i < z; i+=espL) {
 
-    printf("%f %f %f\n", xx, yy, zz);
-    file << xx << "," << yy << "," << zz << endl;
-    printf("%f %f %f\n", x, yy, zz);
-    file << x << "," << yy << "," << zz << endl;
-    printf("%f %f %f\n", x, yy, z);
-    file << x << "," << yy << "," << z << endl;
+        for (j = xx; j < x; j += espC) {
+            float pontoX = j + espC;
+            float pontoZ = i + espL;
 
-    yy = yy + espA;
+            //face da cima
+            //printf("%f %f %f\n", j, y, i);
+            file << j << "," << y << "," << i << endl;
+            //printf("%f %f %f\n", j, y, pontoZ);
+            file << j << "," << y << "," << pontoZ << endl;
+            //printf("%f %f %f\n", pontoX, y, i);
+            file << pontoX << "," << y << "," << i << endl;
+
+            //printf("%f %f %f\n", j, y, pontoZ);
+            file << j << "," << y << "," << pontoZ << endl;
+            //printf("%f %f %f\n", pontoX, y, pontoZ);
+            file << pontoX << "," << y << "," << pontoZ << endl;
+            //printf("%f %f %f\n", pontoX, y, i);
+            file << pontoX << "," << y << "," << i<< endl;
 
 
-    for (i = 0; i < camadas-1; i++) {
 
-        printf("%f %f %f\n", x, yy, zz);
-        file << x << "," << yy << "," << zz << endl;
-        printf("%f %f %f\n", xx, yy, zz);
-        file << xx << "," << yy << "," << zz << endl;
-        printf("%f %f %f\n", xx, yy, z);
-        file << xx << "," << yy << "," << z << endl;
+            //face de baixo
+            //printf("%f %f %f\n", j, yy, i);
+            file << j << "," << yy << "," << i << endl;
+            //printf("%f %f %f\n", pontoX, yy, i);
+            file << pontoX << "," << yy << "," << i << endl;
+            //printf("%f %f %f\n", pontoX, yy, pontoZ);
+            file << pontoX << "," << yy << "," << pontoZ << endl;
 
-        printf("%f %f %f\n", xx, yy, z);
-        file << xx << "," << yy << "," << z << endl;
-        printf("%f %f %f\n", x, yy, z);
-        file << x << "," << yy << "," << z << endl;
-        printf("%f %f %f\n", x, yy, zz);
-        file << x << "," << yy << "," << zz << endl;
-
-        yy += espA;
-
+            //printf("%f %f %f\n", pontoX, yy, pontoZ);
+            file << pontoX << "," << yy << "," << pontoZ << endl;
+            //printf("%f %f %f\n", j, yy, pontoZ);
+            file << j << "," << yy << "," << pontoZ << endl;
+            //printf("%f %f %f\n", j, yy, i);
+            file << j << "," << yy << "," << i << endl;
+        }
     }
 
-    //fazer camadas da esquerda para direita
-
-    x = c / 2;
-    xx = -x;
-    y = a / 2;
-    yy = -y;
-    z = l / 2;
-    zz = -z;
-
-    // fazer o lado que tem que ficar do virado para o lado oposto do ciclo
-    printf("%f %f %f\n", xx, y, z);
-    file << xx << "," << y << "," << z << endl;
-    printf("%f %f %f\n", xx, y, zz);
-    file << xx << "," << y << "," << zz << endl;
-    printf("%f %f %f\n", xx, yy, zz);
-    file << xx << "," << yy << "," << zz << endl;
-
-    printf("%f %f %f\n", xx, y, zz);
-    file << xx << "," << y << "," << zz << endl;
-    printf("%f %f %f\n", xx, yy, zz);
-    file << xx << "," << yy << "," << zz << endl;
-    printf("%f %f %f\n", xx, yy, z);
-    file << xx << "," << yy << "," << z << endl;
-
-    xx += espC;
-
-    for (i = 0; i < camadas-1 && xx <= x; i++) {
-
-        printf("%f %f %f\n", xx, y, zz);
-        file << xx << "," << y << "," << zz << endl;
-        printf("%f %f %f\n", xx, y, z);
-        file << xx << "," << y << "," << z << endl;
-        printf("%f %f %f\n", xx, yy, z);
-        file << xx << "," << yy << "," << z << endl;
-
-        printf("%f %f %f\n", xx, yy, z);
-        file << xx << "," << yy << "," << z << endl;
-        printf("%f %f %f\n", xx, yy, zz);
-        file << xx << "," << yy << "," << zz << endl;
-        printf("%f %f %f\n", xx, y, zz);
-        file << xx << "," << y << "," << zz << endl;
-
-        xx += espC;
-
-    }
-
-    //fazer camadas de frente para trás
-
-    z = l / 2;
-    zz = -z;
+    //face da esquerda e de cima
     y = a / 2;
     yy = -y;
     x = c / 2;
     xx = -x;
+    z = l / 2;
+    zz = -z;
 
-    printf("%f %f %f\n", xx, yy, zz);
-    file << xx << "," << yy << "," << zz << endl;
-    printf("%f %f %f\n", xx, y, zz);
-    file << xx << "," << y << "," << zz << endl;
-    printf("%f %f %f\n", x, y, zz);
-    file << x << "," << y << "," << zz << endl;
+    for (i = zz; i < z; i+=espL) {
 
-    printf("%f %f %f\n", x, y, zz);
-    file << x << "," << y << "," << zz << endl;
-    printf("%f %f %f\n", x, yy, zz);
-    file << x << "," << yy << "," << zz << endl;
-    printf("%f %f %f\n", xx, yy, zz);
-    file << xx << "," << yy << "," << zz << endl;
+        for (j = yy; j < y; j += espA) {
+            float pontoZ = i + espL;
+            float pontoY = j + espA;
 
-    zz += espL;
+            //face da esquerda
+            //printf("%f %f %f\n", xx, j, i);
+            file << xx << "," << j << "," << i << endl;
+            //printf("%f %f %f\n", xx, j, pontoZ);
+            file << xx << "," << j << "," << pontoZ << endl;
+            //printf("%f %f %f\n", xx, pontoY, i);
+            file << xx << "," << pontoY << "," << i << endl;
 
-    for (i = 0; i < camadas-1 && zz <= z; i++) {
+            //printf("%f %f %f\n", xx, j, pontoZ);
+            file << xx << "," << j << "," << pontoZ << endl;
+            //printf("%f %f %f\n", xx, pontoY, pontoZ);
+            file << xx << "," << pontoY << "," << pontoZ << endl;
+            //printf("%f %f %f\n", xx, pontoY, i);
+            file << xx << "," << pontoY << "," << i << endl;
 
-        printf("%f %f %f\n", x, y, zz);
-        file << x << "," << y << "," << zz << endl;
-        printf("%f %f %f\n", xx, y, zz);
-        file << xx << "," << y << "," << zz << endl;
-        printf("%f %f %f\n", xx, yy, zz);
-        file << xx << "," << yy << "," << zz << endl;
 
-        printf("%f %f %f\n", xx, yy, zz);
-        file << xx << "," << yy << "," << zz << endl;
-        printf("%f %f %f\n", x, yy, zz);
-        file << x << "," << yy << "," << zz << endl;
-        printf("%f %f %f\n", x, y, zz);
-        file << x << "," << y << "," << zz << endl;
 
-        zz += espL;
+            //face da direita
+            //printf("%f %f %f\n", x, j, i);
+            file << x << "," << j << "," << i << endl;
+            //printf("%f %f %f\n", x, pontoY, i);
+            file << x << "," << pontoY << "," << i << endl;
+            //printf("%f %f %f\n", x, j, pontoZ);
+            file << x << "," << j << "," << pontoZ << endl;
 
+            //printf("%f %f %f\n", x, pontoY, i);
+            file << x << "," << pontoY << "," << i << endl;
+            //printf("%f %f %f\n", x, pontoY, pontoZ);
+            file << x << "," << pontoY << "," << pontoZ << endl;
+            //printf("%f %f %f\n", x, j, pontoZ);
+            file << x << "," << j << "," << pontoZ << endl;
+        }
     }
-    file.close();
+
+
 }
-*/
 
 void cone(float r, float a, int cV, int cH, string f){
     ofstream file(f);
@@ -261,11 +259,11 @@ void cone(float r, float a, int cV, int cH, string f){
             y9 = patamarA;
             z9 = raioB * cos(a + espV);
 
-            printf("%f %f %f\n", x7, y7, z7);
+            //printf("%f %f %f\n", x7, y7, z7);
             file << x7 << "," << y7 << "," << z7 << endl;
-            printf("%f %f %f\n", x8, y8, z8);
+            //printf("%f %f %f\n", x8, y8, z8);
             file << x8 << "," << y8 << "," << z8 << endl;
-            printf("%f %f %f\n", x9, y9, z9);
+            //printf("%f %f %f\n", x9, y9, z9);
             file << x9 << "," << y9 << "," << z9 << endl;
         }
 
@@ -291,5 +289,6 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "plano") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
 }*/
-
+    box(4, 4, 4, 5,"box.3d");
+    return 0;
 }
