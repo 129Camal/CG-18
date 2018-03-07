@@ -6,18 +6,11 @@
 using namespace std;
 using namespace tinyxml2;
 
-struct Point {
-    float x;
-    float y;
-    float z;
-};
-
 float lx = 5.0f, ly = 5.0f, lz = 5.0f; //coordenadas para o lookAt
 float xx = 0.0f, yy = 0.0f, zz = 0.0f; // coordenadas para a camara
 float angleY = 0.0f, angleX = 0.0f; //TODO: ver se é 1 ou 0
-int draw = GL_LINE;
+int draw = GL_LINE; //maneira de desenho: linhas, pontos, preenchido
 vector<Point> vertexes; //vertices lidos do ficheiro
-//maneira de desenhi: linhas, pontos, preenchido
 
 void renderScene(void){
     // clear buffers
@@ -127,6 +120,18 @@ void keyboard(unsigned char key, int a, int b) {
         case '+':
             gluLookAt(lx-=2,ly-=2,lz-=2,0.0,0.0,0.0,0.0f,1.0f,0.0f);
             break;
+
+        case 'r':
+        case 'R':
+            glColor3f(1.0,1.0,1.0); // todo: verificar isto depois
+            gluLookAt(lx=5,ly=5,lz=5,
+                      0.0,0.0,0.0,
+                      0.0f,1.0f,0.0f);
+            glTranslatef(xx=0 ,yy=0,zz=0);
+            glRotatef(angleY=1,0,1,0);
+            glRotatef(angleX=1,1,0,0);
+            draw = GL_LINE;
+            break;
     }
     glutPostRedisplay();
 }
@@ -175,10 +180,7 @@ void readFile(string fich){
         else {
 
         cout << "ERRO AO LER FICHEIRO" << endl;
-
     }
-
-
 }
 
 //método para ler ficheiro xml

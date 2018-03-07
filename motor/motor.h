@@ -16,3 +16,9 @@
 #include <string>
 #include <iostream>
 #include <vector>
+
+struct Point {
+    float x;
+    float y;
+    float z;
+};

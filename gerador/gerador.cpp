@@ -286,8 +286,6 @@ void cone(float r, float a, int slices, int cH, string f){
 
     }
     file.close();
-
-
 }
 
 void sphere(float r, int cv, int ch, string f){
@@ -337,17 +335,54 @@ void sphere(float r, int cv, int ch, string f){
     file.close();
 }
 
+void help() {
+
+    cout <<" ---------------------> MENU DE AJUDA <---------------------"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<"|       GERADOR:                                            |"<< endl;
+    cout <<"|       $ g++ gerador.cpp -o gen                            |"<< endl;
+    cout <<"|       $ ./gen <Modelo> [Parâmetros] figura.3d             |"<< endl;
+    cout <<"|       $ mv figura.3d diretoria/Motor                      |"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<"|       MOTOR:                                              |"<< endl;
+    cout <<"|       [build]$ make                                       |"<< endl;
+    cout <<"|       $ ./TP ../CG-18/Motor/figura.xml                    |"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<"|------------------------> Modelo <-------------------------|"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<"|       * Plano lado lado                                   |"<< endl;
+    cout <<"|       * Cubo comp larg alt nr_camadas                     |"<< endl;
+    cout <<"|       * Cone raio altura nr_camadasV nr_camadasH          |"<< endl;
+    cout <<"|       * Esfera raio nr_camadasV nr_camadasH               |"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<"|---------------------> Controlos 3D <----------------------|"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<"|       * Translação: Seta cima, baixo, esquerda, direita   |"<< endl;
+    cout <<"|       * Rotação: w, a, s, d  | W, A, S, D                 |"<< endl;
+    cout <<"|       * Zoom: + | -                                       |"<< endl;
+    cout <<"|       * Representação do sólido:                          |"<< endl;
+    cout <<"|           - por linhas: l | L                             |"<< endl;
+    cout <<"|           - por pontos: p | P                             |"<< endl;
+    cout <<"|           - preenchido: f | F                             |"<< endl;
+    cout <<"|       * RESET: r | R                                      |"<< endl;
+    cout <<"|                                                           |"<< endl;
+    cout <<" ------------------------------><---------------------------"<< endl;
+
+}
 
 int main(int argc, char **argv) {
-    /*printf("dhuhfis");
     if(argc < 1) {
         printf("Faltam argumentos\n");
         return 1;
     }
-
-    if(strcmp(argv[1], "plano") == 0)
+    if(strcmp(argv[1], "help") == 0)
+        help();
+    if(strcmp(argv[1], "plane") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
-}*/
-    sphere(5, 20, 20,"box.3d");
+    if(strcmp(argv[1], "box") == 0){
+        box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
+    }
+    if(strcmp(argv[1], "cone") == 0)
+        cone(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     return 0;
 }
