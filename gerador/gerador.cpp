@@ -26,6 +26,7 @@ void box(float c, float l, float a, int camadas, string f){
     ofstream file(f);
     float x,y,z, xx, yy, zz;
     int i, j;
+    float pontoX, pontoY, pontoZ, r, s;
 
     //definição dos espaços entre as camadas
     float espC = c / camadas;
@@ -41,15 +42,15 @@ void box(float c, float l, float a, int camadas, string f){
     zz = -z;
 
 
-    //faz as camadas percorrendo a linha X e quando acabar sobe um posiçao de Y.
+    //faz as camadas percorrendo a linha X e quando acabar sobe uma posiçao de Y.
     for (i = 0; i < camadas; i++) {
-        float s = yy + (espA * i);
+        s = yy + (espA * i);
 
         for (j = 0; j < camadas; j++ ) {
-            float r = xx + (espC * j);
+            r = xx + (espC * j);
 
-            float pontoX = r + espC; //shift em x
-            float pontoY = s + espA; //shift em y
+            pontoX = r + espC; //shift em x
+            pontoY = s + espA; //shift em y
 
             //face da frente
             file << r << "," << s << "," << z << endl;
@@ -72,6 +73,8 @@ void box(float c, float l, float a, int camadas, string f){
     }
 
     //face de cima e de baixo
+    //começa numa posição Z e depois faz a linha toda de X e no fim sobe uma posição de Z
+
 
     y = a / 2;
     yy = -y;
@@ -81,15 +84,15 @@ void box(float c, float l, float a, int camadas, string f){
     zz = -z;
 
     for (i = 0; i < camadas; i++) {
-        float s = zz + (espL * i);
+        s = zz + (espL * i);
 
 
         for (j = 0; j < camadas; j ++) {
 
-            float r = xx + (espC * j);
+            r = xx + (espC * j);
 
-            float pontoX = r + espC;
-            float pontoZ = s + espL;
+            pontoX = r + espC;
+            pontoZ = s + espL;
 
             //face da cima
             file << r << "," << y << "," << s << endl;
@@ -114,6 +117,7 @@ void box(float c, float l, float a, int camadas, string f){
     }
 
     //face da esquerda e da direita
+    //começa numa posição de Z faz toda a linha e depois sobe uma unidade de Y.
     y = a / 2;
     yy = -y;
     x = c / 2;
@@ -122,13 +126,13 @@ void box(float c, float l, float a, int camadas, string f){
     zz = -z;
 
     for (i = 0; i < camadas; i++) {
-        float s = yy + (espA * i);
+        s = yy + (espA * i);
 
         for (j = 0; j < camadas; j++){
-            float r = zz + (espL * j);
+            r = zz + (espL * j);
 
-            float pontoZ = r + espL;
-            float pontoY = s + espA;
+            pontoZ = r + espL;
+            pontoY = s + espA;
 
             //face da esquerda
             file << xx << "," << s << "," << r << endl;
@@ -165,11 +169,13 @@ void cone(float r, float a, int slices, int cH, string f){
     float espS = (2 * M_PI) / slices;
     float espH = a / cH;
     float alt = -a/2;
+    int i, j;
+    float ang, a, camadaBaixo, camadaAcima, raioBaixo, raioAcima;
 
-    //fazer a circunferência
-    for (int i = 0; i < slices; i++){
+    //fazer a circunferência da base
+    for (i = 0; i < slices; i++){
 
-        float ang = espS * i;
+        ang = espS * i;
 
         x1 = 0;
         y1 = alt;
@@ -189,18 +195,18 @@ void cone(float r, float a, int slices, int cH, string f){
 
     }
 
-    //fazer a parte de cima do cone
-    for(int i = 0; i < cH; i++){
+    //fazer a parte de cima do cone camada a camada
+    for(i = 0; i < cH; i++){
 
 
-        for(int j = 0; j < slices; j++){
-            float a = espS * j;
+        for(j = 0; j < slices; j++){
+            a = espS * j;
 
-            float camadaBaixo = alt + (i * espH);
-            float camadaAcima = alt + ((i+1) * espH);
+            camadaBaixo = alt + (i * espH);
+            camadaAcima = alt + ((i+1) * espH);
 
-            float raioBaixo = r - ((r/cH)*i);
-            float raioAcima = r - ((r / cH) * (i+1));
+            raioBaixo = r - ((r/cH)*i);
+            raioAcima = r - ((r / cH) * (i+1));
 
             x4 = raioBaixo * sin(a);
             y4 = camadaBaixo;
@@ -244,33 +250,36 @@ void sphere(float r, int cv, int ch, string f){
     float espV = 2 * M_PI / cv;
     float espH = M_PI / ch;
     int i, j;
+    float angH, angV;
+    float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
 
 
     for(i = 0; i < ch; i++){
 
-        float angH = espH * i;
+        angH = espH * i;
 
         for (j=0; j < cv; j++){
 
-            float angV = espV * j;
+            angV = espV * j;
 
 
-            float x1 = r * sin(angV) * sin(angH);
-            float y1 = r * cos(angH);
-            float z1 = r * sin(angH) * cos(angV);
+            x1 = r * sin(angV) * sin(angH);
+            y1 = r * cos(angH);
+            z1 = r * sin(angH) * cos(angV);
 
-            float x2 = r * sin(angH) * sin(angV + espV);
-            float y2 = r * cos(angH);
-            float z2 = r * sin(angH) * cos(angV + espV);
+            x2 = r * sin(angH) * sin(angV + espV);
+            y2 = r * cos(angH);
+            z2 = r * sin(angH) * cos(angV + espV);
 
-            float x3 = r * sin(angH + espH) * sin(angV + espV);
-            float y3 = r * cos(angH + espH);
-            float z3 = r * sin(angH + espH) * cos(angV + espV);
+            x3 = r * sin(angH + espH) * sin(angV + espV);
+            y3 = r * cos(angH + espH);
+            z3 = r * sin(angH + espH) * cos(angV + espV);
 
-            float x4 = r * sin(angH + espH) * sin(angV);
-            float y4 = r * cos(angH + espH);
-            float z4 = r * sin(angH + espH) * cos(angV);
+            x4 = r * sin(angH + espH) * sin(angV);
+            y4 = r * cos(angH + espH);
+            z4 = r * sin(angH + espH) * cos(angV);
 
+            //fazer os dois triangulos que fazer a forma da face da esfera em cada iteração do circulo
             file << x1 << "," << y1 << "," << z1 << endl;
             file << x2 << "," << y2 << "," << z2 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
@@ -293,9 +302,12 @@ void cylinder(float raio, float altura, int slices, int slicesHorizontais, strin
     float espSH = altura / slicesHorizontais;
     float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
     float alt = -(altura/2);
+    float yC, ang, altCamada;
+    int i, j;
 
-    for (int i = 0; i < slices; i++){
-        float ang = espS * i;
+    //fazer as duas bases(circunferências) do cilindro
+    for (i = 0; i < slices; i++){
+        ang = espS * i;
 
         x1 = 0;
         y1 = alt;
@@ -309,25 +321,28 @@ void cylinder(float raio, float altura, int slices, int slicesHorizontais, strin
         y3 = alt;
         z3 = raio * cos(ang + espS);
 
-        float yC = - alt;
+        yC = - alt;
 
+        //circunferência de baixo
         file << x2 << "," << y2 << "," << z2 << endl;
         file << x1 << "," << y1 << "," << z1 << endl;
         file << x3 << "," << y3 << "," << z3 << endl;
 
+        //circunferência de cima
         file << x1 << "," << yC << "," << z1 << endl;
         file << x2 << "," << yC << "," << z2 << endl;
         file << x3 << "," << yC << "," << z3 << endl;
 
     }
 
-    for(int i = 0; i <slicesHorizontais; i++){
+    //unir as faces fazendo em N slicesHorizontais
+    for(i = 0; i <slicesHorizontais; i++){
 
-        float altCamada = alt + (espSH * i);
+        altCamada = alt + (espSH * i);
 
-        for(int j = 0; j < slices; j++){
+        for(j = 0; j < slices; j++){
 
-            float ang = espS * j;
+            ang = espS * j;
 
             x1 = raio * sin(ang);
             y1 = altCamada + espSH;
@@ -345,7 +360,7 @@ void cylinder(float raio, float altura, int slices, int slicesHorizontais, strin
             y4 = altCamada + espSH;
             z4 = raio * cos(ang + espS);
 
-
+            //triângulos para fazer a face correspondente em cada ciclo
             file << x1 << "," << y1 << "," << z1 << endl;
             file << x2 << "," << y2 << "," << z2 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
@@ -397,7 +412,7 @@ void help() {
 }
 
 int main(int argc, char **argv) {
-    /*if(argc < 1) {
+    if(argc < 1) {
         printf("Faltam argumentos\n");
         return 1;
     }
@@ -405,12 +420,16 @@ int main(int argc, char **argv) {
         help();
     if(strcmp(argv[1], "plane") == 0)
         plano(atof(argv[2]), atof(argv[3]), argv[4]);
-    if(strcmp(argv[1], "box") == 0){
+    if(strcmp(argv[1], "box") == 0)
         box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
-    }
     if(strcmp(argv[1], "cone") == 0)
         cone(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
+    if(strcmp(argv[1], "sphere") == 0)
+        sphere(atof(argv[2]), atof(argv[3]), atof(argv[4]), argv[5]);
+    if(strcmp(argv[1], "cylinder") == 0)
+        cylinder(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
+
+
     return 0;
-     */
-    sphere(2,20,10, "box.3d");
+
 }
