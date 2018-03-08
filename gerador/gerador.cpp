@@ -9,20 +9,14 @@ void plano(float ladox, float ladoz, string f){
     z = ladoz/2;
 
     // Triangulo 1
-    printf("%f %f %f\n",x,y,z);
     file << x << "," << y << "," << z << endl;
-    printf("%f %f %f\n",x,y,-z);
     file << x << "," << y << "," << -z << endl;
-    printf("%f %f %f\n",-x,y,-z);
     file << -x << "," << y << "," << -z << endl;
 
 
     // Triangulo 2
-    printf("%f %f %f\n",-x,y,z);
     file << -x << "," << y << "," << z << endl;
-    printf("%f %f %f\n",x,y,z);
     file << x << "," << y << "," << z << endl;
-    printf("%f %f %f\n",-x,y,-z);
     file << -x << "," << y << "," << -z << endl;
 
 
@@ -31,7 +25,7 @@ void plano(float ladox, float ladoz, string f){
 void box(float c, float l, float a, int camadas, string f){
     ofstream file(f);
     float x,y,z, xx, yy, zz;
-    float i, j;
+    int i, j;
 
     //definição dos espaços entre as camadas
     float espC = c / camadas;
@@ -46,43 +40,33 @@ void box(float c, float l, float a, int camadas, string f){
     z = l / 2;
     zz = -z;
 
+
+    //faz as camadas percorrendo a linha X e quando acabar sobe um posiçao de Y.
     for (i = 0; i < camadas; i++) {
         float s = yy + (espA * i);
 
         for (j = 0; j < camadas; j++ ) {
-            float r = xx + (espC * i);
+            float r = xx + (espC * j);
 
-            float pontoX = r + espC;
-            float pontoY = s + espA;
+            float pontoX = r + espC; //shift em x
+            float pontoY = s + espA; //shift em y
 
             //face da frente
-            //printf("%f %f %f\n", j, i, z);
             file << r << "," << s << "," << z << endl;
-            //printf("%f %f %f\n", pontoX, i, z);
             file << pontoX << "," << s << "," << z << endl;
-            //printf("%f %f %f\n", pontoX, pontoY, z);
             file << pontoX << "," << pontoY << "," << z << endl;
 
-            //printf("%f %f %f\n", pontoX, pontoY, z);
             file << pontoX << "," << pontoY << "," << z << endl;
-            //printf("%f %f %f\n", j, pontoY, z);
             file << r << "," << pontoY << "," << z << endl;
-            //printf("%f %f %f\n", j, i, z);
             file << r << "," << s << "," << z << endl;
 
             //face de trás
-            //printf("%f %f %f\n", j, i, zz);
             file << r << "," << s << "," << zz << endl;
-            //printf("%f %f %f\n", j, pontoY, zz);
             file << r << "," << pontoY << "," << zz << endl;
-            //printf("%f %f %f\n", pontoX, pontoY, zz);
             file << pontoX << "," << pontoY << "," << zz << endl;
 
-            //printf("%f %f %f\n", pontoX, pontoY, zz);
             file << pontoX << "," << pontoY << "," << zz << endl;
-            //printf("%f %f %f\n", pontoX, i, zz);
             file << pontoX << "," << s << "," << zz << endl;
-            //printf("%f %f %f\n", j, i, zz);
             file << r << "," << s << "," << zz << endl;
         }
     }
@@ -108,35 +92,23 @@ void box(float c, float l, float a, int camadas, string f){
             float pontoZ = s + espL;
 
             //face da cima
-            //printf("%f %f %f\n", j, y, i);
             file << r << "," << y << "," << s << endl;
-            //printf("%f %f %f\n", j, y, pontoZ);
             file << r << "," << y << "," << pontoZ << endl;
-            //printf("%f %f %f\n", pontoX, y, i);
             file << pontoX << "," << y << "," << s << endl;
 
-            //printf("%f %f %f\n", j, y, pontoZ);
             file << r << "," << y << "," << pontoZ << endl;
-            //printf("%f %f %f\n", pontoX, y, pontoZ);
             file << pontoX << "," << y << "," << pontoZ << endl;
-            //printf("%f %f %f\n", pontoX, y, i);
             file << pontoX << "," << y << "," << s<< endl;
 
 
 
             //face de baixo
-            //printf("%f %f %f\n", j, yy, i);
             file << r << "," << yy << "," << s << endl;
-            //printf("%f %f %f\n", pontoX, yy, i);
             file << pontoX << "," << yy << "," << s << endl;
-            //printf("%f %f %f\n", pontoX, yy, pontoZ);
             file << pontoX << "," << yy << "," << pontoZ << endl;
 
-            //printf("%f %f %f\n", pontoX, yy, pontoZ);
             file << pontoX << "," << yy << "," << pontoZ << endl;
-            //printf("%f %f %f\n", j, yy, pontoZ);
             file << r << "," << yy << "," << pontoZ << endl;
-            //printf("%f %f %f\n", j, yy, i);
             file << r << "," << yy << "," << s << endl;
         }
     }
@@ -159,35 +131,23 @@ void box(float c, float l, float a, int camadas, string f){
             float pontoY = s + espA;
 
             //face da esquerda
-            printf("%f %f %f\n", xx, s, r);
             file << xx << "," << s << "," << r << endl;
-            printf("%f %f %f\n", xx, s, pontoZ);
             file << xx << "," << s << "," << pontoZ << endl;
-            printf("%f %f %f\n", xx, pontoY, pontoZ);
             file << xx << "," << pontoY << "," << pontoZ << endl;
 
-            printf("%f %f %f\n", xx, pontoY, pontoZ);
             file << xx << "," << pontoY << "," << pontoZ << endl;
-            printf("%f %f %f\n", xx, pontoY, r);
             file << xx << "," << pontoY << "," << r << endl;
-            printf("%f %f %f\n", xx, s, r);
             file << xx << "," << s << "," << r << endl;
 
 
 
             //face da direita
-            printf("%f %f %f\n", x, s, r);
             file << x << "," << s << "," << r << endl;
-            printf("%f %f %f\n", x, pontoY, r);
             file << x << "," << pontoY << "," << r << endl;
-            printf("%f %f %f\n", x, s, pontoZ);
             file << x << "," << s << "," << pontoZ << endl;
 
-            printf("%f %f %f\n", x, pontoY, r);
             file << x << "," << pontoY << "," << r << endl;
-            printf("%f %f %f\n", x, pontoY, pontoZ);
             file << x << "," << pontoY << "," << pontoZ << endl;
-            printf("%f %f %f\n", x, s, pontoZ);
             file << x << "," << s << "," << pontoZ << endl;
         }
     }
@@ -223,11 +183,8 @@ void cone(float r, float a, int slices, int cH, string f){
         y3 = alt;
         z3 = r * cos(ang);
 
-        printf("%f %f %f\n", x1, y1, z1);
         file << x1 << "," << y1 << "," << z1 << endl;
-        printf("%f %f %f\n", x2, y2, z2);
         file << x2 << "," << y2 << "," << z2 << endl;
-        printf("%f %f %f\n", x3, y3, z3);
         file << x3 << "," << y3 << "," << z3 << endl;
 
     }
@@ -257,11 +214,8 @@ void cone(float r, float a, int slices, int cH, string f){
             y6 = camadaAcima;
             z6 = raioAcima * cos(a);
 
-            //printf("%f %f %f\n", x4, y4, z4);
             file << x4 << "," << y4 << "," << z4 << endl;
-            //printf("%f %f %f\n", x5, y5, z5);
             file << x5 << "," << y5 << "," << z5 << endl;
-            //printf("%f %f %f\n", x6, y6, z6);
             file << x6 << "," << y6 << "," << z6 << endl;
 
             x7 = raioBaixo * sin(a);
@@ -276,11 +230,8 @@ void cone(float r, float a, int slices, int cH, string f){
             y9 = camadaAcima;
             z9 = raioAcima * cos(a + espS);
 
-            //printf("%f %f %f\n", x7, y7, z7);
             file << x7 << "," << y7 << "," << z7 << endl;
-            //printf("%f %f %f\n", x8, y8, z8);
             file << x8 << "," << y8 << "," << z8 << endl;
-            //printf("%f %f %f\n", x9, y9, z9);
             file << x9 << "," << y9 << "," << z9 << endl;
         }
 
@@ -290,11 +241,12 @@ void cone(float r, float a, int slices, int cH, string f){
 
 void sphere(float r, int cv, int ch, string f){
     ofstream file(f);
-    float espV = 2* M_PI / ch;
-    float espH = M_PI / cv;
+    float espV = 2 * M_PI / cv;
+    float espH = M_PI / ch;
     int i, j;
 
-    for(i = 0; i < 2 * ch; i++){
+
+    for(i = 0; i < ch; i++){
 
         float angH = espH * i;
 
@@ -302,37 +254,111 @@ void sphere(float r, int cv, int ch, string f){
 
             float angV = espV * j;
 
-            float x1 = r * cos(angH) * sin(angV);
-            float y1 = r * sin(angH);
-            float z1 = r * cos(angH) * cos(angV) ;
 
-            float x2 = r * cos(angH) * sin(angV + espV);
-            float y2 = r * sin(angH);
-            float z2 = r * cos(angH) * cos(angV + espV);
+            float x1 = r * sin(angV) * sin(angH);
+            float y1 = r * cos(angH);
+            float z1 = r * sin(angH) * cos(angV);
 
-            float x3 = r * cos(angH + espH) * sin(angV + espV);
-            float y3 = r * sin(angH + espH);
-            float z3 = r * cos(angH + espH) * cos(angV + espV);
+            float x2 = r * sin(angH) * sin(angV + espV);
+            float y2 = r * cos(angH);
+            float z2 = r * sin(angH) * cos(angV + espV);
 
-            float x4 = r * cos(angH + espH) * sin(angV);
-            float y4 = r * sin(angH + espH);
-            float z4 = r * cos(angH + espH) * cos(angV);
+            float x3 = r * sin(angH + espH) * sin(angV + espV);
+            float y3 = r * cos(angH + espH);
+            float z3 = r * sin(angH + espH) * cos(angV + espV);
+
+            float x4 = r * sin(angH + espH) * sin(angV);
+            float y4 = r * cos(angH + espH);
+            float z4 = r * sin(angH + espH) * cos(angV);
 
             file << x1 << "," << y1 << "," << z1 << endl;
-            //printf("%f %f %f\n", x8, y8, z8);
             file << x2 << "," << y2 << "," << z2 << endl;
-            //printf("%f %f %f\n", x9, y9, z9);
             file << x3 << "," << y3 << "," << z3 << endl;
 
-            //printf("%f %f %f\n", x4, y4, z4);
-            file << x3 << "," << y3 << "," << z3 << endl;
-            //printf("%f %f %f\n", x5, y5, z5);
-            file << x4 << "," << y4 << "," << z4 << endl;
-            //printf("%f %f %f\n", x6, y6, z6);
+
             file << x1 << "," << y1 << "," << z1 << endl;
+            file << x3 << "," << y3 << "," << z3 << endl;
+            file << x4 << "," << y4 << "," << z4 << endl;
+
+
         }
     }
     file.close();
+}
+
+void cylinder(float raio, float altura, int slices, int slicesHorizontais, string f){
+    ofstream file(f);
+
+    float espS = 2 * M_PI / slices;
+    float espSH = altura / slicesHorizontais;
+    float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
+    float alt = -(altura/2);
+
+    for (int i = 0; i < slices; i++){
+        float ang = espS * i;
+
+        x1 = 0;
+        y1 = alt;
+        z1 = 0;
+
+        x2 = raio * sin(ang);
+        y2 = alt;
+        z2 = raio * cos(ang);
+
+        x3 = raio * sin(ang + espS);
+        y3 = alt;
+        z3 = raio * cos(ang + espS);
+
+        float yC = - alt;
+
+        file << x2 << "," << y2 << "," << z2 << endl;
+        file << x1 << "," << y1 << "," << z1 << endl;
+        file << x3 << "," << y3 << "," << z3 << endl;
+
+        file << x1 << "," << yC << "," << z1 << endl;
+        file << x2 << "," << yC << "," << z2 << endl;
+        file << x3 << "," << yC << "," << z3 << endl;
+
+    }
+
+    for(int i = 0; i <slicesHorizontais; i++){
+
+        float altCamada = alt + (espSH * i);
+
+        for(int j = 0; j < slices; j++){
+
+            float ang = espS * j;
+
+            x1 = raio * sin(ang);
+            y1 = altCamada + espSH;
+            z1 = raio * cos(ang);
+
+            x2 = raio * sin(ang);
+            y2 = altCamada;
+            z2 = raio * cos(ang);
+
+            x3 = raio * sin(ang + espS);
+            y3 = altCamada;
+            z3 = raio * cos(ang + espS);
+
+            x4 = raio * sin(ang + espS);
+            y4 = altCamada + espSH;
+            z4 = raio * cos(ang + espS);
+
+
+            file << x1 << "," << y1 << "," << z1 << endl;
+            file << x2 << "," << y2 << "," << z2 << endl;
+            file << x3 << "," << y3 << "," << z3 << endl;
+
+            file << x3 << "," << y3 << "," << z3 << endl;
+            file << x4 << "," << y4 << "," << z4 << endl;
+            file << x1 << "," << y1 << "," << z1 << endl;
+
+        }
+
+    }
+    file.close();
+
 }
 
 void help() {
@@ -371,7 +397,7 @@ void help() {
 }
 
 int main(int argc, char **argv) {
-    if(argc < 1) {
+    /*if(argc < 1) {
         printf("Faltam argumentos\n");
         return 1;
     }
@@ -385,4 +411,6 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "cone") == 0)
         cone(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     return 0;
+     */
+    sphere(2,20,10, "box.3d");
 }
