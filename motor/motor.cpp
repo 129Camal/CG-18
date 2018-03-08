@@ -11,7 +11,7 @@ float xx = 0.0f, yy = 0.0f, zz = 0.0f; // coordenadas para a camara
 float angleY = 0.0f, angleX = 0.0f; //TODO: ver se é 1 ou 0
 int draw = GL_LINE; //maneira de desenho: linhas, pontos, preenchido
 vector<Point> vertexes; //vertices lidos do ficheiro
-float R = 1, G = 1, B = 1; //variáveis da definição de cores
+
 
 void renderScene(void){
     int i = 0, j = 3;
@@ -33,11 +33,11 @@ void renderScene(void){
 
 
     for(; i< vertexes.size(); i+=6) {
-        glColor3f(0.0, 1.0, 1.0);
+        glColor3f(5.0, 5.0, 5.0);
         glVertex3f(vertexes[i].x, vertexes[i].y, vertexes[i].z);
         glVertex3f(vertexes[i+1].x, vertexes[i+1].y, vertexes[i+1].z);
         glVertex3f(vertexes[i+2].x, vertexes[i+2].y, vertexes[i+2].z);
-        glColor3f(0.0, 0.0, 1.0);
+        glColor3f(1.0, 0.5, 0.0);
         glVertex3f(vertexes[i+3].x, vertexes[i+3].y, vertexes[i+3].z);
         glVertex3f(vertexes[i+4].x, vertexes[i+4].y, vertexes[i+4].z);
         glVertex3f(vertexes[i+5].x, vertexes[i+5].y, vertexes[i+5].z);
