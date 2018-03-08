@@ -6,13 +6,15 @@
 using namespace std;
 using namespace tinyxml2;
 
-float lx = 5.0f, ly = 5.0f, lz = 5.0f; //coordenadas para o lookAt
+float lx = 20.0f, ly = 20.0f, lz = 20.0f; //coordenadas para o lookAt
 float xx = 0.0f, yy = 0.0f, zz = 0.0f; // coordenadas para a camara
 float angleY = 0.0f, angleX = 0.0f; //TODO: ver se é 1 ou 0
 int draw = GL_LINE; //maneira de desenho: linhas, pontos, preenchido
 vector<Point> vertexes; //vertices lidos do ficheiro
 
+
 void renderScene(void){
+    int i = 0, j = 3;
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -28,10 +30,18 @@ void renderScene(void){
     glRotatef(angleY, 0.0, 1.0, 0.0);
     glRotatef(angleX, 1.0, 0.0, 0.0);
     glBegin(GL_TRIANGLES);
-    glColor3f(1,1,1);
 
-    for(int i =0; i< vertexes.size(); i++)
+
+    for(; i< vertexes.size(); i+=6) {
+        glColor3f(5.0, 5.0, 5.0);
         glVertex3f(vertexes[i].x, vertexes[i].y, vertexes[i].z);
+        glVertex3f(vertexes[i+1].x, vertexes[i+1].y, vertexes[i+1].z);
+        glVertex3f(vertexes[i+2].x, vertexes[i+2].y, vertexes[i+2].z);
+        glColor3f(1.0, 0.5, 0.0);
+        glVertex3f(vertexes[i+3].x, vertexes[i+3].y, vertexes[i+3].z);
+        glVertex3f(vertexes[i+4].x, vertexes[i+4].y, vertexes[i+4].z);
+        glVertex3f(vertexes[i+5].x, vertexes[i+5].y, vertexes[i+5].z);
+    }
 
 
     glEnd();
@@ -123,8 +133,7 @@ void keyboard(unsigned char key, int a, int b) {
 
         case 'r':
         case 'R':
-            glColor3f(1.0,1.0,1.0); // todo: verificar isto depois
-            gluLookAt(lx=5,ly=5,lz=5,
+            gluLookAt(lx=20.0,ly=20.0,lz=20.0,
                       0.0,0.0,0.0,
                       0.0f,1.0f,0.0f);
             glTranslatef(xx=0 ,yy=0,zz=0);
