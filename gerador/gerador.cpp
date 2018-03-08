@@ -170,7 +170,7 @@ void cone(float r, float a, int slices, int cH, string f){
     float espH = a / cH;
     float alt = -a/2;
     int i, j;
-    float ang, a, camadaBaixo, camadaAcima, raioBaixo, raioAcima;
+    float ang, camadaBaixo, camadaAcima, raioBaixo, raioAcima;
 
     //fazer a circunferência da base
     for (i = 0; i < slices; i++){
