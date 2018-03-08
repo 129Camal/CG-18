@@ -429,7 +429,5 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "cylinder") == 0)
         cylinder(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
 
-
     return 0;
-
 }
