@@ -73,7 +73,7 @@ void box(float c, float l, float a, int camadas, string f){
     }
 
     //face de cima e de baixo
-    //começa numa posição Z e depois faz a linha toda de X e no fim sobe uma posição de Z
+    //começa numa posição Z e depois faz a linha toda de X e no fim sobe uma posição de Y
 
 
     y = a / 2;
@@ -323,15 +323,16 @@ void cylinder(float raio, float altura, int slices, int slicesHorizontais, strin
 
         yC = - alt;
 
+        //circunferência de cima
+        file << x1 << "," << yC << "," << z1 << endl;
+        file << x2 << "," << yC << "," << z2 << endl;
+        file << x3 << "," << yC << "," << z3 << endl;
         //circunferência de baixo
         file << x2 << "," << y2 << "," << z2 << endl;
         file << x1 << "," << y1 << "," << z1 << endl;
         file << x3 << "," << y3 << "," << z3 << endl;
 
-        //circunferência de cima
-        file << x1 << "," << yC << "," << z1 << endl;
-        file << x2 << "," << yC << "," << z2 << endl;
-        file << x3 << "," << yC << "," << z3 << endl;
+
 
     }
 
