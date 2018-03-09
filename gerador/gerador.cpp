@@ -168,9 +168,9 @@ void cone(float r, float a, int slices, int cH, string f){
 
     float espS = (2 * M_PI) / slices;
     float espH = a / cH;
-    float alt = -a/2;
+    float alt = -a/2;//para centrar o cone no referencial
     int i, j;
-    float ang, camadaBaixo, camadaAcima, raioBaixo, raioAcima;
+    float ang, camadaB, camadaA, raioB, raioA;
 
     //fazer a circunferência da base
     for (i = 0; i < slices; i++){
@@ -197,44 +197,42 @@ void cone(float r, float a, int slices, int cH, string f){
 
     //fazer a parte de cima do cone camada a camada
     for(i = 0; i < cH; i++){
+        camadaB = alt + (i * espH);
+        camadaA = alt + ((i+1) * espH);
 
+        raioB = r - ((r/cH)*i);
+        raioA = r - ((r / cH) * (i+1));
 
         for(j = 0; j < slices; j++){
             a = espS * j;
 
-            camadaBaixo = alt + (i * espH);
-            camadaAcima = alt + ((i+1) * espH);
+            x4 = raioB * sin(a);
+            y4 = camadaB;
+            z4 = raioB * cos(a);
 
-            raioBaixo = r - ((r/cH)*i);
-            raioAcima = r - ((r / cH) * (i+1));
+            x5 = raioA * sin(a + espS);
+            y5 = camadaA;
+            z5 = raioA * cos(a + espS);
 
-            x4 = raioBaixo * sin(a);
-            y4 = camadaBaixo;
-            z4 = raioBaixo * cos(a);
-
-            x5 = raioAcima * sin(a + espS);
-            y5 = camadaAcima;
-            z5 = raioAcima * cos(a + espS);
-
-            x6 = raioAcima * sin(a);
-            y6 = camadaAcima;
-            z6 = raioAcima * cos(a);
+            x6 = raioA * sin(a);
+            y6 = camadaA;
+            z6 = raioA * cos(a);
 
             file << x4 << "," << y4 << "," << z4 << endl;
             file << x5 << "," << y5 << "," << z5 << endl;
             file << x6 << "," << y6 << "," << z6 << endl;
 
-            x7 = raioBaixo * sin(a);
-            y7 = camadaBaixo;
-            z7 = raioBaixo * cos(a);
+            x7 = raioB * sin(a);
+            y7 = camadaB;
+            z7 = raioB * cos(a);
 
-            x8 = raioBaixo * sin(a + espS);
-            y8 = camadaBaixo;
-            z8 = raioBaixo * cos(a + espS);
+            x8 = raioB * sin(a + espS);
+            y8 = camadaB;
+            z8 = raioB * cos(a + espS);
 
-            x9 = raioAcima * sin(a + espS);
-            y9 = camadaAcima;
-            z9 = raioAcima * cos(a + espS);
+            x9 = raioA * sin(a + espS);
+            y9 = camadaA;
+            z9 = raioA * cos(a + espS);
 
             file << x7 << "," << y7 << "," << z7 << endl;
             file << x8 << "," << y8 << "," << z8 << endl;
@@ -295,11 +293,11 @@ void sphere(float r, int cv, int ch, string f){
     file.close();
 }
 
-void cylinder(float raio, float altura, int slices, int slicesHorizontais, string f){
+void cylinder(float raio, float altura, int slices, int slicesH, string f){
     ofstream file(f);
 
     float espS = 2 * M_PI / slices;
-    float espSH = altura / slicesHorizontais;
+    float espSH = altura / slicesH;
     float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
     float alt = -(altura/2);
     float yC, ang, altCamada;
@@ -337,7 +335,7 @@ void cylinder(float raio, float altura, int slices, int slicesHorizontais, strin
     }
 
     //unir as faces fazendo em N slicesHorizontais
-    for(i = 0; i <slicesHorizontais; i++){
+    for(i = 0; i <slicesH; i++){
 
         altCamada = alt + (espSH * i);
 
