@@ -198,6 +198,7 @@ void lerXML(string fich) {
     XMLDocument doc;
     XMLElement *root;
 
+
     if (!(doc.LoadFile(fich.c_str()))) {
         root = doc.FirstChildElement();
         for (XMLElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
