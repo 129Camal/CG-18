@@ -279,13 +279,14 @@ void sphere(float r, int cv, int ch, string f){
 
             //fazer os dois triangulos que fazer a forma da face da esfera em cada iteração do circulo
             file << x1 << "," << y1 << "," << z1 << endl;
-            file << x2 << "," << y2 << "," << z2 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
-
+            file << x2 << "," << y2 << "," << z2 << endl;
+           
 
             file << x1 << "," << y1 << "," << z1 << endl;
-            file << x3 << "," << y3 << "," << z3 << endl;
             file << x4 << "," << y4 << "," << z4 << endl;
+            file << x3 << "," << y3 << "," << z3 << endl;
+       
 
 
         }
