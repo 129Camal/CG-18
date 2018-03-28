@@ -10,7 +10,6 @@
 
 #include <math.h>
 #include "tinyxml2.h"
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
