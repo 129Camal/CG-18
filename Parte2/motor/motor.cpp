@@ -27,12 +27,22 @@ void renderScene(void){
     glRotatef(angleX, 1.0, 0.0, 0.0);
     //translate????
     glBegin(GL_TRIANGLES);
-
-    for(i = 0; i < transformacoes.size(); i++){
+    int i;
+    for(i = 0; i < transformacoes.size(); i++) {
         glPushMatrix();
+        Transformacao transform = transformacoes[i].getTrans();
+        glRotatef(transform.getRotacao().getAngle(), transform.getRotacao().getX(), transform.getRotacao().getY(),
+                  transform.getRotacao().getZ());
+        glTranslatef(transform.getTrans().getX(), transform.getTrans().getY(), transform.getTrans().getZ());
+        glScalef(transform.getEscala().getX(), transform.getEscala().getY(), transform.getEscala().getZ());
 
-
+        for (int j = 0; j < pontos.size(); j++)
+            glVertex3f(pontos[j].x, pontos[j].y, pontos[j].z);
     }
+    glEnd();
+    glPopMatrix();
+
+    //se fizermos o anel de saturno fica aqui
 }
 
 void reshape(int w, int h){
