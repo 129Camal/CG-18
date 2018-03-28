@@ -2,7 +2,24 @@
 // Created by 87 Dolly on 27/03/2018.
 //
 
-#ifndef PROJECT_MOTOR_H
-#define PROJECT_MOTOR_H
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 
-#endif //PROJECT_MOTOR_H
+#include <math.h>
+#include "tinyxml2.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <vector>
+
+struct Point {
+    float x;
+    float y;
+    float z;
+};

@@ -1,0 +1,60 @@
+<scene>
+    <group>
+        <!--sol-->
+
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+    <!--mercurio-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+        <!--venus-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+        <!--terra-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+            <group>
+                <!--lua-->
+            </group>
+    </group>
+    <group>
+        <!--marte-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+        <!--jupiter-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+        <!--saturno-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+        <!--urano-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+    <group>
+        <!--neptuno-->
+        <models>
+            <model fich = "esfera.3d"/>
+        </models>
+    </group>
+</scene>

@@ -3,7 +3,7 @@ project(gerador2)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(gerador2 gerador/gerador.cpp motor/motor.h motor/motor.cpp motor/tinyxml2.h motor/tinyxml2.cpp)
+add_executable(gerador2 gerador/gerador.cpp motor/motor.h motor/motor.cpp motor/tinyxml2.h motor/tinyxml2.cpp motor/Transformacao.cpp motor/Transformacao.h)
 
 
 project(motor2)
