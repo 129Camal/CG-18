@@ -4,16 +4,13 @@
 #include <zconf.h>
 #include "headers/motor.h"
 
-
-// esta merda tem que sair daqi depois e ir para o motor.h
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 using namespace std;
 using namespace tinyxml2;
 
-float zz = -4, angleX=0.0, angleY=0.0;
+float xx = 0, yy = 0, zz = -4, angleX=0.0, angleY=0.0, lx = 6.0, ly = 6.0, lz = 6.0;
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
 
@@ -23,12 +20,16 @@ void renderScene(void){
 
     // set the camera
     glLoadIdentity();
+    gluLookAt(lx+150,ly+150,lz+150, //todo: alterar aqui
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);
+    //glTranslatef(0, -1, zz);
 
     //draw instructions
-    glTranslatef(0, -1, zz);
     glRotatef(angleY, 0.0, 1.0, 0.0);
     glRotatef(angleX, 1.0, 0.0, 0.0);
-    //translate????
+    glTranslatef(-xx,0,-yy);
+
     glBegin(GL_TRIANGLES);
     int i;
     for(i = 0; i < transformacoes.size(); i++) {
@@ -39,12 +40,24 @@ void renderScene(void){
         glTranslatef(transform.getTrans().getX(), transform.getTrans().getY(), transform.getTrans().getZ());
         glScalef(transform.getEscala().getX(), transform.getEscala().getY(), transform.getEscala().getZ());
 
+        pontos.clear();
+        pontos = transformacoes[i].getPontos();
+
+        glBegin(GL_TRIANGLES);
+        glColor3f(1.0,1.0,1.0);
         for (int j = 0; j < pontos.size(); j++)
             glVertex3f(pontos[j].getX(), pontos[j].getY(), pontos[j].getZ());
+
+        glEnd();
+        glPopMatrix();
     }
     glEnd();
+    glColor3f(1.0,0.0,1.0);
+    glPushMatrix();
+    glutWireCube(2);
     glPopMatrix();
 
+    glutSwapBuffers();
     //se fizermos o anel de saturno fica aqui
 }
 
@@ -69,7 +82,17 @@ void reshape(int w, int h){
     glMatrixMode(GL_MODELVIEW);
 }
 void keyboard(unsigned char key, int a, int b){}
-void keyboardspecial(int key, int a, int b){}
+void keyboardspecial(int key, int a, int b){
+    switch(key) {
+        case '-':
+            gluLookAt(lx += 2, ly += 2, lz += 2, 0.0, 0.0, 0.0, 0.0f, 1.0f, 0.0f);
+            break;
+
+        case '+':
+            gluLookAt(lx -= 2, ly -= 2, lz -= 2, 0.0, 0.0, 0.0, 0.0f, 1.0f, 0.0f);
+            break;
+    }
+}
 
 
 //método para ler o ficheiro e preencher vetor
@@ -129,12 +152,7 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, T
     trans.setX(trans.getX() + transf.getTrans().getX());
     trans.setY(trans.getY() + transf.getTrans().getY());
     trans.setZ(trans.getZ() +  transf.getTrans().getZ());
-    cout<<"Antes : "<<endl;
-    cout<<es.getX()<<endl;
-    cout<<transf.getEscala().getX()<<endl;
     es.setX(es.getX() * transf.getEscala().getX());
-    cout<<"Depois :"<<endl;
-    cout<<es.getX()<<endl;
     es.setY(es.getY() * transf.getEscala().getY());
     es.setZ(es.getZ() * transf.getEscala().getZ());
     rot.setAngle(rot.getAngle() + transf.getRotacao().getAngle());
@@ -161,7 +179,7 @@ void Parser(XMLElement *group , Transformacao transf){
     Rotacao rot;
     Cor cor;
 
-    float transX, transY, transZ, ang, esX = 2, esY,esZ, rotX, rotY, rotZ;
+    float transX = 0.0, transY = 0.0, transZ = 0.0, ang = 0.0, esX = 0.0, esY=0.0,esZ=0.0, rotX=0.0, rotY=0.0, rotZ=0.0;
 
 
 
@@ -190,11 +208,8 @@ void Parser(XMLElement *group , Transformacao transf){
         if(strcmp(transfor->Value(), "scale")==0){
 
             as = const_cast<XMLAttribute *>(transfor->FirstAttribute());
-            cout<<as->Name()<<endl;
             esX = stof(transfor->Attribute("X"));
-
             esY = stof(transfor->Attribute("Y"));
-
             esZ = stof(transfor->Attribute("Z"));
 
             esc.setX(esX);
@@ -204,14 +219,13 @@ void Parser(XMLElement *group , Transformacao transf){
         if(strcmp(transfor->Value(), "rotate")==0){
 
             ar = const_cast<XMLAttribute *>(transfor->FirstAttribute());
-            if(strcmp(ar->Name(),"angle") == 0) ang = stof(transfor->Attribute("angle"));
-            else ang=0;
-            if(strcmp(ar->Name(),"X") == 0) rotX = stof(transfor->Attribute("X"));
-            else rotX =0;
-            if(strcmp(ar->Name(),"Y") == 0) rotY = stof(transfor->Attribute("Y"));
-            else rotY=0;
-            if(strcmp(ar->Name(),"Z") == 0) rotZ = stof(transfor->Attribute("Z"));
-            else rotZ=0;
+            ang = stof(transfor->Attribute("angle"));
+
+            rotX = stof(transfor->Attribute("X"));
+
+            rotY = stof(transfor->Attribute("Y"));
+
+            rotZ = stof(transfor->Attribute("Z"));
             rot =Rotacao(ang,rotX,rotY,rotZ);
         }
     }
@@ -226,7 +240,6 @@ void Parser(XMLElement *group , Transformacao transf){
         readFile(tran.getTipo());
         tran.setPontos(pontos);
         pontos.clear();
-
         tran.setTrans(trf);
 
         cout << "Translacao ->" << trf.getTrans().getX() << "-" << trf.getTrans().getY() << "-" << trf.getTrans().getZ() << endl;

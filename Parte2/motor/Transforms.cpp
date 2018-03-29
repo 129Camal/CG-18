@@ -12,8 +12,8 @@ Transforms::Transforms() {
 }
 
 Transforms::Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Ponto> pontos) {
-    tipo = tipo;
-    t = t;
-    subgrupo = sub;
-    pontos = pontos;
+    this->tipo = tipo;
+    this->t = t;
+    this->subgrupo = sub;
+    this->pontos = pontos;
 }

@@ -12,7 +12,7 @@ Rotacao::Rotacao() {
 }
 
 Rotacao::Rotacao(float angle, float x, float y, float z) {
-    angle = angle;
+    this->angle = angle;
     x_eixo = x;
     y_eixo = y;
     z_eixo = z;

@@ -11,8 +11,8 @@ Transformacao::Transformacao(){
     cor = Cor();
 }
 Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala, Cor cor){
-    trans = trans;
-    rotacao = rotacao;
-    escala = escala;
-    cor = cor;
+    this->trans = trans;
+    this->rotacao = rotacao;
+    this->escala = escala;
+    this->cor = cor;
 }
