@@ -4,7 +4,7 @@ project(gerador2)
 set(CMAKE_CXX_STANDARD 17)
 set(SOURCE_FILES motor.cpp Transformacao.cpp)
 
-add_executable(gerador2 gerador/gerador.cpp )
+add_executable(gerador2 gerador/gerador.cpp motor/Cor.cpp motor/headers/Cor.h)
 
 
 project(motor2)

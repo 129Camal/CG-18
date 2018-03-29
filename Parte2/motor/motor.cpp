@@ -121,8 +121,7 @@ void readFile(string fich){
 
 
 
-Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Transformacao transf){
-
+Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, Transformacao transf){
 
     Transformacao pt;
 
@@ -132,13 +131,15 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Transforma
     es.setX(es.getX() * transf.getEscala().getX());
     es.setY(es.getY() * transf.getEscala().getY());
     es.setZ(es.getZ() * transf.getEscala().getZ());
-    rot.setX(rot.getAngle() + transf.getRotacao().getAngle());
-    rot.setY(rot.getX() + transf.getRotacao().getX());
+    rot.setAngle(rot.getAngle() + transf.getRotacao().getAngle());
+    rot.setX(rot.getX() + transf.getRotacao().getX());
     rot.setY(rot.getY() + transf.getRotacao().getY());
     rot.setZ(rot.getZ() + transf.getRotacao().getZ());
+    cor.setR(rot.getX() + transf.getCor().getR());
+    cor.setG(rot.getY() + transf.getCor().getG());
+    cor.setB(rot.getZ() + transf.getCor().getB());
 
-
-    pt = Transformacao(trans,rot,es);
+    pt = Transformacao(trans,rot,es,cor);
 
     return pt;
 
@@ -152,6 +153,7 @@ void Parser(XMLElement *group , Transformacao transf){
     Translacao trl;
     Escala esc;
     Rotacao rot;
+    Cor cor;
 
     float transX, transY, transZ, ang, esX, esY,esZ, rotX, rotY, rotZ;
 
@@ -199,7 +201,7 @@ void Parser(XMLElement *group , Transformacao transf){
         }
     }
 
-    trf= PerformTransf(trl,esc,rot,transf);
+    trf= PerformTransf(trl,esc,rot,cor,transf);
 
     for(XMLElement* models = group->FirstChildElement("models")->FirstChildElement("model"); models; models = models -> NextSiblingElement("modelo")){
         Transforms tran;
@@ -228,19 +230,13 @@ void Parser(XMLElement *group , Transformacao transf){
 
     }
 
-
-
-
 }
-
 
 
 //método para ler ficheiro xml
 
 void lerXML(string fich) {
     XMLDocument doc;
-
-
 
     if (!(doc.LoadFile(fich.c_str()))) {
 

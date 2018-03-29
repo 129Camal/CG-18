@@ -8,9 +8,11 @@ Transformacao::Transformacao(){
     trans = Translacao();
     rotacao = Rotacao();
     escala = Escala();
+    cor = Cor();
 }
-Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala){
+Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala, Cor cor){
     trans = trans;
     rotacao = rotacao;
     escala = escala;
+    cor = cor;
 }
