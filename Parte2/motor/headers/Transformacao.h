@@ -11,7 +11,7 @@
 
 class Transformacao {
     Translacao trans;
-    Rotacao rotacao; // variáveis comuns
+    Rotacao rotacao;
     Escala escala;
     Cor cor;
 
@@ -26,7 +26,7 @@ public:
     void setTrans(Translacao t){ trans = t; }
     void setRotacao(Rotacao r){ rotacao = r; }
     void setEscala(Escala esc){ escala = esc; }
-    void setCor(Cor cor){ cor = cor; }
+    void setCor(Cor c){ cor = c; }
 };
 
 #endif

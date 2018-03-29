@@ -168,35 +168,35 @@ void Parser(XMLElement *group , Transformacao transf){
     XMLElement* transfor = group->FirstChildElement();
 
     for(transfor; (strcmp(transfor->Value(),"models")!=0); transfor = transfor->NextSiblingElement()){
-        if(strcmp(transfor->Value(), "translate")==0){
-            if(transfor->Attribute("X")) transX = stof(transfor->Attribute("X"));
+        if(strcmp(transfor->Value(), "translate")==0) {
+            if(strcmp(transfor->Attribute("X"),"X")==0) transX = stof(transfor->Attribute("X"));
             else transX = 0;
-            if(transfor->Attribute("Y")) transY = stof(transfor->Attribute("Y"));
+            if(strcmp(transfor->Attribute("Y"),"Y")==0) transY = stof(transfor->Attribute("Y"));
             else transY=0;
-            if(transfor->Attribute("Z")) transZ = stof(transfor->Attribute("Z"));
+            if(strcmp(transfor->Attribute("Z"),"Z")==0) transZ = stof(transfor->Attribute("Z"));
             else transZ=0;
             trl = Translacao(transX,transY,transZ);
 
         }
         if(strcmp(transfor->Value(), "scale")==0){
-            if(transfor->Attribute("X")) esX = stof(transfor->Attribute("X"));
+            if(strcmp(transfor->Attribute("X"),"X") == 0) esX = stof(transfor->Attribute("X"));
             else esX=0;
-            if(transfor->Attribute("Y")) esY = stof(transfor->Attribute("Y"));
+            if(strcmp(transfor->Attribute("Y"),"Y") == 0) esY = stof(transfor->Attribute("Y"));
             else esY=0;
-            if(transfor->Attribute("Z")) esZ = stof(transfor->Attribute("Z"));
+            if(strcmp(transfor->Attribute("Z"),"Z") == 0) esZ = stof(transfor->Attribute("Z"));
             else esZ=0;
             esc.setX(esX);
             esc.setY(esY);
             esc.setZ(esZ);
         }
         if(strcmp(transfor->Value(), "rotate")==0){
-            if(transfor->Attribute("angle")) ang = stof(transfor->Attribute("angle"));
+            if(strcmp(transfor->Attribute("angle"),"angle") == 0) ang = stof(transfor->Attribute("angle"));
             else ang=0;
-            if(transfor->Attribute("X")) rotX = stof(transfor->Attribute("X"));
+            if(strcmp(transfor->Attribute("X"),"X") == 0) rotX = stof(transfor->Attribute("X"));
             else rotX =0;
-            if(transfor->Attribute("Y")) rotY = stof(transfor->Attribute("Y"));
+            if(strcmp(transfor->Attribute("Y"),"Y") == 0) rotY = stof(transfor->Attribute("Y"));
             else rotY=0;
-            if(transfor->Attribute("Z")) rotZ = stof(transfor->Attribute("Z"));
+            if(strcmp(transfor->Attribute("Z"),"Z") == 0) rotZ = stof(transfor->Attribute("Z"));
             else rotZ=0;
             rot =Rotacao(ang,rotX,rotY,rotZ);
         }
@@ -204,8 +204,9 @@ void Parser(XMLElement *group , Transformacao transf){
 
     trf= PerformTransf(trl,esc,rot,cor,transf);
 
-    for(XMLElement* models = group->FirstChildElement("models")->FirstChildElement("model"); models; models = models -> NextSiblingElement("modelo")){
+    for(XMLElement* models = group->FirstChildElement("models")->FirstChildElement("model"); models; models = models -> NextSiblingElement("model")){
         Transforms tran;
+
         tran.setTipo(models->Attribute("fich"));
         cout << tran.getTipo() << endl;
         readFile(tran.getTipo());

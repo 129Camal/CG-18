@@ -35,8 +35,8 @@ public:
     Transformacao getTrans(){ return t; }
     vector<Transforms> getSubgrupo(){ return subgrupo; }
     vector<Ponto> getPontos(){ return pontos; }
-    void setTipo(string tipo){ tipo = tipo; }
-    void setTrans(Transformacao t){ t = t;}
+    void setTipo(string t){ tipo = t; }
+    void setTrans(Transformacao trans){ t = trans;}
     void setSubgrupo(vector<Transforms> sub){ subgrupo = sub; }
-    void setPontos(vector<Ponto> pontos){ pontos = pontos;}
+    void setPontos(vector<Ponto> p){ pontos = p;}
 };
