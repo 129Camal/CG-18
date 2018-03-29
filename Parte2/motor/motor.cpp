@@ -11,6 +11,9 @@ using namespace std;
 using namespace tinyxml2;
 
 float xx = 0, yy = 0, zz = -4, angleX=0.0, angleY=0.0, lx = 6.0, ly = 6.0, lz = 6.0;
+
+int draw = GL_LINE;
+
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
 
@@ -20,7 +23,9 @@ void renderScene(void){
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(lx+150,ly+150,lz+150, //todo: alterar aqui
+    glPolygonMode(GL_FRONT_AND_BACK,draw);
+
+    gluLookAt(lx+100,ly+100,lz-70, //todo: alterar aqui
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
     //glTranslatef(0, -1, zz);
@@ -44,7 +49,9 @@ void renderScene(void){
         pontos = transformacoes[i].getPontos();
 
         glBegin(GL_TRIANGLES);
-        glColor3f(1.0,1.0,1.0);
+
+        glColor3f(transform.getCor().getR()/255,transform.getCor().getG()/255,transform.getCor().getB()/255);
+
         for (int j = 0; j < pontos.size(); j++)
             glVertex3f(pontos[j].getX(), pontos[j].getY(), pontos[j].getZ());
 
@@ -81,8 +88,7 @@ void reshape(int w, int h){
     // return to the model view matrix mode
     glMatrixMode(GL_MODELVIEW);
 }
-void keyboard(unsigned char key, int a, int b){}
-void keyboardspecial(int key, int a, int b){
+void keyboard(unsigned char key, int a, int b){
     switch(key) {
         case '-':
             gluLookAt(lx += 2, ly += 2, lz += 2, 0.0, 0.0, 0.0, 0.0f, 1.0f, 0.0f);
@@ -92,6 +98,10 @@ void keyboardspecial(int key, int a, int b){
             gluLookAt(lx -= 2, ly -= 2, lz -= 2, 0.0, 0.0, 0.0, 0.0f, 1.0f, 0.0f);
             break;
     }
+}
+
+void keyboardspecial(int key, int a, int b){
+
 }
 
 
@@ -159,9 +169,9 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, T
     rot.setX(rot.getX() + transf.getRotacao().getX());
     rot.setY(rot.getY() + transf.getRotacao().getY());
     rot.setZ(rot.getZ() + transf.getRotacao().getZ());
-    cor.setR(rot.getX() + transf.getCor().getR());
-    cor.setG(rot.getY() + transf.getCor().getG());
-    cor.setB(rot.getZ() + transf.getCor().getB());
+    cor.setR(cor.getR() + transf.getCor().getR());
+    cor.setG(cor.getG() + transf.getCor().getG());
+    cor.setB(cor.getB() + transf.getCor().getB());
 
     pt = Transformacao(trans,rot,es,cor);
 
@@ -180,6 +190,7 @@ void Parser(XMLElement *group , Transformacao transf){
     Cor cor;
 
     float transX = 0.0, transY = 0.0, transZ = 0.0, ang = 0.0, esX = 0.0, esY=0.0,esZ=0.0, rotX=0.0, rotY=0.0, rotZ=0.0;
+    float cr=1, cg=1, cb=1;
 
 
 
@@ -192,6 +203,8 @@ void Parser(XMLElement *group , Transformacao transf){
     XMLAttribute* at;
     XMLAttribute* as;
     XMLAttribute* ar;
+    XMLAttribute* ac;
+
     for(transfor; (strcmp(transfor->Value(),"models")!=0); transfor = transfor->NextSiblingElement()){
         if(strcmp(transfor->Value(), "translate")==0) {
 
@@ -228,6 +241,20 @@ void Parser(XMLElement *group , Transformacao transf){
             rotZ = stof(transfor->Attribute("Z"));
             rot =Rotacao(ang,rotX,rotY,rotZ);
         }
+        if(strcmp(transfor->Value(), "colour")==0){
+
+            ac= const_cast<XMLAttribute *>(transfor->FirstAttribute());
+
+            cr= stof(transfor->Attribute("R"));
+
+            cg = stof(transfor->Attribute("G"));
+
+            cb = stof(transfor->Attribute("B"));
+
+            cor = Cor(cr,cg,cb);
+
+
+        }
     }
 
     trf= PerformTransf(trl,esc,rot,cor,transf);
@@ -245,7 +272,7 @@ void Parser(XMLElement *group , Transformacao transf){
         cout << "Translacao ->" << trf.getTrans().getX() << "-" << trf.getTrans().getY() << "-" << trf.getTrans().getZ() << endl;
         cout << "Escala ->" << trf.getEscala().getX() << "-" << trf.getEscala().getY() << "-" << trf.getEscala().getZ() << endl;
         cout << "Rotacao -> " << trf.getRotacao().getAngle() << "-" << trf.getRotacao().getX() << "-" << trf.getRotacao().getY() << "-" << trf.getRotacao().getZ() << endl;
-
+        cout << "Cor ->" << trf.getCor().getB() <<  "--" << trf.getCor().getG() << "-" << trf.getCor().getR()<<endl;
         transformacoes.push_back(tran);
     }
         // faz parse dos filhos
