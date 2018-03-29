@@ -11,11 +11,7 @@ class Rotacao {
 
 public:
     Rotacao();
-    Rotacao(float angle, float x, float y, float z){
-        x_eixo = x;
-        y_eixo = y;
-        z_eixo = z;
-    }
+    Rotacao(float angle, float x, float y, float z);
     float getAngle(){ return angle;}
     float getX(){ return x_eixo; }
     float getY(){ return y_eixo; }

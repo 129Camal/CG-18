@@ -2,7 +2,9 @@
 // Created by 87 Dolly on 27/03/2018.
 //
 #include "headers/motor.h"
-#include "headers/Transforms.h" // esta merda tem que sair daqi depois e ir para o motor.h
+
+
+// esta merda tem que sair daqi depois e ir para o motor.h
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -12,7 +14,7 @@ using namespace tinyxml2;
 
 float zz = -4, angleX=0.0, angleY=0.0;
 vector<Transforms> transformacoes;
-vector<Point> vertexes;
+vector<Ponto> pontos;
 
 void renderScene(void){
     // clear buffers
@@ -37,7 +39,7 @@ void renderScene(void){
         glScalef(transform.getEscala().getX(), transform.getEscala().getY(), transform.getEscala().getZ());
 
         for (int j = 0; j < pontos.size(); j++)
-            glVertex3f(pontos[j].x, pontos[j].y, pontos[j].z);
+            glVertex3f(pontos[j].getX(), pontos[j].getY(), pontos[j].getZ());
     }
     glEnd();
     glPopMatrix();
@@ -77,7 +79,7 @@ void readFile(string fich){
     string delimiter = ",";
     int pos;
     float xx,yy,zz;
-    Point p ;
+    Ponto p ;
 
     ifstream file(fich);
 
@@ -89,21 +91,21 @@ void readFile(string fich){
             novo = linha.substr(0, pos);
             xx = atof(novo.c_str());
             linha.erase(0, pos + delimiter.length());
-            p.x = xx;
+            p.setX(xx);
 
             pos = linha.find(delimiter);
             novo = linha.substr(0, pos);
             yy = atof(novo.c_str());
             linha.erase(0, pos + delimiter.length());
-            p.y = yy;
+            p.setY(yy);
 
             pos = linha.find(delimiter);
             novo = linha.substr(0, pos);
             zz = atof(novo.c_str());
             linha.erase(0, pos + delimiter.length());
-            p.z = zz;
+            p.setZ(zz);
 
-            vertexes.push_back(p);
+            pontos.push_back(p);
 
         }
 
@@ -136,7 +138,7 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Transforma
     rot.setZ(rot.getZ() + transf.getRotacao().getZ());
 
 
-    pt = Transformacao::Transformacao(trans,rot,es);
+    pt = Transformacao(trans,rot,es);
 
     return pt;
 
@@ -170,7 +172,7 @@ void Parser(XMLElement *group , Transformacao transf){
             else transY=0;
             if(transfor->Attribute("Z")) transZ = stof(transfor->Attribute("Z"));
             else transZ=0;
-            trl = Translacao::Translacao(transX,transY,transZ);
+            trl = Translacao(transX,transY,transZ);
 
         }
         if(strcmp(transfor->Value(), "scale")==0){
@@ -193,7 +195,7 @@ void Parser(XMLElement *group , Transformacao transf){
             else rotY=0;
             if(transfor->Attribute("Z")) rotZ = stof(transfor->Attribute("Z"));
             else rotZ=0;
-            rot = Rotacao::Rotacao(ang,rotX,rotY,rotZ);
+            rot =Rotacao(ang,rotX,rotY,rotZ);
         }
     }
 
@@ -204,8 +206,8 @@ void Parser(XMLElement *group , Transformacao transf){
         tran.setTipo(models->Attribute("fich"));
         cout << tran.getTipo() << endl;
         readFile(tran.getTipo());
-        tran.setPontos(vertexes);
-        vertexes.clear();
+        tran.setPontos(pontos);
+        pontos.clear();
 
         tran.setTrans(trf);
 
@@ -245,8 +247,8 @@ void lerXML(string fich) {
             XMLElement * scene = doc.FirstChildElement("scene");
             XMLElement * group = scene-> FirstChildElement("group");
 
-            Transformacao t = Transformacao::Transformacao();
-            Escala esc = Escala::Escala(0.5,0.5,0.5);
+            Transformacao t = Transformacao();
+            Escala esc = Escala(0.5,0.5,0.5);
             t.setEscala(esc);
             Parser(group,t);
         }else {

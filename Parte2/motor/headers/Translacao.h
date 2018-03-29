@@ -10,11 +10,7 @@ class Translacao{
 
 public:
     Translacao();
-    Translacao(float x, float y, float z){
-        x_eixo = x;
-        y_eixo = y;
-        z_eixo = z;
-    }
+    Translacao(float x, float y, float z);
     float getX(){ return x_eixo; }
     float getY(){ return y_eixo; }
     float getZ(){ return z_eixo; }

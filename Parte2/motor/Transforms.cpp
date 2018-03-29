@@ -6,12 +6,12 @@
 
 Transforms::Transforms() {
     tipo = "";
-    t = Transformacao::Transformacao();
+    t = Transformacao();
     subgrupo = vector<Transforms>();
-    pontos = vector<Point>();
+    pontos = vector<Ponto>();
 }
 
-Transforms::Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Point> pontos) {
+Transforms::Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Ponto> pontos) {
     tipo = tipo;
     t = t;
     subgrupo = sub;

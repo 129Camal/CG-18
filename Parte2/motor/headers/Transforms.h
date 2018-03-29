@@ -2,8 +2,8 @@
 // Created by 87 Dolly on 28/03/2018.
 //
 #include <vector>
-#include "motor.h"
 #include "Transformacao.h"
+#include "Ponto.h"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -26,22 +26,17 @@ class Transforms{
     string tipo;
     Transformacao t;
     vector<Transforms> subgrupo;
-    vector<Point> pontos;
+    vector<Ponto> pontos;
 
 public:
     Transforms();
-    Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Point> pontos){
-        tipo = tipo;
-        t = t;
-        subgrupo = sub;
-        pontos = pontos;
-    }
+    Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Ponto> pontos);
     string getTipo(){ return tipo; }
     Transformacao getTrans(){ return t; }
     vector<Transforms> getSubgrupo(){ return subgrupo; }
-    vector<Point> getPontos(){ return pontos; }
+    vector<Ponto> getPontos(){ return pontos; }
     void setTipo(string tipo){ tipo = tipo; }
     void setTrans(Transformacao t){ t = t;}
     void setSubgrupo(vector<Transforms> sub){ subgrupo = sub; }
-    void setPontos(vector<Point> pontos){ pontos = pontos;}
+    void setPontos(vector<Ponto> pontos){ pontos = pontos;}
 };

@@ -5,9 +5,9 @@
 #include "headers/Transformacao.h"
 
 Transformacao::Transformacao(){
-    trans = Translacao::Translacao();
-    rotacao = Rotacao::Rotacao();
-    escala = Escala::Escala();
+    trans = Translacao();
+    rotacao = Rotacao();
+    escala = Escala();
 }
 Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala){
     trans = trans;

@@ -9,6 +9,7 @@
 #endif
 
 #include <math.h>
+#include "Transforms.h"
 #include "tinyxml2.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,9 +17,3 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
-struct Point {
-    float x;
-    float y;
-    float z;
-};
