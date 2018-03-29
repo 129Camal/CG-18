@@ -129,7 +129,12 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, T
     trans.setX(trans.getX() + transf.getTrans().getX());
     trans.setY(trans.getY() + transf.getTrans().getY());
     trans.setZ(trans.getZ() +  transf.getTrans().getZ());
+    cout<<"Antes : "<<endl;
+    cout<<es.getX()<<endl;
+    cout<<transf.getEscala().getX()<<endl;
     es.setX(es.getX() * transf.getEscala().getX());
+    cout<<"Depois :"<<endl;
+    cout<<es.getX()<<endl;
     es.setY(es.getY() * transf.getEscala().getY());
     es.setZ(es.getZ() * transf.getEscala().getZ());
     rot.setAngle(rot.getAngle() + transf.getRotacao().getAngle());
@@ -156,7 +161,7 @@ void Parser(XMLElement *group , Transformacao transf){
     Rotacao rot;
     Cor cor;
 
-    float transX, transY, transZ, ang, esX, esY,esZ, rotX, rotY, rotZ;
+    float transX, transY, transZ, ang, esX = 2, esY,esZ, rotX, rotY, rotZ;
 
 
 
@@ -166,37 +171,46 @@ void Parser(XMLElement *group , Transformacao transf){
     }
 
     XMLElement* transfor = group->FirstChildElement();
-
+    XMLAttribute* at;
+    XMLAttribute* as;
+    XMLAttribute* ar;
     for(transfor; (strcmp(transfor->Value(),"models")!=0); transfor = transfor->NextSiblingElement()){
         if(strcmp(transfor->Value(), "translate")==0) {
-            if(strcmp(transfor->Attribute("X"),"X")==0) transX = stof(transfor->Attribute("X"));
+
+           at = const_cast<XMLAttribute *>(transfor->FirstAttribute());
+            if(strcmp(at->Name(),"X")==0) transX = stof(transfor->Attribute("X"));
             else transX = 0;
-            if(strcmp(transfor->Attribute("Y"),"Y")==0) transY = stof(transfor->Attribute("Y"));
+            if(strcmp(at->Name(),"Y")==0) transY = stof(transfor->Attribute("Y"));
             else transY=0;
-            if(strcmp(transfor->Attribute("Z"),"Z")==0) transZ = stof(transfor->Attribute("Z"));
+            if(strcmp(at->Name(),"Z")==0) transZ = stof(transfor->Attribute("Z"));
             else transZ=0;
             trl = Translacao(transX,transY,transZ);
 
         }
         if(strcmp(transfor->Value(), "scale")==0){
-            if(strcmp(transfor->Attribute("X"),"X") == 0) esX = stof(transfor->Attribute("X"));
-            else esX=0;
-            if(strcmp(transfor->Attribute("Y"),"Y") == 0) esY = stof(transfor->Attribute("Y"));
-            else esY=0;
-            if(strcmp(transfor->Attribute("Z"),"Z") == 0) esZ = stof(transfor->Attribute("Z"));
-            else esZ=0;
+
+            as = const_cast<XMLAttribute *>(transfor->FirstAttribute());
+            cout<<as->Name()<<endl;
+            esX = stof(transfor->Attribute("X"));
+
+            esY = stof(transfor->Attribute("Y"));
+
+            esZ = stof(transfor->Attribute("Z"));
+
             esc.setX(esX);
             esc.setY(esY);
             esc.setZ(esZ);
         }
         if(strcmp(transfor->Value(), "rotate")==0){
-            if(strcmp(transfor->Attribute("angle"),"angle") == 0) ang = stof(transfor->Attribute("angle"));
+
+            ar = const_cast<XMLAttribute *>(transfor->FirstAttribute());
+            if(strcmp(ar->Name(),"angle") == 0) ang = stof(transfor->Attribute("angle"));
             else ang=0;
-            if(strcmp(transfor->Attribute("X"),"X") == 0) rotX = stof(transfor->Attribute("X"));
+            if(strcmp(ar->Name(),"X") == 0) rotX = stof(transfor->Attribute("X"));
             else rotX =0;
-            if(strcmp(transfor->Attribute("Y"),"Y") == 0) rotY = stof(transfor->Attribute("Y"));
+            if(strcmp(ar->Name(),"Y") == 0) rotY = stof(transfor->Attribute("Y"));
             else rotY=0;
-            if(strcmp(transfor->Attribute("Z"),"Z") == 0) rotZ = stof(transfor->Attribute("Z"));
+            if(strcmp(ar->Name(),"Z") == 0) rotZ = stof(transfor->Attribute("Z"));
             else rotZ=0;
             rot =Rotacao(ang,rotX,rotY,rotZ);
         }
