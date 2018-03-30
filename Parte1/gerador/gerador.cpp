@@ -381,7 +381,6 @@ void help() {
     cout <<" ---------------------> MENU DE AJUDA <---------------------"<< endl;
     cout <<"|                                                           |"<< endl;
     cout <<"|       GERADOR:                                            |"<< endl;
-    cout <<"|       $ g++ gerador.cpp -o gen                            |"<< endl;
     cout <<"|       $ ./gen <Modelo> [Parâmetros] figura.3d             |"<< endl;
     cout <<"|       $ mv figura.3d diretoria/Motor                      |"<< endl;
     cout <<"|                                                           |"<< endl;

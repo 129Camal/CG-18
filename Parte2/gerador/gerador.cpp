@@ -375,6 +375,48 @@ void cylinder(float raio, float altura, int slices, int slicesH, string f){
 
 }
 
+void torus(float raioI, float raioE, float slices, float stacks, string fich){
+    ofstream file(fich);
+    int i,j;
+    float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
+    float theta=0, phi=0, shiftT, shiftP;
+    shiftT = 2 * M_PI / slices;
+    shiftP = 2 * M_PI / stacks;
+
+    for(i=0; i<slices; i++){
+        for(j=0; j<stacks; j++){
+
+            x1 = cos(theta)*(raioI+raioE*cos(phi));
+            y1 = sin(theta) * (raioI + raioE * cos(phi));
+            z1 = raioE * sin(phi);
+
+            x2 = cos(theta + shiftT)*(raioI+raioE*cos(phi));
+            y2 = sin(theta + shiftT) * (raioI + raioE * cos(phi));
+            z2 = raioE * sin(phi);
+
+            x3 = cos(theta + shiftT)*(raioI+raioE*cos(phi + shiftP));
+            y3 = sin(theta + shiftT) * (raioI + raioE * cos(phi + shiftP));
+            z3 = raioE * sin(phi + shiftP);
+
+            x4 = cos(theta)*(raioI+raioE*cos(phi + shiftP));
+            y4 = sin(theta) * (raioI + raioE * cos(phi + shiftP));
+            z4 = raioE * sin(phi + shiftP);
+
+            file << x1 << "," << y1 << "," << z1 << endl;
+            file<< x2 << "," << y2 << "," << z2 << endl;
+            file<< x3 << "," << y3 << "," << z3 << endl;
+
+            file<< x3 << "," << y3 << "," << z3 << endl;
+            file<< x4 << "," << y4 << "," << z4 << endl;
+            file<< x1 << "," << y1 << "," << z1 << endl;
+
+            phi = shiftP * (j+1);
+        }
+        theta = shiftT* (i+1) ;
+    }
+    file.close();
+}
+
 void help() {
 
     cout <<" ---------------------> MENU DE AJUDA <---------------------"<< endl;
@@ -427,6 +469,7 @@ int main(int argc, char **argv) {
         sphere(atof(argv[2]), atof(argv[3]), atof(argv[4]), argv[5]);
     if(strcmp(argv[1], "cylinder") == 0)
         cylinder(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
-
+    if(strcmp(argv[1], "torus") == 0)
+        torus(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     return 0;
 }
