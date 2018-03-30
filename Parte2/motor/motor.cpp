@@ -25,10 +25,10 @@ void renderScene(void){
     glLoadIdentity();
     glPolygonMode(GL_FRONT_AND_BACK,draw);
 
-    gluLookAt(lx+100,ly+100,lz-70, //todo: alterar aqui
+    gluLookAt(lx+20,ly+20,lz+60, //todo: alterar aqui
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
-    //glTranslatef(0, -1, zz);
+    glTranslatef(0, -1, zz);
 
     //draw instructions
     glRotatef(angleY, 0.0, 1.0, 0.0);
@@ -59,11 +59,6 @@ void renderScene(void){
         glPopMatrix();
     }
     glEnd();
-    glColor3f(1.0,0.0,1.0);
-    glPushMatrix();
-    glutWireCube(2);
-    glPopMatrix();
-
     glutSwapBuffers();
     //se fizermos o anel de saturno fica aqui
 }
@@ -88,20 +83,57 @@ void reshape(int w, int h){
     // return to the model view matrix mode
     glMatrixMode(GL_MODELVIEW);
 }
-void keyboard(unsigned char key, int a, int b){
-    switch(key) {
-        case '-':
-            gluLookAt(lx += 2, ly += 2, lz += 2, 0.0, 0.0, 0.0, 0.0f, 1.0f, 0.0f);
+void keyboard(unsigned char key, int a, int b) {
+    switch (key) {
+        case 'a':
+        case 'A':
+            angleY -= 5;
+            if (angleY < -360) angleY += 360;
+            break;
+        case 'd':
+        case 'D':
+            angleY += 5;
+            if (angleY > 360) angleY -= 360;
+            break;
+        case 'w':
+        case 'W':
+            if (angleX > -45) angleX -= 5;
+            if (angleX < -360) angleX += 360;
+            break;
+        case 's':
+        case 'S':
+            if (angleX < 45) angleX += 5;
+            if (angleX > 360) angleX -= 360;
+            break;
+        case '+':
+            glTranslatef(lx += 1, ly += 1, lz += 1);
             break;
 
-        case '+':
-            gluLookAt(lx -= 2, ly -= 2, lz -= 2, 0.0, 0.0, 0.0, 0.0f, 1.0f, 0.0f);
+        case '-':
+            glTranslatef(lx -= 1, ly -= 1, lz -= 1);
             break;
     }
 }
 
 void keyboardspecial(int key, int a, int b){
-
+    switch (key){
+        case GLUT_KEY_UP:
+            zz -=cos(angleY /180 * 3.141592653589793);
+            xx +=sin(angleY /180 * 3.141592653589793);
+            break;
+        case GLUT_KEY_DOWN:
+            zz +=1 * cos(angleY /180 * 3.141592653589793);
+            xx -=1 * sin(angleY /180 * 3.141592653589793);
+            break;
+        case GLUT_KEY_LEFT:
+            xx -=cos(angleY /180 * 3.141592653589793);
+            zz -=sin(angleY /180 * 3.141592653589793);
+            break;
+        case GLUT_KEY_RIGHT:
+            xx +=cos(angleY /180 * 3.141592653589793);
+            zz +=sin(angleY /180 * 3.141592653589793);
+            break;
+    }
 }
 
 
@@ -320,7 +352,7 @@ int main(int argc, char** argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
-    glutInitWindowSize(800,800);
+    glutInitWindowSize(1000,1000);
     glutCreateWindow("CG_Project");
 
 // put callback registration here
