@@ -67,7 +67,7 @@
             <group>
                 <translate X="0" Y="0" Z="3.375" />
                 <colour R="255" G="255" B="255" />
-                <scale X="0.05" Y="0.05" Z="0.05" />
+                <scale X="0.052" Y="0.052" Z="0.052" />
                 <models>
                     <model fich = "esfera.3d" />
                 </models>
@@ -76,7 +76,7 @@
             <group>
                 <translate X="2.025" Y="0" Z="3.5074" />
                 <colour R="255" G="255" B="255" />
-                <scale X="0.035" Y="0.035" Z="0.035" />
+                <scale X="0.0353" Y="0.0353" Z="0.0353" />
                 <models>
                     <model fich = "esfera.3d" />
                 </models>
