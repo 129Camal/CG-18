@@ -295,9 +295,9 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, T
     rot.setX(rot.getX() + transf.getRotacao().getX());
     rot.setY(rot.getY() + transf.getRotacao().getY());
     rot.setZ(rot.getZ() + transf.getRotacao().getZ());
-    cor.setR(cor.getR() + transf.getCor().getR());
-    cor.setG(cor.getG() + transf.getCor().getG());
-    cor.setB(cor.getB() + transf.getCor().getB());
+    cor.setR(cor.getR());
+    cor.setG(cor.getG());
+    cor.setB(cor.getB());
 
     pt = Transformacao(trans,rot,es,cor);
 
