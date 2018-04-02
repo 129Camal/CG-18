@@ -111,6 +111,15 @@
                         <models>
                             <model fich = "esfera.3d"/>
                         </models>
+                    <!--anel-->
+                    <group>
+                        <rotate angle="70" X="1" Y="0" Z="0"/>
+                        <colour R="255" G="10" B="100" />
+                        <scale X="0.5" Y="0.5" Z="0.0"/>
+                        <models>
+                            <model fich = "torus.3d" />
+                        </models>
+                    </group>
                     <!-- satelite Titã -->
                      <group>
                          <rotate angle="2" X="0" Y="0" Z="1"/>
@@ -121,15 +130,7 @@
                              <model fich = "esfera.3d" />
                          </models>
                      </group>
-                    <!--anel-->
-                    <group>
-                        <rotate angle="90" X="1" Y="0" Z="0"/>
-                        <colour R="255" G="255" B="255" />
-                        <scale X="0.5" Y="0.5" Z="0.0"/>
-                        <models>
-                            <model fich="torus.3d" />
-                        </models>
-                    </group>
+
                  </group>
         <group>
           <!-- urano -->
