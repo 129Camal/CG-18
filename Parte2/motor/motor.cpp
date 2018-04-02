@@ -13,7 +13,7 @@ using namespace tinyxml2;
 float xx = 0, yy = 0, zz = -4, lxx = 0.0, lyy = 0.0, lzz = 0.0, angleX=0.0, angleY=0.0, angleZ = 0.0, lx = 30.0, ly = 30.0, lz = 30.0;
 
 int draw = GL_LINE;
-
+int window;
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
 
@@ -103,7 +103,7 @@ void renderScene(void){
     glRotatef(angleZ, 0.0, 0.0, 1.0);
     glTranslatef(-xx,-yy,-zz);
 
-    drawAxis();
+    //drawAxis();
 
 
 
@@ -207,6 +207,9 @@ void keyboard(unsigned char key, int a, int b) {
         case 'L':
             draw = GL_LINE;
             break;
+        case 27:
+            glutDestroyWindow(window);
+            exit(0);
     }
 }
 
@@ -447,7 +450,7 @@ int main(int argc, char** argv){
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
     glutInitWindowSize(1000,1000);
-    glutCreateWindow("CG_Project");
+    window = glutCreateWindow("CG_Project");
 
 // put callback registration here
     glutDisplayFunc( renderScene );

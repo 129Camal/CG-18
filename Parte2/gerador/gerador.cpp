@@ -412,7 +412,7 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
 
             phi = shiftP * (j+1);
         }
-        theta = shiftT* (i+1) ;
+        theta = shiftT * (i+1) ;
     }
     file.close();
 }
@@ -442,11 +442,11 @@ void help() {
     cout <<"|       * Translação: Seta cima, baixo, esquerda, direita   |"<< endl;
     cout <<"|       * Rotação: w, a, s, d  | W, A, S, D                 |"<< endl;
     cout <<"|       * Zoom: + | -                                       |"<< endl;
+    cout <<"|       * Sair: ESC                                         |"<< endl;
     cout <<"|       * Representação do sólido:                          |"<< endl;
     cout <<"|           - por linhas: l | L                             |"<< endl;
     cout <<"|           - por pontos: p | P                             |"<< endl;
     cout <<"|           - preenchido: f | F                             |"<< endl;
-    cout <<"|       * RESET: r | R                                      |"<< endl;
     cout <<"|                                                           |"<< endl;
     cout <<" ------------------------------><---------------------------"<< endl;
 
