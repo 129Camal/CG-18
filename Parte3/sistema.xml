@@ -1,0 +1,164 @@
+<scene>
+    <!--sol-->
+    <group>
+        <group>
+            <colour R="251" G="119" B="9" />
+            <scale X="10" Y="10" Z="10"/>
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
+        </group>
+
+        <!--mercurio-->
+        <group>
+            <translate X="10.8775" Y="0" Z="0" />
+            <colour R="219" G="170" B="0" />
+            <scale X="0.3525" Y="0.3525" Z="0.3525" />
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
+        </group>
+         <group>
+            <!--venus-->
+             <translate X="19.9233" Y="0" Z="9.0897" />
+             <colour R="254" G="198" B="115" />
+             <scale X="0.8790" Y="0.8790" Z="0.8790" />
+             <models>
+                 <model fich = "esfera.3d"/>
+             </models>
+         </group>
+         <group>
+             <!--terra -->
+             <translate X="33.8061" Y="0" Z="21.25" />
+             <colour R="0" G="0" B="220" />
+             <scale X="0.8865" Y="0.8865" Z="0.8865" />
+             <models>
+                 <model fich="esfera.3d" />
+             </models>
+             <group>
+              <!--   lua-->
+                 <rotate angle="2" X="0" Y="1" Z="1"/>
+                 <translate X="0" Y="0.25" Z="3"/>
+                 <colour R="255" G="255" B="255" />
+                 <scale X="0.30" Y="0.30" Z="0.30" />
+                 <models>
+                     <model fich = "esfera.3d"/>
+                 </models>
+             </group>
+         </group>
+         <group>
+             <!-- marte -->
+                  <translate X="40.9523" Y="0" Z="15.5806" />
+                  <colour R="254" G="135" B="1" />
+                  <scale X="0.3720" Y="0.3720" Z="0.3720" />
+                  <models>
+                      <model fich = "esfera.3d"/>
+                  </models>
+              </group>
+        <group>
+            <!-- jupiter -->
+                    <translate X="51.12987" Y="0" Z="37.1480" />
+                    <colour R="231" G="232" B="197" />
+                    <scale X="2.5" Y="2.5" Z="2.5" />
+                    <models>
+                        <model fich = "esfera.3d" />
+                    </models>
+            <!--satelite IO-->
+            <group>
+                <rotate angle="2" X="0" Y="0" Z="1"/>
+                <translate X="0" Y="0" Z="3.375" />
+                <colour R="130" G="150" B="255" />
+                <scale X="0.052" Y="0.052" Z="0.052" />
+                <models>
+                    <model fich = "esfera.3d" />
+                </models>
+            </group>
+            <!--satelite Europa -->
+            <group>
+                <translate X="2.025" Y="0" Z="3.5074" />
+                <colour R="0" G="235" B="255" />
+                <scale X="0.0353" Y="0.0353" Z="0.0353" />
+                <models>
+                    <model fich = "esfera.3d" />
+                </models>
+            </group>
+            <!--   satelite Ganimedes-->
+            <group>
+                <rotate angle="4" X="0" Y="-1" Z="0"/>
+                <translate X="-2.025" Y="0" Z="2.4646" />
+                <colour R="255" G="0" B="255" />
+                <scale X="0.1" Y="0.1" Z="0.1" />
+                <models>
+                    <model fich = "esfera.3d" />
+                </models>
+            </group>
+            <!-- satelite Calisto-->
+             <group>
+                 <rotate angle="3" X="0" Y="-1" Z="0"/>
+                 <translate X="2.525" Y="0" Z="0" />
+                 <colour R="255" G="255" B="255" />
+                 <scale X="0.11" Y="0.11" Z="0.11" />
+                 <models>
+                     <model fich = "esfera.3d" />
+                 </models>
+             </group>
+            </group>
+                <group>
+                    <!--saturno -->
+                    <translate X="77.5005" Y="0" Z="-21.3021" />
+                    <colour R="255" G="223" B="161" />
+                    <scale X="1.995" Y="1.995" Z="1.995" />
+                        <models>
+                            <model fich = "esfera.3d"/>
+                        </models>
+                    <!--anel-->
+                    <group>
+                        <rotate angle="70" X="1" Y="0" Z="0"/>
+                        <colour R="255" G="10" B="100" />
+                        <scale X="0.5" Y="0.5" Z="0.0"/>
+                        <models>
+                            <model fich = "torus.3d" />
+                        </models>
+                    </group>
+                    <!-- satelite Titã -->
+                     <group>
+                         <rotate angle="2" X="0" Y="0" Z="1"/>
+                         <translate X="0" Y="1.2" Z="3.375" />
+                         <colour R="255" G="255" B="255" />
+                         <scale X="0.15" Y="0.15" Z="0.15" />
+                         <models>
+                             <model fich = "esfera.3d" />
+                         </models>
+                     </group>
+
+                 </group>
+        <group>
+          <!-- urano -->
+            <translate X="88.0747"  Y="0" Z="50.85" />
+            <colour R="148" G="193" B="255" />
+            <scale X="1.290" Y="1.290" Z="1.290" />
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
+        </group>
+        <group>
+            <!--neptuno-->
+             <translate X="112.35529" Y="0" Z="46.53908" />
+             <colour R="0" G="83" B="255" />
+             <scale X="1.275" Y="1.275" Z="1.275" />
+             <models>
+                 <model fich = "esfera.3d"/>
+             </models>
+            <!-- satelite Titânia-->
+          <group>
+              <rotate angle="1" X="0" Y="3" Z="1"/>
+              <translate X="0" Y="1" Z="3.75" />
+              <colour R="39" G="100" B="5" />
+              <scale X="0.15" Y="0.15" Z="0.15" />
+              <models>
+                  <model fich = "esfera.3d" />
+              </models>
+          </group>
+      </group>
+    </group>
+</scene>
