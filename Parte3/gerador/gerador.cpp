@@ -417,6 +417,16 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
     file.close();
 }
 
+float* spline(float time, float* pol0, float* pol1, float* pol2, float pol3){
+    float t = 1-time;
+    float t0,t1,t2,t3;
+
+    t0 = pow(t,3);
+    t1 = pow(t,2);
+-----------------------------------------PERCEBER SE É CATMULL ROM-------------
+}
+
+
 void help() {
 
     cout <<" ---------------------> MENU DE AJUDA <---------------------"<< endl;
