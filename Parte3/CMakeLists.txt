@@ -13,4 +13,4 @@ find_package(GLUT REQUIRED)
 add_executable(motor3 motor/motor.cpp motor/Ponto.cpp motor/tinyxml2.cpp motor/Transformacao.cpp motor/Rotacao.cpp motor/Translacao.cpp motor/Escala.cpp motor/Transforms.cpp motor/Cor.cpp )
 
 target_link_libraries(motor3 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
-include_directories(headers)
+include_directories(motor/headers)
