@@ -106,7 +106,7 @@ void renderScene(void){
     //drawAxis();
 
 
-
+//TODO:-----------------------------MUDAR ESTA MERDA !!!!!1
     int i;
     for(i = 0; i < transformacoes.size(); i++) {
         glPushMatrix();

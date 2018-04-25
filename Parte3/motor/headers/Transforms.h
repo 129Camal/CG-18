@@ -11,7 +11,7 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
-#include <GL/glut.h>
+#include <GL/glew.h>
 #endif
 
 
@@ -27,6 +27,8 @@ class Transforms{
     Transformacao t;
     vector<Transforms> subgrupo;
     vector<Ponto> pontos;
+    GLuint buffer[3];
+    int pos;
 
 public:
     Transforms();
@@ -39,4 +41,7 @@ public:
     void setTrans(Transformacao trans){ t = trans;}
     void setSubgrupo(vector<Transforms> sub){ subgrupo = sub; }
     void setPontos(vector<Ponto> p){ pontos = p;}
+    void toVertex();
+    void setVBO();
+    void draw();
 };
