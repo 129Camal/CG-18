@@ -5,19 +5,19 @@
 #include "headers/Rotacao.h"
 
 Rotacao::Rotacao() {
-    angle = 0.0;
+    time = 0.0;
     x_eixo = 0.0;
     y_eixo = 0.0;
     z_eixo = 0.0;
 }
 
 Rotacao::Rotacao(float angle, float x, float y, float z) {
-    this->angle = angle;
+    this->time = angle;
     x_eixo = x;
     y_eixo = y;
     z_eixo = z;
 }
 
 bool Rotacao::semRotacao(){
-    return (angle == 0.0 && x_eixo == 0.0 && y_eixo == 0.0 && z_eixo == 0.0);
+    return (time == 0.0 && x_eixo == 0.0 && y_eixo == 0.0 && z_eixo == 0.0);
 }
