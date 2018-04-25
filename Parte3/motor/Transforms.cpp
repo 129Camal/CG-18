@@ -17,3 +17,4 @@ Transforms::Transforms(string tipo, Transformacao t, vector<Transforms> sub, vec
     this->subgrupo = sub;
     this->pontos = pontos;
 }
+

@@ -31,6 +31,6 @@ public:
     void getCatmullRomPoint(float t, int* pos, int* deriv, vector<Ponto> tr);
     void getGlobalCatmullRomPoint(float t, int* deriv, vector<Ponto> tr);
     void encurvar();
-    bool isEmpty();
+    bool semTranslacao();
 };
 #endif //PROJECT_TRANSLACAO_H

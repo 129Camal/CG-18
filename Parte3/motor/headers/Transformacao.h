@@ -27,6 +27,7 @@ public:
     void setRotacao(Rotacao r){ rotacao = r; }
     void setEscala(Escala esc){ escala = esc; }
     void setCor(Cor c){ cor = c; }
+    bool semTranformacao();
 };
 
 #endif

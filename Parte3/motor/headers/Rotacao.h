@@ -20,6 +20,7 @@ public:
     void setX(float x){ x_eixo = x;}
     void setY(float y){ y_eixo = y;}
     void setZ(float z){ z_eixo = z;}
+    bool semRotacao();
 };
 
 

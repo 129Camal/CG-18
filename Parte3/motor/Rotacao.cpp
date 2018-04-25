@@ -17,3 +17,7 @@ Rotacao::Rotacao(float angle, float x, float y, float z) {
     y_eixo = y;
     z_eixo = z;
 }
+
+bool Rotacao::semRotacao(){
+    return (angle == 0.0 && x_eixo == 0.0 && y_eixo == 0.0 && z_eixo == 0.0);
+}
