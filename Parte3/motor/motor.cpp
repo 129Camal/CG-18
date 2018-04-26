@@ -416,7 +416,7 @@ void Parser(XMLElement *group , Transformacao transf){
     Rotacao rot;
     Cor cor;
 
-    float xx = 0.0,yy = 0.0,zz = 0.0, transX = 0.0, transY = 0.0, transZ = 0.0, ang = 0.0, esX = 0.0, esY=0.0,esZ=0.0, rotX=0.0, rotY=0.0, rotZ=0.0, time = 0 ;
+    float xx = 0.0,yy = 0.0,zz = 0.0, transX = 0.0, transY = 0.0, transZ = 0.0, ang = 0.0, esX = 0.0, esY=0.0,esZ=0.0, rotX=0.0, rotY=0.0, rotZ=0.0, time = 1;
     float cr=1, cg=1, cb=1;
 
 
@@ -447,7 +447,7 @@ void Parser(XMLElement *group , Transformacao transf){
 
 
             if(transfor->Attribute("time")) time = stof(transfor->Attribute("time"));
-            else time = 0;
+            else time = 1;
 
             vector<Ponto> trp;
 
@@ -492,7 +492,7 @@ void Parser(XMLElement *group , Transformacao transf){
         if(strcmp(transfor->Value(), "rotate")==0){
 
             if(transfor->Attribute("time")) time = stof(transfor->Attribute("time"));
-            else time = 0;
+            else time = 1;
 
             if(transfor->Attribute("angle")) ang = stof(transfor->Attribute("angle"));
             else ang = 0;
