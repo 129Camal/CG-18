@@ -100,7 +100,7 @@ void renderCatmullRomCurve( vector<Ponto> pontos) {
     glEnd();
 }
 
-
+//TODO: verificar  parâmetros dos translates
 void renderScene(void){
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -160,7 +160,7 @@ void renderScene(void){
             Cor cor = transform.getCor();
             if (!cor.semCor())
                 glColor3f(cor.getR(), cor.getG(), cor.getG());
-
+        }
             //satélites
             if(transformacoes[i].getSubgrupo().size() != 0) {
                 vector<Transforms> subg = transformacoes[i].getSubgrupo();
@@ -202,18 +202,18 @@ void renderScene(void){
                             glColor3f(subcor.getR(), subcor.getG(), subcor.getB());
                     }
                     subg[j].draw();
+                    glPopMatrix();
                 }
             }
             trf.draw();
+            glPopMatrix();
             //TODO:
 
             //VBO
             //transform[j].encurvar() ???
             //transform.setVBO() ???
 
-            glPopMatrix();
         }
-    }
     glutSwapBuffers();
     //se fizermos o anel de saturno fica aqui
 }
@@ -318,7 +318,21 @@ void keyboardspecial(int key, int a, int b){
     }
 }
 
+void setVBO(){
+    glPolygonMode(GL_FRONT, GL_FILL);
+    for(size_t i = 0; i < transformacoes.size(); i++){
+        transformacoes[i].setVBO();
 
+        if(transformacoes[i].getSubgrupo().size() > 0){
+            vector<Transforms> subg = transformacoes[i].getSubgrupo();
+
+            for(size_t j = 0; j < subg.size(); j++)
+                subg[j].setVBO();
+
+            transformacoes[i].setSubgrupo(subg);
+        }
+    }
+}
 //método para ler o ficheiro e preencher vetor
 
 void readFile(string fich){
@@ -545,6 +559,7 @@ int main(int argc, char** argv){
 // OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    setVBO();
 
 // enter GLUT's main loop
     glutMainLoop();
