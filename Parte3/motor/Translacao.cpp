@@ -3,16 +3,19 @@
 //
 
 #include "headers/Translacao.h"
+#include "../../Parte2/motor/headers/Ponto.h"
 
 Translacao::Translacao(){
+    x_eixo = 0.0;
+    y_eixo = 0.0;
+    z_eixo = 0.0;
     time = 0.0;
 }
 
-Translacao :: Translacao(float t, int num, vector<Ponto>tr, vector<Ponto> c) {
+Translacao :: Translacao(float x, float y, float z, float t, int num, vector<Ponto>tr) {
     time = t;
     size = num;
     transl = tr;
-    curvas = c;
 }
 
 void Translacao::getCatmullRomPoint(float t, int* pos, int* deriv, vector<Ponto> tr) {

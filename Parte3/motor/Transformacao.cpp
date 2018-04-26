@@ -5,13 +5,13 @@
 #include "headers/Transformacao.h"
 
 Transformacao::Transformacao(){
-    trans = Translacao();
+    translacao = Translacao();
     rotacao = Rotacao();
     escala = Escala();
     cor = Cor();
 }
 Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala, Cor cor){
-    this->trans = trans;
+    this->translacao = trans;
     this->rotacao = rotacao;
     this->escala = escala;
     this->cor = cor;
@@ -19,5 +19,5 @@ Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala, C
 
 bool Transformacao::semTranformacao() {
 
-    return (trans.semTranslacao() && rotacao.semRotacao() && escala.semEscala() && cor.semCor());
+    return (translacao.semTranslacao() && rotacao.semRotacao() && escala.semEscala() && cor.semCor());
 }

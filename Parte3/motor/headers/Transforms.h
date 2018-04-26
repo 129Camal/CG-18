@@ -20,7 +20,6 @@ using namespace std;
 #ifndef PROJECT_TRANSFORMS_H
 #define PROJECT_TRANSFORMS_H
 
-#endif //PROJECT_TRANSFORMS_H
 
 class Transforms{
     string tipo;
@@ -45,3 +44,6 @@ public:
     void setVBO();
     void draw();
 };
+
+
+#endif //PROJECT_TRANSFORMS_H
