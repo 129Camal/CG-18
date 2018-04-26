@@ -450,10 +450,13 @@ void Parser(XMLElement *group , Transformacao transf){
                 Ponto ptt = Ponto(xx,yy,zz);
 
                 trp.push_back(ptt);
+                printf("processei point\n");
+
             }
 
 
-                trl = Translacao(transX,transY,transZ,time,trp.size(),trp);
+
+                trl = Translacao(transX, transY, transZ, time, trp.size(), trp);
 
         }
         if(strcmp(transfor->Value(), "scale")==0){
@@ -466,12 +469,19 @@ void Parser(XMLElement *group , Transformacao transf){
             esc.setX(esX);
             esc.setY(esY);
             esc.setZ(esZ);
+
+            printf("processei scale\n");
         }
+
+
+
         if(strcmp(transfor->Value(), "rotate")==0){
 
-            time = stof(transfor->Attribute("time"));
+            if(transfor->Attribute("time")) time = stof(transfor->Attribute("time"));
+            else time = 0;
 
-            ang = stof(transfor->Attribute("angle"));
+            if(transfor->Attribute("angle")) ang = stof(transfor->Attribute("angle"));
+            else ang = 0;
 
             rotX = stof(transfor->Attribute("X"));
 
@@ -479,11 +489,13 @@ void Parser(XMLElement *group , Transformacao transf){
 
             rotZ = stof(transfor->Attribute("Z"));
 
-            rot =Rotacao(time,ang,rotX,rotY,rotZ);
+            rot = Rotacao(time,ang,rotX,rotY,rotZ);
+
+            printf("processei rotate\n");
         }
+
+
         if(strcmp(transfor->Value(), "colour")==0){
-
-
 
             cr= stof(transfor->Attribute("R"));
 
@@ -493,8 +505,12 @@ void Parser(XMLElement *group , Transformacao transf){
 
             cor = Cor(cr,cg,cb);
 
+            printf("processei color\n");
 
         }
+
+
+
     }
 
     trf= PerformTransf(trl,esc,rot,cor,transf);
@@ -542,7 +558,10 @@ void lerXML(string fich) {
             Transformacao t = Transformacao();
             Escala esc = Escala(0.5,0.5,0.5);
             t.setEscala(esc);
+
             Parser(group,t);
+
+
         }else {
         cout << "Ficheiro XML não foi encontrado" << endl;
     }

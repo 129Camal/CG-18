@@ -79,7 +79,7 @@ void Translacao::encurvar() {
 
         getGlobalCatmullRomPoint(t, res, transl);
 
-        Ponto p = Ponto::Ponto(res[0], res[1], res[2]);
+        Ponto p = Ponto(res[0], res[1], res[2]);
         curvas.push_back(p);
     }
 }
