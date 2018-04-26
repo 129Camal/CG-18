@@ -423,7 +423,7 @@ float* spline(float time, float* pol0, float* pol1, float* pol2, float pol3){
 
     t0 = pow(t,3);
     t1 = pow(t,2);
------------------------------------------PERCEBER SE É CATMULL ROM-------------
+//-----------------------------------------PERCEBER SE É CATMULL ROM-------------
 }
 
 
@@ -462,7 +462,149 @@ void help() {
 
 }
 
+float* bezierFormula(float t, float* p0, float* p1, float* p2, float *p3){
+    float* result = new float[3];
+
+    float aux = (1-t);
+
+    float x0 = pow(aux,3);
+    float x1 = 3 * pow(aux, 2) * pow(t,2);
+    float x2 = 3 * aux * pow(t, 2);
+    float x3 = pow(t,3);
+
+
+    result[0] = x0 * p0[0] + x1 * p1[0] + x2 * p2[0] + x3 * p3[0];
+    result[1] = x0 * p0[1] + x1 * p1[1] + x2 * p2[1] + x3 * p3[1];
+    result[2] = x0 * p0[2] + x1 * p1[2] + x2 * p2[2] + x3 * p3[2];
+
+    return result;
+
+}
+
+float* bezier(float n, float m, float** points, int* index){
+    int i;
+    int j = 0;
+    int in = 0;
+    float* result;
+    float pointsAcumulator[4][3];
+    float bezierAcumulator[4][3];
+
+    for(i=0, j=0; i < 16; i++){
+
+        pointsAcumulator[j][0] = points[index[i]][0];
+        pointsAcumulator[j][1] = points[index[i]][1];
+        pointsAcumulator[j][2] = points[index[i]][2];
+
+        j++;
+        if(j % 4 == 0){
+            float* point = bezierFormula(n, pointsAcumulator[0], pointsAcumulator[1], pointsAcumulator[2], pointsAcumulator[3]);
+            bezierAcumulator[in][0] = point[0];
+            bezierAcumulator[in][1] = point[1];
+            bezierAcumulator[in][2] = point[2];
+            j = 0;
+            in++;
+        }
+    }
+    result = bezierFormula(m, bezierAcumulator[0], bezierAcumulator[1], bezierAcumulator[2], bezierAcumulator[3]);
+
+    return result;
+}
+
+void makeBezier(string ReadFile, string WriteFile, int tecelagem){
+
+    ifstream read(ReadFile);
+    ofstream write(WriteFile);
+    string line, value;
+    int i1, i2, i3, p1, p2, position;
+    string delimiter = ",";
+    float increment = 1 / tecelagem;
+
+
+    if(read.is_open()){
+
+        getline(read, line);
+        int nPatches = atoi(line.c_str());
+        int** index = new int*[nPatches];
+        float*** resultPoints = new float**[nPatches];
+        write << nPatches << endl;
+
+        for(i1 = 0; i1 < nPatches; i1++){
+            getline(read, line);
+            index[i1] = new int[16];
+
+            for(p1 = 0; p1 < 16; p1++){
+                position = line.find(delimiter);
+                value = line.substr(0, position);
+                index[i1][p1] = atoi(value.c_str());
+                line.erase(0, position + delimiter.length());
+            }
+
+        }
+
+        getline(read, line);
+        int cPoints = atoi(line.c_str());
+        float** points = new float*[cPoints];
+        write << cPoints << endl;
+
+
+        for(i2 = 0; i2 < cPoints; i2++){
+            getline(read, line);
+            points[i2] = new float[3];
+
+            for(p2 = 0; p2 < 3; p2++){
+                position = line.find(delimiter);
+                value = line.substr(0, position);
+                points[i2][p2] = atof(value.c_str());
+
+                line.erase(0, position + delimiter.length());
+            }
+        }
+
+
+
+        for(i3 = 0; i3 < nPatches; i3++){
+            resultPoints[i3] = new float*[4];
+            for(int xx = 0; xx < tecelagem; xx++) {
+
+                for (int yy = 0; yy < tecelagem; yy++) {
+
+                    float x1 = xx * increment;
+                    float x2 = (xx + 1) * increment;
+                    float y1 = yy * increment;
+                    float y2 = (yy + 1) * increment;
+
+                    resultPoints[i3][0] = bezier(x1, y1, points, index[i3]);
+                    resultPoints[i3][1] = bezier(x2, y1, points, index[i3]);
+                    resultPoints[i3][2] = bezier(x2, y2, points, index[i3]);
+                    resultPoints[i3][3] = bezier(x1, y2, points, index[i3]);
+
+                    write << resultPoints[i3][0][0] << "," << resultPoints[i3][0][1] << "," << resultPoints[i3][0][2] << endl;
+                    write << resultPoints[i3][1][0] << "," << resultPoints[i3][1][1] << "," << resultPoints[i3][1][2] << endl;
+                    write << resultPoints[i3][2][0] << "," << resultPoints[i3][2][1] << "," << resultPoints[i3][2][2] << endl;
+
+                    write << resultPoints[i3][2][0] << "," << resultPoints[i3][2][1] << "," << resultPoints[i3][2][2] << endl;
+                    write << resultPoints[i3][3][0] << "," << resultPoints[i3][3][1] << "," << resultPoints[i3][3][2] << endl;
+                    write << resultPoints[i3][0][0] << "," << resultPoints[i3][0][1] << "," << resultPoints[i3][0][2] << endl;
+
+
+                }
+            }
+        }
+        write.close();
+        read.close();
+
+
+
+    } else {
+        printf("Ficheiro de Input Inválido!");
+
+
+    }
+
+}
+
 int main(int argc, char **argv) {
+    /*
     if(argc < 1) {
         printf("Faltam argumentos\n");
         return 1;
@@ -481,5 +623,7 @@ int main(int argc, char **argv) {
         cylinder(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     if(strcmp(argv[1], "torus") == 0)
         torus(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
+    */
+    makeBezier("teapot.patch", "bezier.txt", 4);
     return 0;
 }

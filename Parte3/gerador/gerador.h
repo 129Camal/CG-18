@@ -10,6 +10,7 @@
 #include <fstream>
 //#include <GL/glut.h>
 #include <stdlib.h>
+#include <string.h>
 
 using namespace std;
 

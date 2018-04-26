@@ -125,10 +125,10 @@ void renderScene(void){
     //drawAxis();
 
     int deriv[3];
-//TODO:-----------------------------MUDAR ESTA MERDA !!!!!1
-    int i;
-    for(i = 0; i < transformacoes.size(); i++) {
+
+    for(size_t i = 0; i < transformacoes.size(); i++) {
         glPushMatrix();
+        Transforms trf = transformacoes[i];
         Transformacao transform = transformacoes[i].getTrans();
 
         //planetas
@@ -142,7 +142,7 @@ void renderScene(void){
                 glRotatef(tempo, rot.getX(), rot.getY(), rot.getZ());
             }
 
-            Translacao trl = transform.getTrans();
+            Translacao trl = transform.getTranslacao();
             if (!trl.semTranslacao()) {
                 if (trl.getSize() > 0) {
                     float t = glutGet(GLUT_ELAPSED_TIME) % (int) (rot.getTime() * 1000);
@@ -163,13 +163,13 @@ void renderScene(void){
 
             //satélites
             if(transformacoes[i].getSubgrupo().size() != 0) {
-                vector<Transforms> sub = transformacoes[i].getSubgrupo();
-                for (int j = 0; j < sub.size(), j++) {
-                    Transformacao subtransf = sub[j].getTrans();
+                vector<Transforms> subg = transformacoes[i].getSubgrupo();
+                for (size_t j = 0; j < subg.size(); j++) {
+                    Transformacao subtransf = subg[j].getTrans();
 
                     if (!subtransf.semTranformacao()) {
                         glPushMatrix();
-                        Translacao t = subtransf.getTrans();
+                        Translacao t = subtransf.getTranslacao();
 
                         if (!t.semTranslacao()) {
                             if (t.getSize() > 0) {
@@ -189,7 +189,7 @@ void renderScene(void){
                         if (!subrot.semRotacao()) {
                             float r = glutGet(GLUT_ELAPSED_TIME) % (int) (subrot.getTime() * 1000);
                             float tempo = (r * 360) / (subrot.getTime() * 1000);
-                            glRotatef(subrot.getTime(), subrot.getX(), subrot.getY(), subrot.getZ());
+                            glRotatef(tempo, subrot.getX(), subrot.getY(), subrot.getZ());
                         }
 
                         Escala subesc = subtransf.getEscala();
@@ -201,10 +201,12 @@ void renderScene(void){
                         if (!subcor.semCor())
                             glColor3f(subcor.getR(), subcor.getG(), subcor.getB());
                     }
+                    subg[j].draw();
                 }
             }
+            trf.draw();
             //TODO:
-            //desenhar filhos
+
             //VBO
             //transform[j].encurvar() ???
             //transform.setVBO() ???

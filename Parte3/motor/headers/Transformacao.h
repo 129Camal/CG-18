@@ -10,7 +10,7 @@
 
 
 class Transformacao {
-    Translacao trans;
+    Translacao translacao;
     Rotacao rotacao;
     Escala escala;
     Cor cor;
@@ -19,11 +19,11 @@ class Transformacao {
 public:
     Transformacao();
     Transformacao(Translacao trans, Rotacao rotacao, Escala escala, Cor cor);
-    Translacao getTrans() { return trans; }
+    Translacao getTranslacao() { return trans; }
     Rotacao getRotacao() { return rotacao; }
     Escala getEscala(){ return escala;}
     Cor getCor(){ return cor; }
-    void setTrans(Translacao t){ trans = t; }
+    void setTransl(Translacao t){ trans = t; }
     void setRotacao(Rotacao r){ rotacao = r; }
     void setEscala(Escala esc){ escala = esc; }
     void setCor(Cor c){ cor = c; }
