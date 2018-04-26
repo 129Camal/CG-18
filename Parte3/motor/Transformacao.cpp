@@ -16,3 +16,8 @@ Transformacao::Transformacao(Translacao trans, Rotacao rotacao, Escala escala, C
     this->escala = escala;
     this->cor = cor;
 }
+
+bool Transformacao::semTranformacao() {
+
+    return (trans.semTranslacao() && rotacao.semRotacao() && escala.semEscala() && cor.semCor());
+}

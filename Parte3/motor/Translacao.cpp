@@ -81,6 +81,6 @@ void Translacao::encurvar() {
     }
 }
 
-bool Translacao::isEmpty() {
+bool Translacao::semTranslacao() {
     return (time == 0.0 && transl.empty());
 }

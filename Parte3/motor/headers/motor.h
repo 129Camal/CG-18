@@ -17,3 +17,5 @@
 #include <string>
 #include <iostream>
 #include <vector>
+
+#define _USE_MATH_DEFINES

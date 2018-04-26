@@ -19,5 +19,6 @@ public:
     void setR(float r){ red = r; }
     void setG(float g){ green = g; }
     void setB(float b){ blue = b; }
+    bool semCor();
 };
 #endif //PROJECT_COR_H

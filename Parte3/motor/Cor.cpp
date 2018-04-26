@@ -15,4 +15,8 @@ Cor::Cor(float r, float g, float b) {
     blue = b;
 }
 
+bool Cor::semCor(){
+    return (red==0 && green==0 && blue==0);
+}
+
 
