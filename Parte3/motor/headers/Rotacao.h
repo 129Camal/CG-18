@@ -7,16 +7,18 @@
 
 
 class Rotacao {
-    float time, x_eixo, y_eixo, z_eixo;
+    float time, angle, x_eixo, y_eixo, z_eixo;
 
 public:
     Rotacao();
-    Rotacao(float angle, float x, float y, float z);
+    Rotacao(float time, float angle, float x, float y, float z);
     float getTime(){ return time;}
+    float getAngle(){ return angle;}
     float getX(){ return x_eixo; }
     float getY(){ return y_eixo; }
     float getZ(){ return z_eixo; }
     void setTime(float a){ time = a; }
+    void setAngle(float a){ angle = a; }
     void setX(float x){ x_eixo = x;}
     void setY(float y){ y_eixo = y;}
     void setZ(float z){ z_eixo = z;}

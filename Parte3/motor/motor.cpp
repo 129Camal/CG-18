@@ -142,7 +142,7 @@ void renderScene(void){
                 glRotatef(tempo, rot.getX(), rot.getY(), rot.getZ());
             }
 
-            Translacao trl = transform.getTrans();
+            Translacao trl = transform.getTranslacao();
             if (!trl.semTranslacao()) {
                 if (trl.getSize() > 0) {
                     float t = glutGet(GLUT_ELAPSED_TIME) % (int) (rot.getTime() * 1000);
@@ -169,7 +169,7 @@ void renderScene(void){
 
                     if (!subtransf.semTranformacao()) {
                         glPushMatrix();
-                        Translacao t = subtransf.getTrans();
+                        Translacao t = subtransf.getTranslacao();
 
                         if (!t.semTranslacao()) {
                             if (t.getSize() > 0) {
