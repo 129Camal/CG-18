@@ -9,7 +9,7 @@
 #include <string>
 
 #ifdef __APPLE__
-#include <GLUT/glut.h>
+#include <GL/glut.h>
 #else
 #include <GL/glew.h>
 #endif

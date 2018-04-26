@@ -3,6 +3,7 @@
 //
 
 #include "headers/Translacao.h"
+#include "../../Parte2/motor/headers/Ponto.h"
 
 Translacao::Translacao(){
     time = 0.0;
