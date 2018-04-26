@@ -468,9 +468,9 @@ float* bezierFormula(float t, float* p0, float* p1, float* p2, float *p3){
     float aux = (1-t);
 
     float x0 = pow(aux,3);
-    float x1 = 3 * pow(aux, 2) * pow(t,2);
-    float x2 = 3 * aux * pow(t, 2);
-    float x3 = pow(t,3);
+    float x1 = 3 * pow(aux, 2) * t;
+    float x2 = 3 * aux * t * t;
+    float x3 = t * t * t;
 
 
     result[0] = x0 * p0[0] + x1 * p1[0] + x2 * p2[0] + x3 * p3[0];
@@ -485,19 +485,25 @@ float* bezier(float n, float m, float** points, int* index){
     int i;
     int j = 0;
     int in = 0;
-    float* result;
     float pointsAcumulator[4][3];
     float bezierAcumulator[4][3];
 
-    for(i=0, j=0; i < 16; i++){
+    for(i=0; i < 16; i++){
 
         pointsAcumulator[j][0] = points[index[i]][0];
+
         pointsAcumulator[j][1] = points[index[i]][1];
+
         pointsAcumulator[j][2] = points[index[i]][2];
+
+
+        printf("%f-%f-%f\n", pointsAcumulator[j][0], pointsAcumulator[j][1], pointsAcumulator[j][2] );
+
 
         j++;
         if(j % 4 == 0){
             float* point = bezierFormula(n, pointsAcumulator[0], pointsAcumulator[1], pointsAcumulator[2], pointsAcumulator[3]);
+
             bezierAcumulator[in][0] = point[0];
             bezierAcumulator[in][1] = point[1];
             bezierAcumulator[in][2] = point[2];
@@ -505,7 +511,7 @@ float* bezier(float n, float m, float** points, int* index){
             in++;
         }
     }
-    result = bezierFormula(m, bezierAcumulator[0], bezierAcumulator[1], bezierAcumulator[2], bezierAcumulator[3]);
+    float* result = bezierFormula(m, bezierAcumulator[0], bezierAcumulator[1], bezierAcumulator[2], bezierAcumulator[3]);
 
     return result;
 }
@@ -515,7 +521,8 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
     ifstream read(ReadFile);
     ofstream write(WriteFile);
     string line, value;
-    int i1, i2, i3, p1, p2, position;
+    int i1, i2, i3, p1, p2;
+    unsigned long position;
     string delimiter = ",";
     float increment = 1 / tecelagem;
 
@@ -526,7 +533,6 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
         int nPatches = atoi(line.c_str());
         int** index = new int*[nPatches];
         float*** resultPoints = new float**[nPatches];
-        write << nPatches << endl;
 
         for(i1 = 0; i1 < nPatches; i1++){
             getline(read, line);
@@ -544,7 +550,7 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
         getline(read, line);
         int cPoints = atoi(line.c_str());
         float** points = new float*[cPoints];
-        write << cPoints << endl;
+
 
 
         for(i2 = 0; i2 < cPoints; i2++){
@@ -556,6 +562,7 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
                 value = line.substr(0, position);
                 points[i2][p2] = atof(value.c_str());
 
+
                 line.erase(0, position + delimiter.length());
             }
         }
@@ -564,14 +571,15 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
 
         for(i3 = 0; i3 < nPatches; i3++){
             resultPoints[i3] = new float*[4];
-            for(int xx = 0; xx < tecelagem; xx++) {
+            for(int xx = 0; xx < tecelagem; xx++ ) {
 
                 for (int yy = 0; yy < tecelagem; yy++) {
 
-                    float x1 = xx * increment;
-                    float x2 = (xx + 1) * increment;
-                    float y1 = yy * increment;
-                    float y2 = (yy + 1) * increment;
+                    float x1 = increment * xx;
+                    float x2 = increment * ( xx+1 );
+
+                    float y1 = increment * yy;
+                    float y2 = increment * ( yy+1 );
 
                     resultPoints[i3][0] = bezier(x1, y1, points, index[i3]);
                     resultPoints[i3][1] = bezier(x2, y1, points, index[i3]);
@@ -604,7 +612,7 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
 }
 
 int main(int argc, char **argv) {
-    /*
+
     if(argc < 1) {
         printf("Faltam argumentos\n");
         return 1;
@@ -623,7 +631,7 @@ int main(int argc, char **argv) {
         cylinder(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     if(strcmp(argv[1], "torus") == 0)
         torus(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
-    */
-    makeBezier("teapot.patch", "bezier.txt", 4);
+    if(strcmp(argv[1], "patch") == 0)
+        makeBezier(argv[2], "bezier.3d", atoi(argv[3]));
     return 0;
 }
