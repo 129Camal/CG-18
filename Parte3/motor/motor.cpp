@@ -1,7 +1,7 @@
 //
 // Created by 87 Dolly on 27/03/2018.
 //
-#include <zconf.h>
+
 #include "headers/motor.h"
 
 #pragma clang diagnostic push
@@ -372,13 +372,13 @@ Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, T
 
     Transformacao pt;
 
-    trans.setX(trans.getX() + transf.getTrans().getX());
-    trans.setY(trans.getY() + transf.getTrans().getY());
-    trans.setZ(trans.getZ() +  transf.getTrans().getZ());
+    trans.setX(trans.getX() + transf.getTranslacao().getX());
+    trans.setY(trans.getY() + transf.getTranslacao().getY());
+    trans.setZ(trans.getZ() +  transf.getTranslacao().getZ());
     es.setX(es.getX() * transf.getEscala().getX());
     es.setY(es.getY() * transf.getEscala().getY());
     es.setZ(es.getZ() * transf.getEscala().getZ());
-    rot.setTime(rot.getTime() + transf.getRotacao().getAngle());
+    rot.setTime(rot.getTime());
     rot.setX(rot.getX() + transf.getRotacao().getX());
     rot.setY(rot.getY() + transf.getRotacao().getY());
     rot.setZ(rot.getZ() + transf.getRotacao().getZ());
@@ -453,7 +453,7 @@ void Parser(XMLElement *group , Transformacao transf){
             }
 
 
-                trl = Translacao(time,transX,transY,transZ);
+                trl = Translacao(transX,transY,transZ,time,trp.size(),trp);
 
         }
         if(strcmp(transfor->Value(), "scale")==0){
@@ -469,7 +469,8 @@ void Parser(XMLElement *group , Transformacao transf){
         }
         if(strcmp(transfor->Value(), "rotate")==0){
 
-            ar = const_cast<XMLAttribute *>(transfor->FirstAttribute());
+            time = stof(transfor->Attribute("time"));
+
             ang = stof(transfor->Attribute("angle"));
 
             rotX = stof(transfor->Attribute("X"));
@@ -477,11 +478,12 @@ void Parser(XMLElement *group , Transformacao transf){
             rotY = stof(transfor->Attribute("Y"));
 
             rotZ = stof(transfor->Attribute("Z"));
-            rot =Rotacao(ang,rotX,rotY,rotZ);
+
+            rot =Rotacao(time,ang,rotX,rotY,rotZ);
         }
         if(strcmp(transfor->Value(), "colour")==0){
 
-            ac= const_cast<XMLAttribute *>(transfor->FirstAttribute());
+
 
             cr= stof(transfor->Attribute("R"));
 
@@ -507,10 +509,10 @@ void Parser(XMLElement *group , Transformacao transf){
         pontos.clear();
         tran.setTrans(trf);
 
-    /*   cout << "Translacao ->" << trf.getTrans().getX() << "-" << trf.getTrans().getY() << "-" << trf.getTrans().getZ() << endl;
+        cout << "Translacao ->" << trf.getTranslacao().getX() << "-" << trf.getTranslacao().getY() << "-" << trf.getTranslacao().getZ() << endl;
         cout << "Escala ->" << trf.getEscala().getX() << "-" << trf.getEscala().getY() << "-" << trf.getEscala().getZ() << endl;
         cout << "Rotacao -> " << trf.getRotacao().getAngle() << "-" << trf.getRotacao().getX() << "-" << trf.getRotacao().getY() << "-" << trf.getRotacao().getZ() << endl;
-        cout << "Cor ->" << trf.getCor().getB() <<  "--" << trf.getCor().getG() << "-" << trf.getCor().getR()<<endl;*/
+        cout << "Cor ->" << trf.getCor().getB() <<  "--" << trf.getCor().getG() << "-" << trf.getCor().getR()<<endl;
         transformacoes.push_back(tran);
     }
         // faz parse dos filhos

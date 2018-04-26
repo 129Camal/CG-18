@@ -4,7 +4,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <math.h>
-#include "ponto.h"
+#include "Ponto.h"
 
 using namespace std;
 
@@ -37,7 +37,7 @@ public:
     void setTime(float x){ time = x;}
     void setSize(float y){ size = y;}
     void setTransl(vector<Ponto> t){ transl = t;}
-    void setTransl(vector<Ponto> c){ transl = c;}
+    void setCurvas(vector<Ponto> c){ curvas = c;}
     void getCatmullRomPoint(float t, int* pos, int* deriv, vector<Ponto> tr);
     void getGlobalCatmullRomPoint(float t, int* deriv, vector<Ponto> tr);
     void encurvar();
