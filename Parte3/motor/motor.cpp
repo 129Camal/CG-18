@@ -19,7 +19,7 @@ vector<Ponto> pontos;
 
 
 // função que desenha as órbitas
-void renderCatmullRomCurve( vector<Ponto> pontos) {
+void renderCatmullRomCurve( vector<Ponto> pontos, float r, float g, float b) {
     int x = (int) pontos.size();
     float npts[3];
     int i;
@@ -30,7 +30,7 @@ void renderCatmullRomCurve( vector<Ponto> pontos) {
         npts[0] = pontos[i].getX();
         npts[1] = pontos[i].getY();
         npts[2] = pontos[i].getZ();
-
+        glColor3f(r,g,b);
         glVertex3fv(npts);
     }
 
@@ -67,7 +67,7 @@ void renderScene(void){
     for(size_t i = 0; i < transformacoes.size(); i++) {
         glPushMatrix();
         Transforms trf = transformacoes[i];
-        Transformacao transform = transformacoes[i].getTrans();
+        Transformacao transform = transformacoes[i].getTransformacao();
 
         //planetas
 
@@ -82,7 +82,7 @@ void renderScene(void){
                     float t = glutGet(GLUT_ELAPSED_TIME) % (int) (trl.getTime() * 1000);
                     float tempo = t / (trl.getTime() * 1000);
                     vector<Ponto> curva = trl.encurvar();
-                    renderCatmullRomCurve(curva);
+                    renderCatmullRomCurve(curva, transform.getCor().getR(), transform.getCor().getG(), transform.getCor().getB());
                     trl.getGlobalCatmullRomPoint(tempo, deriv, res, trl.getTransl());
                     glTranslatef(res[0], res[1], res[2]);
                     //trl.rodaCurva(deriv,trl.getCima());
@@ -109,53 +109,39 @@ void renderScene(void){
             if(transformacoes[i].getSubgrupo().size() != 0) {
                 vector<Transforms> subg = transformacoes[i].getSubgrupo();
                 for (size_t j = 0; j < subg.size(); j++) {
-                    Transformacao subtransf = subg[j].getTrans();
+                    glPushMatrix();
+                    Transformacao subtransf = subg[j].getTransformacao();
+                    Translacao t = subtransf.getTranslacao();
 
-                    if (!subtransf.semTranformacao()) {
-                        glPushMatrix();
-                        Translacao t = subtransf.getTranslacao();
+                    if(t.getTime() != 0){
+                        float te = glutGet(GLUT_ELAPSED_TIME) % (int) (t.getTime() * 1000);
+                        float tempo = te / (t.getTime() * 1000);
+                        vector<Ponto> trl = t.getTransl();
+                        vector<Ponto> subcurva= t.encurvar();
+                        renderCatmullRomCurve(subcurva, subtransf.getCor().getR(), subtransf.getCor().getG(), subtransf.getCor().getB());
+                        t.getGlobalCatmullRomPoint(tempo, deriv, res, trl);
+                        glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
+                        //glRotatef(90.0, 1.0, 0.0, 0.0);
+                    }
 
-                        if (!t.semTranslacao()) {
-                            if (t.getSize() > 0) {
-                                float te = glutGet(GLUT_ELAPSED_TIME) % (int) (t.getTime() * 1000);
-                                float tempo = te / (t.getTime() * 1000);
-                                vector<Ponto> trl = t.getTransl();
-                                t.encurvar();
-                                renderCatmullRomCurve(t.getCurvas());
-                                t.getGlobalCatmullRomPoint(tempo, deriv, res, trl);
-                                glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
-                                //glRotatef(90.0, 1.0, 0.0, 0.0);
-                            }
-                        }
-
-                        Rotacao subrot = subtransf.getRotacao();
-
-                        if (!subrot.semRotacao()) {
+                    Rotacao subrot = subtransf.getRotacao();
+                        if (subrot.getTime() != 0) {
                             float r = glutGet(GLUT_ELAPSED_TIME) % (int) (subrot.getTime() * 1000);
                             float tempo = (r * 360) / (subrot.getTime() * 1000);
                             glRotatef(tempo, subrot.getX(), subrot.getY(), subrot.getZ());
                         }
 
-                        Escala subesc = subtransf.getEscala();
+                    Escala subesc = subtransf.getEscala();
+                    glScalef(subesc.getX(), subesc.getY(), subesc.getZ());
 
-                        if (!subesc.semEscala())
-                            glScalef(subesc.getX(), subesc.getY(), subesc.getZ());
-
-                        Cor subcor = subtransf.getCor();
-                        if (!subcor.semCor())
-                            glColor3f(subcor.getR(), subcor.getG(), subcor.getB());
-                    }
                     subg[j].draw();
                     glPopMatrix();
                 }
             }
             trf.draw();
             glPopMatrix();
-
-
         }
     glutSwapBuffers();
-    //se fizermos o anel de saturno fica aqui
 }
 
 void reshape(int w, int h){
@@ -266,9 +252,9 @@ void setVBO(){
         if(transformacoes[i].getSubgrupo().size() > 0){
             vector<Transforms> subg = transformacoes[i].getSubgrupo();
 
-            for(size_t j = 0; j < subg.size(); j++)
+            for(size_t j = 0; j < subg.size(); j++) {
                 subg[j].setVBO();
-
+            }
             transformacoes[i].setSubgrupo(subg);
         }
     }
