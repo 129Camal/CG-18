@@ -467,9 +467,9 @@ float* bezierFormula(float t, float* p0, float* p1, float* p2, float *p3){
 
     float aux = (1-t);
 
-    float x0 = pow(aux,3);
-    float x1 = 3 * pow(aux, 2) * t;
-    float x2 = 3 * aux * t * t;
+    float x0 = aux * aux * aux;
+    float x1 = 3 * (aux * aux) * t;
+    float x2 = 3 * aux * (t * t);
     float x3 = t * t * t;
 
 
@@ -477,14 +477,24 @@ float* bezierFormula(float t, float* p0, float* p1, float* p2, float *p3){
     result[1] = x0 * p0[1] + x1 * p1[1] + x2 * p2[1] + x3 * p3[1];
     result[2] = x0 * p0[2] + x1 * p1[2] + x2 * p2[2] + x3 * p3[2];
 
+    //printf("P0: %f , %f, %f\n", p0[0], p0[1], p0[2]);
+    //printf("P1: %f , %f, %f\n", p1[0], p1[1], p1[2]);
+    //printf("P2: %f , %f, %f\n", p2[0], p2[1], p2[2]);
+    //printf("P2: %f , %f, %f\n", p3[0], p3[1], p3[2]);
+    //printf("RESULT: %f , %f, %f\n", result[0], result[1], result[2]);
+
+
     return result;
+
 
 }
 
 float* bezier(float n, float m, float** points, int* index){
     int i;
+    float* point = new float[3];
+    float* result = new float[3];
     int j = 0;
-    int in = 0;
+    int N = 0;
     float pointsAcumulator[4][3];
     float bezierAcumulator[4][3];
 
@@ -496,35 +506,39 @@ float* bezier(float n, float m, float** points, int* index){
 
         pointsAcumulator[j][2] = points[index[i]][2];
 
-
-        printf("%f-%f-%f\n", pointsAcumulator[j][0], pointsAcumulator[j][1], pointsAcumulator[j][2] );
-
+        printf("P%d: %f , %f, %f\n", i, points[index[i]][0], points[index[i]][1], points[index[i]][2]);
 
         j++;
-        if(j % 4 == 0){
-            float* point = bezierFormula(n, pointsAcumulator[0], pointsAcumulator[1], pointsAcumulator[2], pointsAcumulator[3]);
 
-            bezierAcumulator[in][0] = point[0];
-            bezierAcumulator[in][1] = point[1];
-            bezierAcumulator[in][2] = point[2];
+        if(j % 4 == 0){
+
+            point = bezierFormula(n, pointsAcumulator[0], pointsAcumulator[1], pointsAcumulator[2], pointsAcumulator[3]);
+            printf("RESULT: %f , %f, %f\n", point[0], point[1], point[2]);
+
+
+            bezierAcumulator[N][0] = point[0];
+            bezierAcumulator[N][1] = point[1];
+            bezierAcumulator[N][2] = point[2];
             j = 0;
-            in++;
+            N++;
         }
     }
-    float* result = bezierFormula(m, bezierAcumulator[0], bezierAcumulator[1], bezierAcumulator[2], bezierAcumulator[3]);
+    result = bezierFormula(m, bezierAcumulator[0], bezierAcumulator[1], bezierAcumulator[2], bezierAcumulator[3]);
+
+    printf("RESULT: %f , %f, %f\n", result[0], result[1], result[2]);
 
     return result;
 }
 
-void makeBezier(string ReadFile, string WriteFile, int tecelagem){
+void makeBezier(string ReadFile, int tecelagem){
 
     ifstream read(ReadFile);
-    ofstream write(WriteFile);
+    ofstream write("bezier.3d");
     string line, value;
     int i1, i2, i3, p1, p2;
-    unsigned long position;
+    int position;
     string delimiter = ",";
-    float increment = 1 / tecelagem;
+    float increment = 1.0 / tecelagem;
 
 
     if(read.is_open()){
@@ -542,8 +556,10 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
                 position = line.find(delimiter);
                 value = line.substr(0, position);
                 index[i1][p1] = atoi(value.c_str());
-                line.erase(0, position + delimiter.length());
+                line.erase(0, position + 1);
+                //write << index[i1][p1] << endl;
             }
+
 
         }
 
@@ -562,38 +578,37 @@ void makeBezier(string ReadFile, string WriteFile, int tecelagem){
                 value = line.substr(0, position);
                 points[i2][p2] = atof(value.c_str());
 
-
-                line.erase(0, position + delimiter.length());
+                line.erase(0, position + 1);
             }
+            //write << points[i2][0] << "," << points[i2][1] << "," << points[i2][2] << endl;
         }
-
-
 
         for(i3 = 0; i3 < nPatches; i3++){
             resultPoints[i3] = new float*[4];
+
             for(int xx = 0; xx < tecelagem; xx++ ) {
 
-                for (int yy = 0; yy < tecelagem; yy++) {
+                for(int yy = 0; yy < tecelagem; yy++) {
 
                     float x1 = increment * xx;
-                    float x2 = increment * ( xx+1 );
-
                     float y1 = increment * yy;
+                    float x2 = increment * ( xx+1 );
                     float y2 = increment * ( yy+1 );
 
                     resultPoints[i3][0] = bezier(x1, y1, points, index[i3]);
-                    resultPoints[i3][1] = bezier(x2, y1, points, index[i3]);
-                    resultPoints[i3][2] = bezier(x2, y2, points, index[i3]);
-                    resultPoints[i3][3] = bezier(x1, y2, points, index[i3]);
+                    resultPoints[i3][1] = bezier(x1, y2, points, index[i3]);
+                    resultPoints[i3][2] = bezier(x2, y1, points, index[i3]);
+                    resultPoints[i3][3] = bezier(x2, y2, points, index[i3]);
+
+
 
                     write << resultPoints[i3][0][0] << "," << resultPoints[i3][0][1] << "," << resultPoints[i3][0][2] << endl;
-                    write << resultPoints[i3][1][0] << "," << resultPoints[i3][1][1] << "," << resultPoints[i3][1][2] << endl;
-                    write << resultPoints[i3][2][0] << "," << resultPoints[i3][2][1] << "," << resultPoints[i3][2][2] << endl;
-
                     write << resultPoints[i3][2][0] << "," << resultPoints[i3][2][1] << "," << resultPoints[i3][2][2] << endl;
                     write << resultPoints[i3][3][0] << "," << resultPoints[i3][3][1] << "," << resultPoints[i3][3][2] << endl;
-                    write << resultPoints[i3][0][0] << "," << resultPoints[i3][0][1] << "," << resultPoints[i3][0][2] << endl;
 
+                    write << resultPoints[i3][0][0] << "," << resultPoints[i3][0][1] << "," << resultPoints[i3][0][2] << endl;
+                    write << resultPoints[i3][3][0] << "," << resultPoints[i3][3][1] << "," << resultPoints[i3][3][2] << endl;
+                    write << resultPoints[i3][1][0] << "," << resultPoints[i3][1][1] << "," << resultPoints[i3][1][2] << endl;
 
                 }
             }
@@ -632,6 +647,6 @@ int main(int argc, char **argv) {
     if(strcmp(argv[1], "torus") == 0)
         torus(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     if(strcmp(argv[1], "patch") == 0)
-        makeBezier(argv[2], "bezier.3d", atoi(argv[3]));
+        makeBezier(argv[2], atoi(argv[3]));
     return 0;
 }
