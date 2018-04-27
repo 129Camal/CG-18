@@ -5,6 +5,12 @@
 #include <stdlib.h>
 #include <math.h>
 #include "Ponto.h"
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 
 using namespace std;
 
@@ -18,6 +24,7 @@ class Translacao{
 
     float time;
     int size;
+    float cima[3];
     vector<Ponto> transl;
     vector<Ponto> curvas;
 
@@ -29,6 +36,7 @@ public:
     float getZ(){ return z_eixo; }
     float getTime(){ return time; }
     int getSize(){ return size; }
+    float* getCima(){ return cima;}
     vector<Ponto> getTransl(){ return transl; }
     vector<Ponto> getCurvas(){ return curvas; }
     void setX(float x){ x_eixo = x;}
@@ -38,9 +46,13 @@ public:
     void setSize(float y){ size = y;}
     void setTransl(vector<Ponto> t){ transl = t;}
     void setCurvas(vector<Ponto> c){ curvas = c;}
-    void getCatmullRomPoint(float t, int* pos, int* deriv, vector<Ponto> tr);
-    void getGlobalCatmullRomPoint(float t, int* deriv, vector<Ponto> tr);
-    void encurvar();
+    void getCatmullRomPoint(float t, int* pos, float* deriv, float* res, vector<Ponto> tr);
+    void getGlobalCatmullRomPoint(float t, float* deriv, float* res, vector<Ponto> tr);
+    void renderCatmullRomCurve( vector<Ponto> pontos, float r, float g, float b);
+    void normaliza(float* f);
+    void cruz(float* f, float* f2, float* res);
+    void rodaCurva(float* deriv, float* cima);
+    vector<Ponto> encurvar();
     bool semTranslacao();
 };
 #endif //PROJECT_TRANSLACAO_H

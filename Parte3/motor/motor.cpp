@@ -17,88 +17,9 @@ int window;
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
 
-void drawAxis(){
 
-    // Draw mode of Axis's Arrow Heads (FILLED)
-    glPolygonMode(GL_FRONT_AND_BACK,draw);
-
-    // Arrow Head of X Axis (RED)
-    glRotatef(90.f,0,1,0); // Rotation of 90º Degrees, relative to the Y Axis... Now our Z axis, assumes the initial position of the X axis.
-    glTranslatef(0,0,5+xx); // Translation of "5+axes_x", relative to the Z Axis
-    glColor3f(1.0f,0.0f,0.0f); // Color of our X Arrow Head
-    glutSolidCone(0.1,0.3,5,5); // Arrow Head is drawn, as a solid cone. Base on Z=0, Height on Z=0.3, Radius of 0.3 {5 slices and 5 stacks}.
-    // This cone stays in the previously  translated position. In this case "5+axes_x"
-    glTranslatef(0,0,-5-xx); // Translates to the initial position - origin
-    glRotatef(-90.f,0,1,0); // Rotates to the initial position - origin
-
-    // Arrow Head of Y Axis (GREEN)
-    glRotatef(-90.f,1,0,0); // Rotation of -90º Degrees, relative to the X Axis... Now our Z axis, assumes the initial position of the Y axis.
-    glTranslatef(0,0,5+yy); // Translation of "5+axes_y", relative to the Z Axis
-    glColor3f(0.0f,1.0f,0.0f); // Color of our Y Arrow Head
-    glutSolidCone(0.1,0.3,5,5); // Arrow Head is drawn, as a solid cone. Base on Z=0, Height on Z=0.3, Radius of 0.3 {5 slices and 5 stacks}.
-    // This cone stays in the previously  translated position. In this case "5+axes_y"
-    glTranslatef(0,0,-5-yy); // Translates to the initial position - origin
-    glRotatef(90.f,1,0,0); // Rotates to the initial position - origin
-
-    // Arrow Head of Z Axis (BLUE)
-    glTranslatef(0,0,5+zz); // Translation of "5+axes_z", relative to the Z Axis
-    glColor3f(0.0f,0.0f,1.0f); // Color of our Z Arrow Head
-    glutSolidCone(0.1,0.3,5,5); // Arrow Head is drawn, as a solid cone. Base on Z=0, Height on Z=0.3, Radius of 0.3 {5 slices and 5 stacks}.
-    // This cone stays in the previously  translated position. In this case "5+axes_z"
-    glTranslatef(0,0,-5-zz); // Translates to the initial position - origin
-
-    glBegin(GL_LINES);
-
-    // Line of X Axis (RED) - From (0,0,0) to (5+axes_x,0,0)
-    glColor3f(1.0,0,0);
-    glVertex3f(0,0,0);
-    glVertex3f(5 + xx,0,0);
-
-    // Line of Y Axis (GREEN) - From (0,0,0) to (0,5+axes_y,0)
-    glColor3f(0,1.0,0);
-    glVertex3f(0,0,0);
-    glVertex3f(0,5 + yy,0);
-
-    // Line of Z Axis (BLUE) - From (0,0,0) to (0,0,5+axes_z)
-    glColor3f(0,0,1.0);
-    glVertex3f(0,0,0);
-    glVertex3f(0,0,5 + zz);
-
-    glEnd();
-
-    // Letter X coloring (RED) and positioning (5+axes_x+0.5,0,0)
-    glColor3f(1.0,0,0);
-    glRasterPos3f((5 + xx + 0.5),0,0);
-    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'X');
-
-    // Letter Y coloring (GREEN) and positioning (0,5+axes_y+0.5,0)
-    glColor3f(0,1.0,0);
-    glRasterPos3f(0,(5 + yy + 0.5),0);
-    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'Y');
-
-    // Letter Z coloring (BLUE) and positioning (0,0,5+axes_z+0.5)
-    glColor3f(0,0,1.0);
-    glRasterPos3f(0,0,(5 + zz + 0.5));
-    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'Z');
-}
 // função que desenha as órbitas
-void renderCatmullRomCurve( vector<Ponto> pontos) {
-    int x = pontos.size();
-    float npts[3];
-    int i;
 
-    glBegin(GL_LINE_LOOP);
-
-    for(i=0; i < x ; i ++) {
-        npts[0] = pontos[i].getX();
-        npts[1] = pontos[i].getY();
-        npts[2] = pontos[i].getZ();
-
-        glVertex3fv(npts);
-    }
-
-    glEnd();
-}
 
 //TODO: verificar  parâmetros dos translates
 void renderScene(void){
@@ -124,98 +45,87 @@ void renderScene(void){
 
     //drawAxis();
 
-    int deriv[3];
+    float deriv[3];
+    float res[3];
 
     for(size_t i = 0; i < transformacoes.size(); i++) {
         glPushMatrix();
         Transforms trf = transformacoes[i];
-        Transformacao transform = transformacoes[i].getTrans();
+        Transformacao transform = transformacoes[i].getTransformacao();
 
         //planetas
 
         if (!transform.semTranformacao()) {
+            Cor cor = transform.getCor();
+            if (!cor.semCor())
+                glColor3f(cor.getR(), cor.getG(), cor.getB());
+
+            Translacao trl = transform.getTranslacao();
+            if (!trl.semTranslacao()) {
+                if (trl.getSize() > 0) {
+                    float t = glutGet(GLUT_ELAPSED_TIME) % (int) (trl.getTime() * 1000);
+                    float tempo = t / (trl.getTime() * 1000);
+                    vector<Ponto> curva = trl.encurvar();
+                    trl.renderCatmullRomCurve(curva, transform.getCor().getR(), transform.getCor().getG(), transform.getCor().getB());
+                    trl.getGlobalCatmullRomPoint(tempo, deriv, res, trl.getTransl());
+                    glTranslatef(res[0], res[1], res[2]);
+                    //trl.rodaCurva(deriv,trl.getCima());
+                }
+            }
+
             Rotacao rot = transform.getRotacao();
 
             if (!rot.semRotacao() && rot.getTime() != 0) {
                 float t = glutGet(GLUT_ELAPSED_TIME) % (int) (rot.getTime() * 1000);
                 float tempo = (t * 360) / (rot.getTime() * 1000);
                 glRotatef(tempo, rot.getX(), rot.getY(), rot.getZ());
+            }else{
+                //glRotatef()
             }
 
-            Translacao trl = transform.getTranslacao();
-            if (!trl.semTranslacao()) {
-                if (trl.getSize() > 0) {
-                    float t = glutGet(GLUT_ELAPSED_TIME) % (int) (rot.getTime() * 1000);
-                    float tempo = (t * 360) / (rot.getTime() * 1000);
-                    trl.encurvar();
-                    renderCatmullRomCurve(trl.getCurvas());
-                    trl.getGlobalCatmullRomPoint(tempo, deriv, trl.getTransl());
-                    glTranslatef(deriv[0], deriv[1], deriv[2]);
-                }
-            }
             Escala esc = transform.getEscala();
             if (!esc.semEscala())
                 glScalef(esc.getX(), esc.getY(), esc.getZ());
 
-            Cor cor = transform.getCor();
-            if (!cor.semCor())
-                glColor3f(cor.getR(), cor.getG(), cor.getG());
+
         }
             //satélites
             if(transformacoes[i].getSubgrupo().size() != 0) {
                 vector<Transforms> subg = transformacoes[i].getSubgrupo();
                 for (size_t j = 0; j < subg.size(); j++) {
-                    Transformacao subtransf = subg[j].getTrans();
+                    glPushMatrix();
+                    Transformacao subtransf = subg[j].getTransformacao();
+                    Translacao t = subtransf.getTranslacao();
 
-                    if (!subtransf.semTranformacao()) {
-                        glPushMatrix();
-                        Translacao t = subtransf.getTranslacao();
+                    if(t.getTime() != 0){
+                        float te = glutGet(GLUT_ELAPSED_TIME) % (int) (t.getTime() * 1000);
+                        float tempo = te / (t.getTime() * 1000);
+                        vector<Ponto> trl = t.getTransl();
+                        vector<Ponto> subcurva= t.encurvar();
+                        t.renderCatmullRomCurve(subcurva, subtransf.getCor().getR(), subtransf.getCor().getG(), subtransf.getCor().getB());
+                        t.getGlobalCatmullRomPoint(tempo, deriv, res, trl);
+                        glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
+                        //glRotatef(90.0, 1.0, 0.0, 0.0);
+                    }
 
-                        if (!t.semTranslacao()) {
-                            if (t.getSize() > 0) {
-                                float te = glutGet(GLUT_ELAPSED_TIME) % (int) (t.getTime() * 1000);
-                                float tempo = te / (t.getTime() * 1000);
-                                vector<Ponto> trl = t.getTransl();
-                                t.encurvar();
-                                renderCatmullRomCurve(t.getCurvas());
-                                t.getGlobalCatmullRomPoint(tempo, deriv, trl);
-                                glTranslatef(deriv[0], deriv[1], deriv[2]); //todo: verificar !!!!!!
-                                glRotatef(90.0, 1.0, 0.0, 0.0);
-                            }
-                        }
-
-                        Rotacao subrot = subtransf.getRotacao();
-
-                        if (!subrot.semRotacao()) {
+                    Rotacao subrot = subtransf.getRotacao();
+                        if (subrot.getTime() != 0) {
                             float r = glutGet(GLUT_ELAPSED_TIME) % (int) (subrot.getTime() * 1000);
                             float tempo = (r * 360) / (subrot.getTime() * 1000);
                             glRotatef(tempo, subrot.getX(), subrot.getY(), subrot.getZ());
                         }
 
-                        Escala subesc = subtransf.getEscala();
+                    Escala subesc = subtransf.getEscala();
+                    glScalef(subesc.getX(), subesc.getY(), subesc.getZ());
 
-                        if (!subesc.semEscala())
-                            glScalef(subesc.getX(), subesc.getY(), subesc.getZ());
-
-                        Cor subcor = subtransf.getCor();
-                        if (!subcor.semCor())
-                            glColor3f(subcor.getR(), subcor.getG(), subcor.getB());
-                    }
                     subg[j].draw();
                     glPopMatrix();
                 }
             }
             trf.draw();
             glPopMatrix();
-            //TODO:
-
-            //VBO
-            //transform[j].encurvar() ???
-            //transform.setVBO() ???
-
         }
     glutSwapBuffers();
-    //se fizermos o anel de saturno fica aqui
 }
 
 void reshape(int w, int h){
@@ -326,9 +236,9 @@ void setVBO(){
         if(transformacoes[i].getSubgrupo().size() > 0){
             vector<Transforms> subg = transformacoes[i].getSubgrupo();
 
-            for(size_t j = 0; j < subg.size(); j++)
+            for(size_t j = 0; j < subg.size(); j++) {
                 subg[j].setVBO();
-
+            }
             transformacoes[i].setSubgrupo(subg);
         }
     }
@@ -451,14 +361,14 @@ void Parser(XMLElement *group , Transformacao transf){
 
             vector<Ponto> trp;
 
-            for(XMLElement* point = transfor->FirstChildElement("point"); point; point = point->NextSiblingElement("point")){
+            for(XMLElement* pt = transfor->FirstChildElement("point"); pt; pt = pt->NextSiblingElement("point")){
 
-                pt = const_cast<XMLAttribute *>(transfor->FirstAttribute());
-                if(strcmp(pt->Name(),"X")==0) xx = stof(transfor->Attribute("X"));
+
+                if(pt->Attribute("X")) xx = stof(pt->Attribute("X"));
                 else xx = 0;
-                if(strcmp(pt->Name(),"Y")==0) yy = stof(transfor->Attribute("Y"));
+                if(pt->Attribute("Y")) yy = stof(pt->Attribute("Y"));
                 else yy=0;
-                if(strcmp(pt->Name(),"Z")==0) zz = stof(transfor->Attribute("Z"));
+                if(pt->Attribute("Z")) zz = stof(pt->Attribute("Z"));
                 else zz=0;
 
                 Ponto ptt = Ponto(xx,yy,zz);

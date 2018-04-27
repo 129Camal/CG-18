@@ -44,9 +44,9 @@ void Transforms::setVBO() {
         pos += 3;
     }
 
-    glGenBuffers(1,buffer);
+    glGenBuffers(3,buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pos, v, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pos * 3, v, GL_STATIC_DRAW);
     free(v);
     }
 

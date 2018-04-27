@@ -43,7 +43,6 @@
             </translate>
             <rotate time="15" X="0" Y="-1" Z="0"/>
             <colour R="254" G="198" B="115" />
-
             <scale X="0.8790" Y="0.8790" Z="0.8790" />
             <models>
                 <model fich = "esfera.3d"/>
@@ -61,8 +60,6 @@
                 <point X="0" Y="0" Z="-44.8061"/>
                 <point X="31.68270" Y="0" Z="-31.68270"/>
             </translate>
-            <rotate angle="23" X="0" Y="1" Z="1"/>
-
             <rotate time="22" X="0" Y="1" Z="0"/>
             <colour R="0" G="0" B="220" />
             <scale X="0.8865" Y="0.8865" Z="0.8865" />
@@ -70,8 +67,7 @@
                 <model fich="esfera.3d" />
             </models>
             <group>
-                    <!--   lua-->
-                <rotate angle="-23" X="0" Y="1" Z="1"/>
+                <!--   lua-->
                 <translate time="616">
                     <point X="-3" Y="1" Z="3" />
                     <point X="3" Y="1" Z="3" />
@@ -98,13 +94,12 @@
                 <point X="0" Y="0" Z="-60.9523"/>
                 <point X="44.51400" Y="0" Z="-44.51400"/>
             </translate>
-            <rotate angle="25" X="0" Y="1" Z="1"/>
-                <rotate time="28" X="0" Y="1" Z="0"/>
-                <colour R="254" G="135" B="1" />
-                <scale X="0.3720" Y="0.3720" Z="0.3720" />
-                <models>
-                    <model fich = "esfera.3d"/>
-                </models>
+            <rotate time="28" X="0" Y="1" Z="0"/>
+            <colour R="254" G="135" B="1" />
+            <scale X="0.3720" Y="0.3720" Z="0.3720" />
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
         </group>
         <group>
             <!-- jupiter -->
@@ -131,7 +126,7 @@
                 <colour R="130" G="150" B="255" />
                 <scale X="0.052" Y="0.052" Z="0.052" />
                 <models>
-                    <model fich = "esfera.3d" />
+                    <models fich = "esfera.3d" />
                 </models>
             </group>
             <!--satelite Europa -->
@@ -176,15 +171,14 @@
                 <point X="0" Y="0" Z="-120.5005"/>
                 <point X="85.20672" Y="0" Z="-85.20672"/>
             </translate>
-                <rotate time="39" X="0" Y="1" Z="0"/>
-                <colour R="255" G="223" B="161" />
-                <scale X="1.995" Y="1.995" Z="1.995" />
-                <models>
-                    <model fich = "esfera.3d"/>
-                </models>
+            <rotate time="39" X="0" Y="1" Z="0"/>
+            <colour R="255" G="223" B="161" />
+            <scale X="1.995" Y="1.995" Z="1.995" />
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
             <!--anel-->
             <group>
-                <rotate angle="70" X="1" Y="0" Z="0"/>
                 <colour R="255" G="10" B="100" />
                 <scale X="0.5" Y="0.5" Z="0.0"/>
                 <models>
@@ -215,12 +209,12 @@
                 <point X="0" Y="0" Z="-158.0747"/>
                 <point X="111.77569" Y="0" Z="-111.77569"/>
             </translate>
-                <rotate time="48" X="0" Y="-1" Z="0"/>
-                <colour R="148" G="193" B="255" />
-                <scale X="1.290" Y="1.290" Z="1.290" />
-                <models>
-                    <model fich = "esfera.3d"/>
-                </models>
+            <rotate time="48" X="0" Y="-1" Z="0"/>
+            <colour R="148" G="193" B="255" />
+            <scale X="1.290" Y="1.290" Z="1.290" />
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
         </group>
         <group>
             <!--neptuno-->
@@ -234,21 +228,20 @@
                 <point X="0" Y="0" Z="-201.35529"/>
                 <point X="142.37969" Y="0" Z="-142.37969"/>
             </translate>
-            <rotate angle="30" X="0" Y="1" Z="1"/>
-                <rotate time="60" X="0" Y="1" Z="0"/>
-                <colour R="0" G="83" B="255" />
-                <scale X="1.275" Y="1.275" Z="1.275" />
-                <models>
-                    <model fich = "esfera.3d"/>
-                </models>
+            <rotate time="60" X="0" Y="1" Z="0"/>
+            <colour R="0" G="83" B="255" />
+            <scale X="1.275" Y="1.275" Z="1.275" />
+            <models>
+                <model fich = "esfera.3d"/>
+            </models>
             <!-- satelite Titânia-->
-                <rotate angle="1" X="0" Y="3" Z="1"/>
-                <translate X="0" Y="1" Z="3.75" />
-                <colour R="39" G="100" B="5" />
-                <scale X="0.15" Y="0.15" Z="0.15" />
-                <models>
-                    <model fich = "esfera.3d" />
-                </models>
+            <rotate time="1" X="0" Y="3" Z="1"/>
+            <translate X="0" Y="1" Z="3.75" />
+            <colour R="39" G="100" B="5" />
+            <scale X="0.15" Y="0.15" Z="0.15" />
+            <models>
+                <model fich = "esfera.3d" />
+            </models>
         </group>
         <group>
             <!-- cometa-->
@@ -270,7 +263,7 @@
                 <point X="28.2843" Y="0" Z="-154.246" />
                 <point X="36.9552" Y="0" Z="-120.182" />
             </translate>
-            <rotate angle="270" X="1" Y="0" Z="0"/>
+            <rotate time="370" X="1" Y="0" Z="0"/>
             <scale X="0.05" Y="0.05" Z="0.05" />
             <models>
                 <model fich = "esfera.3d"/>

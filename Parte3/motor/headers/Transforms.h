@@ -33,7 +33,7 @@ public:
     Transforms();
     Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Ponto> pontos);
     string getTipo(){ return tipo; }
-    Transformacao getTrans(){ return t; }
+    Transformacao getTransformacao(){ return t; }
     vector<Transforms> getSubgrupo(){ return subgrupo; }
     vector<Ponto> getPontos(){ return pontos; }
     void setTipo(string t){ tipo = t; }
