@@ -19,23 +19,7 @@ vector<Ponto> pontos;
 
 
 // função que desenha as órbitas
-void renderCatmullRomCurve( vector<Ponto> pontos, float r, float g, float b) {
-    int x = (int) pontos.size();
-    float npts[3];
-    int i;
 
-    glBegin(GL_LINE_LOOP);
-
-    for(i=0; i < x ; i ++) {
-        npts[0] = pontos[i].getX();
-        npts[1] = pontos[i].getY();
-        npts[2] = pontos[i].getZ();
-        glColor3f(r,g,b);
-        glVertex3fv(npts);
-    }
-
-    glEnd();
-}
 
 //TODO: verificar  parâmetros dos translates
 void renderScene(void){
@@ -82,7 +66,7 @@ void renderScene(void){
                     float t = glutGet(GLUT_ELAPSED_TIME) % (int) (trl.getTime() * 1000);
                     float tempo = t / (trl.getTime() * 1000);
                     vector<Ponto> curva = trl.encurvar();
-                    renderCatmullRomCurve(curva, transform.getCor().getR(), transform.getCor().getG(), transform.getCor().getB());
+                    trl.renderCatmullRomCurve(curva, transform.getCor().getR(), transform.getCor().getG(), transform.getCor().getB());
                     trl.getGlobalCatmullRomPoint(tempo, deriv, res, trl.getTransl());
                     glTranslatef(res[0], res[1], res[2]);
                     //trl.rodaCurva(deriv,trl.getCima());
@@ -118,7 +102,7 @@ void renderScene(void){
                         float tempo = te / (t.getTime() * 1000);
                         vector<Ponto> trl = t.getTransl();
                         vector<Ponto> subcurva= t.encurvar();
-                        renderCatmullRomCurve(subcurva, subtransf.getCor().getR(), subtransf.getCor().getG(), subtransf.getCor().getB());
+                        t.renderCatmullRomCurve(subcurva, subtransf.getCor().getR(), subtransf.getCor().getG(), subtransf.getCor().getB());
                         t.getGlobalCatmullRomPoint(tempo, deriv, res, trl);
                         glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
                         //glRotatef(90.0, 1.0, 0.0, 0.0);

@@ -31,8 +31,8 @@ void Translacao::getCatmullRomPoint(float t, int* pos, float* deriv, float* res,
     int i1, i2, i3, i4;
     Ponto p0, p1, p2, p3;
 
-    quad = pow(t, 2);
-    cubo = pow(t, 3);
+    quad = t*t;
+    cubo = t*t*t;
     res[0] = res[1] = res[2] = 0;
 
     float m[4][4] = {{-0.5, 1.5,  -1.5, 0.5},
@@ -87,6 +87,24 @@ void Translacao::getGlobalCatmullRomPoint(float gt, float* deriv, float* res, ve
     ind[3] = (ind[0] + 1) %size;
 
     getCatmullRomPoint(gtt, ind, deriv, res, tr);
+}
+
+void Translacao::renderCatmullRomCurve( vector<Ponto> pontos, float r, float g, float b) {
+    int x = (int) pontos.size();
+    float npts[3];
+    int i;
+
+    glBegin(GL_LINE_LOOP);
+
+    for(i=0; i < x ; i ++) {
+        npts[0] = pontos.at(i).getX();
+        npts[1] = pontos.at(i).getY();
+        npts[2] = pontos.at(i).getZ();
+        glColor3f(r,g,b);
+        glVertex3fv(npts);
+    }
+
+    glEnd();
 }
 
 void Translacao::normaliza(float* f){
