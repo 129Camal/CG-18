@@ -43,7 +43,6 @@
             </translate>
             <rotate time="15" X="0" Y="-1" Z="0"/>
             <colour R="254" G="198" B="115" />
-
             <scale X="0.8790" Y="0.8790" Z="0.8790" />
             <models>
                 <model fich = "esfera.3d"/>
@@ -62,7 +61,6 @@
                 <point X="31.68270" Y="0" Z="-31.68270"/>
             </translate>
             <rotate angle="23" X="0" Y="1" Z="1"/>
-
             <rotate time="22" X="0" Y="1" Z="0"/>
             <colour R="0" G="0" B="220" />
             <scale X="0.8865" Y="0.8865" Z="0.8865" />
@@ -270,7 +268,7 @@
                 <point X="28.2843" Y="0" Z="-154.246" />
                 <point X="36.9552" Y="0" Z="-120.182" />
             </translate>
-            <rotate angle="270" X="1" Y="0" Z="0"/>
+            <rotate angle="370" X="1" Y="0" Z="0"/>
             <scale X="0.05" Y="0.05" Z="0.05" />
             <models>
                 <model fich = "esfera.3d"/>
