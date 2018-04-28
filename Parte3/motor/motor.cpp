@@ -17,7 +17,6 @@ int window;
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
 
-
 // função que desenha as órbitas
 
 
@@ -56,17 +55,14 @@ void renderScene(void){
         //planetas
 
         if (!transform.semTranformacao()) {
-            Cor cor = transform.getCor();
-            if (!cor.semCor())
-                glColor3f(cor.getR(), cor.getG(), cor.getB());
 
             Translacao trl = transform.getTranslacao();
             if (!trl.semTranslacao()) {
-                if (trl.getSize() > 0) {
+                if (trl.getSize() > 0 && trl.getTime() > 0) {
                     float t = glutGet(GLUT_ELAPSED_TIME) % (int) (trl.getTime() * 1000);
-                    float tempo = t / (trl.getTime() * 1000);
+                    float tempo = t / (trl.getTime() * 1000.0);
                     vector<Ponto> curva = trl.encurvar();
-                    trl.renderCatmullRomCurve(curva, transform.getCor().getR(), transform.getCor().getG(), transform.getCor().getB());
+                    trl.renderCatmullRomCurve(curva, transform.getCor().getR()/255, transform.getCor().getG()/255, transform.getCor().getB()/255);
                     trl.getGlobalCatmullRomPoint(tempo, deriv, res, trl.getTransl());
                     glTranslatef(res[0], res[1], res[2]);
                     //trl.rodaCurva(deriv,trl.getCima());
@@ -77,7 +73,7 @@ void renderScene(void){
 
             if (!rot.semRotacao() && rot.getTime() != 0) {
                 float t = glutGet(GLUT_ELAPSED_TIME) % (int) (rot.getTime() * 1000);
-                float tempo = (t * 360) / (rot.getTime() * 1000);
+                float tempo = (t * 360.0) / (rot.getTime() * 1000.0);
                 glRotatef(tempo, rot.getX(), rot.getY(), rot.getZ());
             }else{
                 //glRotatef()
@@ -86,6 +82,7 @@ void renderScene(void){
             Escala esc = transform.getEscala();
             if (!esc.semEscala())
                 glScalef(esc.getX(), esc.getY(), esc.getZ());
+
 
 
         }
@@ -99,13 +96,14 @@ void renderScene(void){
 
                     if(t.getTime() != 0){
                         float te = glutGet(GLUT_ELAPSED_TIME) % (int) (t.getTime() * 1000);
-                        float tempo = te / (t.getTime() * 1000);
-                        vector<Ponto> trl = t.getTransl();
+                        float tempo = te / (t.getTime() * 1000.0);
                         vector<Ponto> subcurva= t.encurvar();
-                        t.renderCatmullRomCurve(subcurva, subtransf.getCor().getR(), subtransf.getCor().getG(), subtransf.getCor().getB());
-                        t.getGlobalCatmullRomPoint(tempo, deriv, res, trl);
+                        t.renderCatmullRomCurve(subcurva, subtransf.getCor().getR()/255, subtransf.getCor().getG()/255, subtransf.getCor().getB()/255);
+                        t.getGlobalCatmullRomPoint(tempo, deriv, res, t.getTransl());
                         glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
                         //glRotatef(90.0, 1.0, 0.0, 0.0);
+                    }else{
+                        glTranslatef(t.getX(),t.getY(),t.getZ());
                     }
 
                     Rotacao subrot = subtransf.getRotacao();
@@ -118,10 +116,18 @@ void renderScene(void){
                     Escala subesc = subtransf.getEscala();
                     glScalef(subesc.getX(), subesc.getY(), subesc.getZ());
 
+                    Cor cor = subtransf.getCor();
+                    if (!cor.semCor())
+                        glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
+
+
                     subg[j].draw();
                     glPopMatrix();
                 }
             }
+            Cor cor = transform.getCor();
+            if (!cor.semCor())
+                glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
             trf.draw();
             glPopMatrix();
         }
@@ -291,34 +297,9 @@ void readFile(string fich){
     }
 }
 
-
-Transformacao PerformTransf(Translacao trans, Escala es, Rotacao rot, Cor cor, Transformacao transf){
-
-    Transformacao pt;
-
-    trans.setX(trans.getX() + transf.getTranslacao().getX());
-    trans.setY(trans.getY() + transf.getTranslacao().getY());
-    trans.setZ(trans.getZ() +  transf.getTranslacao().getZ());
-    es.setX(es.getX() * transf.getEscala().getX());
-    es.setY(es.getY() * transf.getEscala().getY());
-    es.setZ(es.getZ() * transf.getEscala().getZ());
-    rot.setTime(rot.getTime());
-    rot.setX(rot.getX() + transf.getRotacao().getX());
-    rot.setY(rot.getY() + transf.getRotacao().getY());
-    rot.setZ(rot.getZ() + transf.getRotacao().getZ());
-    cor.setR(cor.getR());
-    cor.setG(cor.getG());
-    cor.setB(cor.getB());
-
-    pt = Transformacao(trans,rot,es,cor);
-
-    return pt;
-
-}
-
 //Parse do XML tendo em conta os níveis hierarquicos
 
-void Parser(XMLElement *group , Transformacao transf){
+void Parser(XMLElement *group , Transformacao transf, string p){
 
     Transformacao trf;
     Translacao trl;
@@ -357,7 +338,7 @@ void Parser(XMLElement *group , Transformacao transf){
 
 
             if(transfor->Attribute("time")) time = stof(transfor->Attribute("time"));
-            else time = 1;
+            else time = 0;
 
             vector<Ponto> trp;
 
@@ -402,7 +383,7 @@ void Parser(XMLElement *group , Transformacao transf){
         if(strcmp(transfor->Value(), "rotate")==0){
 
             if(transfor->Attribute("time")) time = stof(transfor->Attribute("time"));
-            else time = 1;
+            else time = 0;
 
             if(transfor->Attribute("angle")) ang = stof(transfor->Attribute("angle"));
             else ang = 0;
@@ -437,9 +418,16 @@ void Parser(XMLElement *group , Transformacao transf){
 
     }
 
-    trf= PerformTransf(trl,esc,rot,cor,transf);
+
+    esc.setX(esc.getX() * transf.getEscala().getX());
+    esc.setY(esc.getY() * transf.getEscala().getY());
+    esc.setZ(esc.getZ() * transf.getEscala().getZ());
+
+    trf = Transformacao(trl,rot,esc,cor);
+
 
     for(XMLElement* models = group->FirstChildElement("models")->FirstChildElement("model"); models; models = models -> NextSiblingElement("model")){
+
         Transforms tran;
 
         tran.setTipo(models->Attribute("fich"));
@@ -449,21 +437,35 @@ void Parser(XMLElement *group , Transformacao transf){
         pontos.clear();
         tran.setTrans(trf);
 
-        cout << "Translacao ->" << trf.getTranslacao().getX() << "-" << trf.getTranslacao().getY() << "-" << trf.getTranslacao().getZ() << endl;
+        cout << "Translacao ->" << trf.getTranslacao().getTime() << endl;
         cout << "Escala ->" << trf.getEscala().getX() << "-" << trf.getEscala().getY() << "-" << trf.getEscala().getZ() << endl;
-        cout << "Rotacao -> " << trf.getRotacao().getAngle() << "-" << trf.getRotacao().getX() << "-" << trf.getRotacao().getY() << "-" << trf.getRotacao().getZ() << endl;
+        cout << "Rotacao -> " << trf.getRotacao().getAngle() << "-"  << trf.getRotacao().getTime() << "-" << trf.getRotacao().getX() << "-" << trf.getRotacao().getY() << "-" << trf.getRotacao().getZ() << endl;
         cout << "Cor ->" << trf.getCor().getB() <<  "--" << trf.getCor().getG() << "-" << trf.getCor().getR()<<endl;
-        transformacoes.push_back(tran);
+        if(p == "I"){
+            transformacoes.push_back(tran);
+        }
+        if(p == "F"){
+            int pos = transformacoes.size() - 1;
+            transformacoes[pos].push_child(tran);
+        }
+        if(p == "P"){
+            int pos = transformacoes.size() - 1;
+            transformacoes[pos].push_child(tran);
+        }
+
     }
         // faz parse dos filhos
     if(group->FirstChildElement("group")){
-            Parser(group->FirstChildElement("group"),trf);
+            Parser(group->FirstChildElement("group"),trf,"F");
     }
 
-        //faz parse nos irmãos
-    if(group->NextSiblingElement("group")){
-        Parser(group->NextSiblingElement("group"),transf);
 
+    if(group->NextSiblingElement("group") && (p == "F" || p == "P")){
+        Parser(group->NextSiblingElement("group"),transf,"P");
+    }
+        //faz parse nos irmãos
+    if(group->NextSiblingElement("group") && p != "F" && p != "P"){
+        Parser(group->NextSiblingElement("group"),transf,"I");
     }
 
 }
@@ -480,10 +482,10 @@ void lerXML(string fich) {
             XMLElement * group = scene-> FirstChildElement("group");
 
             Transformacao t = Transformacao();
-            Escala esc = Escala(0.5,0.5,0.5);
+            Escala esc = Escala(1,1,1);
             t.setEscala(esc);
 
-            Parser(group,t);
+            Parser(group,t,"I");
 
 
         }else {

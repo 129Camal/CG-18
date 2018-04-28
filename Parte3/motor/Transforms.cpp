@@ -38,15 +38,15 @@ void Transforms::setVBO() {
     float* v = (float*) malloc(sizeof(float)*pontos.size()*3);
 
     for(i=0; i < pontos.size(); i++) {
-        v[pos] = pontos.at(i).getX();
-        v[pos + 1] = pontos.at(i).getY();
-        v[pos + 2] = pontos.at(i).getZ();
+        v[pos] = pontos[i].getX();
+        v[pos + 1] = pontos[i].getY();
+        v[pos + 2] = pontos[i].getZ();
         pos += 3;
     }
 
-    glGenBuffers(3,buffer);
+    glGenBuffers(1,buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pos * 3, v, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size() * 3, v, GL_STATIC_DRAW);
     free(v);
     }
 

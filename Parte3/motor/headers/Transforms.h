@@ -24,10 +24,10 @@ using namespace std;
 class Transforms{
     string tipo;
     Transformacao t;
-    vector<Transforms> subgrupo;
     vector<Ponto> pontos;
     GLuint buffer[3];
     int pos;
+    vector<Transforms> subgrupo;
 
 public:
     Transforms();
@@ -43,6 +43,7 @@ public:
     void toVertex();
     void setVBO();
     void draw();
+    void push_child(Transforms t){subgrupo.push_back(t);}
 };
 
 

@@ -35,10 +35,10 @@ void Translacao::getCatmullRomPoint(float t, int* pos, float* deriv, float* res,
     cubo = t*t*t;
     res[0] = res[1] = res[2] = 0;
 
-    float m[4][4] = {{-0.5, 1.5,  -1.5, 0.5},
-                     {1.0,  -2.5, 2,    -0.5},
-                     {-0.5, 0,    0.5,  0},
-                     {0,    1,    0,    0}};
+    float m[4][4] = {{-0.5f, 1.5f,  -1.5f, 0.5f},
+                     {1.0f,  -2.5f, 2.0f,    -0.5f},
+                     {-0.5f, 0.0f,    0.5f,  0.0f},
+                     {0.0f,    1.0f,    0.0f,    0.0f}};
 
     auxR[0] = cubo * m[0][0] + quad * m[1][0] + t * m[2][0] + 1 * m[3][0];
     auxR[1] = cubo * m[0][1] + quad * m[1][1] + t * m[2][1] + 1 * m[3][1];
