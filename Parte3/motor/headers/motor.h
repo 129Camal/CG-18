@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include "Transforms.h"
+#include "Camara.h"
 #include "tinyxml2.h"
 #include <stdio.h>
 #include <stdlib.h>

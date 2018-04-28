@@ -10,12 +10,11 @@
 using namespace std;
 using namespace tinyxml2;
 
-float xx = 0, yy = 0, zz = -4, lxx = 0.0, lyy = 0.0, lzz = 0.0, angleX=0.0, angleY=0.0, angleZ = 0.0, lx = 30.0, ly = 30.0, lz = 30.0;
-
 int draw = GL_LINE;
 int window;
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
+Camara cam = Camara();
 
 // função que desenha as órbitas
 
@@ -29,18 +28,18 @@ void renderScene(void){
     glLoadIdentity();
     glPolygonMode(GL_FRONT_AND_BACK,draw);
 
-    gluLookAt(lx,ly,lz, //todo: alterar aqui
-              lxx,lyy,lzz,
+    gluLookAt(cam.getLX(), cam.getLY(), cam.getLZ(),
+              cam.getLX()+cam.getLLX(), cam.getLY()+cam.getLLY(), cam.getLZ()+cam.getLLZ(),
               0.0f,1.0f,0.0f);
 
 
-    glTranslatef(0, -1, zz);
+    //glTranslatef(0, -1, -4);
 
     //draw instructions
-    glRotatef(angleY, 0.0, 1.0, 0.0);
-    glRotatef(angleX, 1.0, 0.0, 0.0);
-    glRotatef(angleZ, 0.0, 0.0, 1.0);
-    glTranslatef(-xx,-yy,-zz);
+   //glRotatef(cam.getAngleY(), 0.0, 1.0, 0.0);
+    //glRotatef(cam.getAngleX(), 1.0, 0.0, 0.0);
+    //glRotatef(cam.getAngleZ(), 0.0, 0.0, 1.0);
+    glTranslatef(cam.getCX(), cam.getCY(), cam.getCZ());
 
     //drawAxis();
 
@@ -65,7 +64,6 @@ void renderScene(void){
                     trl.renderCatmullRomCurve(curva, transform.getCor().getR()/255, transform.getCor().getG()/255, transform.getCor().getB()/255);
                     trl.getGlobalCatmullRomPoint(tempo, deriv, res, trl.getTransl());
                     glTranslatef(res[0], res[1], res[2]);
-                    //trl.rodaCurva(deriv,trl.getCima());
                 }
             }
 
@@ -75,8 +73,6 @@ void renderScene(void){
                 float t = glutGet(GLUT_ELAPSED_TIME) % (int) (rot.getTime() * 1000);
                 float tempo = (t * 360.0) / (rot.getTime() * 1000.0);
                 glRotatef(tempo, rot.getX(), rot.getY(), rot.getZ());
-            }else{
-                //glRotatef()
             }
 
             Escala esc = transform.getEscala();
@@ -101,7 +97,7 @@ void renderScene(void){
                         t.renderCatmullRomCurve(subcurva, subtransf.getCor().getR()/255, subtransf.getCor().getG()/255, subtransf.getCor().getB()/255);
                         t.getGlobalCatmullRomPoint(tempo, deriv, res, t.getTransl());
                         glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
-                        //glRotatef(90.0, 1.0, 0.0, 0.0);
+
                     }else{
                         glTranslatef(t.getX(),t.getY(),t.getZ());
                     }
@@ -131,6 +127,7 @@ void renderScene(void){
             trf.draw();
             glPopMatrix();
         }
+    cam.displayFPS();
     glutSwapBuffers();
 }
 
@@ -155,46 +152,10 @@ void reshape(int w, int h){
     glMatrixMode(GL_MODELVIEW);
 }
 
-void keyboard(unsigned char key, int a, int b) {
-    switch (key) {
-        case 'a':
-        case 'A':
-            angleY -= 5;
-            if (angleY < -360) angleY += 360;
-            break;
-        case 'd':
-        case 'D':
-            angleY += 5;
-            if (angleY > 360) angleY -= 360;
-            break;
-        case 'q':
-        case 'Q':
-            angleX -= 5;
-            if (angleX < -360) angleX += 360;
-            break;
+void keyboard(unsigned char key, int x, int y){
+   // cam.keyboard(key, x, y);
 
-        case 'e':
-        case 'E':
-            angleX += 5;
-            if (angleX > 360) angleX -= 360;
-            break;
-        case 'w':
-        case 'W':
-            angleZ += 5;
-            if(angleZ > 360) angleZ += 360;
-            break;
-        case 's':
-        case 'S':
-            angleZ -= 5;
-            if(angleZ < -360) angleZ -=360;
-            break;
-        case '+':
-            glTranslatef(lx -= 1, ly -= 1, lz -= 1);
-            break;
-
-        case '-':
-            glTranslatef(lx += 1, ly += 1, lz += 1);
-            break;
+    switch(key){
         case 'f':
         case 'F':
             draw = GL_FILL;
@@ -213,25 +174,12 @@ void keyboard(unsigned char key, int a, int b) {
     }
 }
 
-void keyboardspecial(int key, int a, int b){
-    switch (key){
-        case GLUT_KEY_UP:
-            zz -=cos(angleY /180 * M_PI);
-            xx +=sin(angleY /180 * M_PI);
-            break;
-        case GLUT_KEY_DOWN:
-            zz +=1 * cos(angleY /180 * M_PI);
-            xx -=1 * sin(angleY /180 * M_PI);
-            break;
-        case GLUT_KEY_LEFT:
-            xx -=cos(angleY /180 * M_PI);
-            zz -=sin(angleY /180 * M_PI);
-            break;
-        case GLUT_KEY_RIGHT:
-            xx +=cos(angleY /180 * M_PI);
-            zz +=sin(angleY /180 * M_PI);
-            break;
-    }
+void keyboardSpecial(int key, int x, int y){
+    cam.specialKeys(key);
+}
+
+void mouseMotion(int x, int y){
+    cam.mouseMove(x, y);
 }
 
 void setVBO(){
@@ -512,8 +460,11 @@ int main(int argc, char** argv){
     glutDisplayFunc( renderScene );
     glutReshapeFunc( reshape );
     glutIdleFunc( renderScene);
-    glutSpecialFunc(keyboardspecial);
+    glutSpecialFunc(keyboardSpecial);
     glutKeyboardFunc(keyboard);
+    glutPassiveMotionFunc(mouseMotion);
+    glutSetCursor(GLUT_CURSOR_NONE);
+
 // OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

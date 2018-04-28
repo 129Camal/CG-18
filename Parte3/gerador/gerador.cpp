@@ -417,15 +417,6 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
     file.close();
 }
 
-float* spline(float time, float* pol0, float* pol1, float* pol2, float pol3){
-    float t = 1-time;
-    float t0,t1,t2,t3;
-
-    t0 = pow(t,3);
-    t1 = pow(t,2);
-//-----------------------------------------PERCEBER SE É CATMULL ROM-------------
-}
-
 
 void help() {
 
@@ -476,13 +467,6 @@ float* bezierFormula(float t, float* p0, float* p1, float* p2, float *p3){
     result[0] = x0 * p0[0] + x1 * p1[0] + x2 * p2[0] + x3 * p3[0];
     result[1] = x0 * p0[1] + x1 * p1[1] + x2 * p2[1] + x3 * p3[1];
     result[2] = x0 * p0[2] + x1 * p1[2] + x2 * p2[2] + x3 * p3[2];
-
-    //printf("P0: %f , %f, %f\n", p0[0], p0[1], p0[2]);
-    //printf("P1: %f , %f, %f\n", p1[0], p1[1], p1[2]);
-    //printf("P2: %f , %f, %f\n", p2[0], p2[1], p2[2]);
-    //printf("P2: %f , %f, %f\n", p3[0], p3[1], p3[2]);
-    //printf("RESULT: %f , %f, %f\n", result[0], result[1], result[2]);
-
 
     return result;
 
