@@ -22,10 +22,8 @@ class Camara{
     float speed, rotSpeed;
     int frame = 0;
     int timebase = 0;
-    int window;
 
-    float angleX = 0.0, angleY = 0.0, angleZ = 0.0;
-    float cX = 0.0, cY = 0.0, cZ = 0.0;
+    bool cima = false, baixo = false, esq = false, dir = false; // camaraMove
 public:
     Camara();
     //Camara();
@@ -39,12 +37,6 @@ public:
     float getLLZ(){ return llZ;}
     float getSpeed(){ return speed;}
     float getRotSpeed(){ return rotSpeed;}
-    float getAngleX(){ return angleX;}
-    float getAngleY(){ return angleY;}
-    float getAngleZ(){ return angleZ;}
-    float getCX(){ return cX;}
-    float getCY(){ return cY;}
-    float getCZ(){ return cZ;}
     void setLX(float lx){ lX = lx;}
     void setLY(float ly){ lY = ly;}
     void setLZ(float lz){ lZ = lz;}
@@ -53,15 +45,10 @@ public:
     void setLLZ(float llz){ llZ = llz;}
     void setSpeed(float s){ speed = s;}
     void setRotSpeed(float rspeed){ rotSpeed = speed;}
-    void setWindow(int w){ window = w;}
-    void setAngleX(float ax){ angleX = ax;}
-    void setAngleY(float ay){ angleY = ay;}
-    void setAngleZ(float az){ angleZ = az;}
-    void setCX(float cx){ cX = cx;}
-    void setCY(float cy){ cY = cy;}
-    void setCZ(float cz){ cZ = cz;}
+
     void displayFPS();
-    void keyboard(unsigned char key, int a, int b);
-    void specialKeys(int key);
     void mouseMove(int x, int y);
+    void camaraMove();
+    void pressKeys(unsigned char key, int x, int y);
+    void releaseKeys(unsigned char key, int x, int y);
 };

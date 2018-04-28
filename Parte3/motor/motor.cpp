@@ -33,16 +33,6 @@ void renderScene(void){
               0.0f,1.0f,0.0f);
 
 
-    //glTranslatef(0, -1, -4);
-
-    //draw instructions
-   //glRotatef(cam.getAngleY(), 0.0, 1.0, 0.0);
-    //glRotatef(cam.getAngleX(), 1.0, 0.0, 0.0);
-    //glRotatef(cam.getAngleZ(), 0.0, 0.0, 1.0);
-    glTranslatef(cam.getCX(), cam.getCY(), cam.getCZ());
-
-    //drawAxis();
-
     float deriv[3];
     float res[3];
 
@@ -128,6 +118,7 @@ void renderScene(void){
             glPopMatrix();
         }
     cam.displayFPS();
+    cam.camaraMove();
     glutSwapBuffers();
 }
 
@@ -153,7 +144,7 @@ void reshape(int w, int h){
 }
 
 void keyboard(unsigned char key, int x, int y){
-   // cam.keyboard(key, x, y);
+   cam.pressKeys(key, x, y);
 
     switch(key){
         case 'f':
@@ -174,8 +165,8 @@ void keyboard(unsigned char key, int x, int y){
     }
 }
 
-void keyboardSpecial(int key, int x, int y){
-    cam.specialKeys(key);
+void releaseK(unsigned char key, int x, int y){
+    cam.releaseKeys(key, x, y);
 }
 
 void mouseMotion(int x, int y){
@@ -460,7 +451,9 @@ int main(int argc, char** argv){
     glutDisplayFunc( renderScene );
     glutReshapeFunc( reshape );
     glutIdleFunc( renderScene);
-    glutSpecialFunc(keyboardSpecial);
+
+    //rato e teclado
+    glutKeyboardUpFunc(releaseK);
     glutKeyboardFunc(keyboard);
     glutPassiveMotionFunc(mouseMotion);
     glutSetCursor(GLUT_CURSOR_NONE);

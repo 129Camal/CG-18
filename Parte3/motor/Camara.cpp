@@ -7,9 +7,9 @@
 Camara::Camara() {
     rotY = 0.0;
     rotX = 0.0;
-    lX = 30.0;
-    lY = 0.0;
-    lZ = 15.0;
+    lX = 20.0;
+    lY = 50.0;
+    lZ = -40.0;
     llX = 0.0;
     llY = 0.0;
     llZ = 0.0;
@@ -31,33 +31,86 @@ void Camara::displayFPS(){
         glutSetWindowTitle(title);
     }
 }
+void Camara::camaraMove(){
+    if(cima){
+        lX += llX * speed;
+        lY += llY * speed;
+        lZ += llZ * speed;
+    }
 
-void Camara::specialKeys(int key){
+    if(baixo){
+        lX -= llX * speed;
+        lY -= llY * speed;
+        lZ -= llZ * speed;
+    }
 
-    switch (key) {
-        case GLUT_KEY_UP:
-            lX += llX * speed;
-            lY += llY * speed;
-            lZ += llZ * speed;
-            break;
+    if(esq){
+        lX += llZ * 2*speed;
+        lZ -= llX * 2* speed;
+    }
 
-        case GLUT_KEY_DOWN:
-            lX -= llX * speed;
-            lY -= llY * speed;
-            lZ -= llZ * speed;
-            break;
-
-        case GLUT_KEY_LEFT:
-            lX += llZ * speed;
-            lZ -= llX * speed;
-            break;
-
-        case GLUT_KEY_RIGHT:
-            lX -= llZ * speed;
-            lZ += llX * speed;
-            break;
+    if(dir){
+        lX -= llZ * speed;
+        lZ += llX * speed;
     }
 }
+void Camara::pressKeys(unsigned char key, int x, int y){
+
+
+    switch(key){
+
+        case 'a':
+        case 'A':
+            esq = true;
+            break;
+
+        case 'd':
+        case 'D':
+            dir = true;
+            break;
+
+        case 'w':
+        case 'W':
+            cima = true;
+            break;
+
+        case 's':
+        case 'S':
+            baixo = true;
+            break;
+
+    }
+}
+
+void Camara::releaseKeys(unsigned char key, int x, int y){
+
+
+    switch(key){
+
+        case 'a':
+        case 'A':
+            esq = false;
+            break;
+
+        case 'd':
+        case 'D':
+            dir = false;
+            break;
+
+        case 'w':
+        case 'W':
+            cima = false;
+            break;
+
+        case 's':
+        case 'S':
+            baixo = false;
+            break;
+
+    }
+}
+
+
 bool warping = false;
 bool mouseCaptured = true;
 void Camara::mouseMove(int x, int y){
@@ -66,8 +119,8 @@ void Camara::mouseMove(int x, int y){
         return;
     }
 
-    int dx = x -100;
-    int dy = y - 100;
+    int dx = x -300;
+    int dy = y - 300;
 
     rotX += dx*rotSpeed;
     rotY += dy*rotSpeed;
@@ -77,7 +130,7 @@ void Camara::mouseMove(int x, int y){
 
     if(mouseCaptured){
         warping = true;
-        glutWarpPointer(100,100);
+        glutWarpPointer(300,300);
     }
 }
 #pragma clang diagnostic pop
