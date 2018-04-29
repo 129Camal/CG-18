@@ -107,35 +107,6 @@ void Translacao::renderCatmullRomCurve( vector<Ponto> pontos, float r, float g, 
     glEnd();
 }
 
-void Translacao::normaliza(float* f){
-    float x = sqrt(f[0]*f[0] + f[1]*f[1] + f[2]*f[2]);
-    f[0] = f[0]/x;
-    f[1] = f[1]/x;
-    f[2] = f[2]/x;
-}
-void Translacao::cruz(float* f, float* f2, float* res){
-    res[0] = f[1]*f2[2] - f[2]*f2[1];
-    res[1] = f[2]*f2[0] - f[0]*f2[2];
-    res[2] = f[0]*f2[1] - f[1]*f2[0];
-}
-
-void Translacao::rodaCurva(float* deriv, float* cima){
-    float esq[3];
-    cruz(deriv,cima,esq);
-    cruz(esq,deriv,cima);
-
-    normaliza(deriv);
-    normaliza(cima);
-    normaliza(esq);
-
-    float m[4][4] = {{deriv[0], deriv[1], deriv[2], 0},
-                     {cima[0], cima[1], cima[2], 0},
-                     {esq[0], esq[1], esq[2], 0},
-                     {0.0f,0.0f,0.0f, 1}};
-
-    glMultMatrixf((float*)m);
-}
-
 vector<Ponto> Translacao::encurvar() {
     float res[3];
     float deriv[3];

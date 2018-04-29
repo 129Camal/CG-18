@@ -86,7 +86,7 @@ void renderScene(void){
                         vector<Ponto> subcurva= t.encurvar();
                         t.renderCatmullRomCurve(subcurva, subtransf.getCor().getR()/255, subtransf.getCor().getG()/255, subtransf.getCor().getB()/255);
                         t.getGlobalCatmullRomPoint(tempo, deriv, res, t.getTransl());
-                        glTranslatef(res[0], res[1], res[2]); //todo: verificar !!!!!!
+                        glTranslatef(res[0], res[1], res[2]);
 
                     }else{
                         glTranslatef(t.getX(),t.getY(),t.getZ());

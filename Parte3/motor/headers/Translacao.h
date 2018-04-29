@@ -49,9 +49,6 @@ public:
     void getCatmullRomPoint(float t, int* pos, float* deriv, float* res, vector<Ponto> tr);
     void getGlobalCatmullRomPoint(float t, float* deriv, float* res, vector<Ponto> tr);
     void renderCatmullRomCurve( vector<Ponto> pontos, float r, float g, float b);
-    void normaliza(float* f);
-    void cruz(float* f, float* f2, float* res);
-    void rodaCurva(float* deriv, float* cima);
     vector<Ponto> encurvar();
     bool semTranslacao();
 };
