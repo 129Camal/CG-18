@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include "../motor/headers/Ponto.h"
 #include <iostream>
 #include <fstream>
 //#include <GL/glut.h>

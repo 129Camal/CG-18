@@ -1,5 +1,4 @@
 #include "gerador.h"
-#include "Ponto.h"
 #include <vector>
 
 void plano(float ladox, float ladoz, string f){
@@ -50,7 +49,7 @@ void box(float c, float l, float a, int camadas, string f){
     ofstream file(f);
     float x,y,z, xx, yy, zz;
     int i, j;
-    float pontoX, pontoY, pontoZ, r, s, texty1, texty2, textx1, textx2, textx3, textEspY, textEspX, textEspZ;
+    float pontoX, pontoY, pontoZ, r, s, textX, textY;
     vector<Ponto> normal;
     vector<Ponto> text;
 
@@ -58,6 +57,10 @@ void box(float c, float l, float a, int camadas, string f){
     float espC = c / camadas;
     float espL = l / camadas;
     float espA = a / camadas;
+
+    //formulas textura
+    textX = 0.25 / camadas;
+    textY = 0.33 / camadas;
 
     //fazer as faces da frente e face de trás.
     y = a / 2;
@@ -67,15 +70,10 @@ void box(float c, float l, float a, int camadas, string f){
     z = l / 2;
     zz = -z;
 
-    //formulas textura
-    texty1 = l / ((l * 2) + a); // verificar se é mm este. tem de ser  Z
-    texty2 = (l + a) / ((l * 2) + a);
-    textx1 = l / ((l * 2) + (c * 2));
-    textx2 = (l + c) / ((l * 2)+(c * 2));
-    textx3 = ((l * 2) + c) / ((l * 2) + (c * 2));
-    textEspY = (a / ((l * 2) + a)) / camadas;
-    textEspX = (c / ((l * 2) + (c * 2))) / camadas;
-    textEspZ = (l / ((l * 2) + (c * 2))) / camadas;
+    float frenteX = 0.75;
+    float frenteY = 0.33;
+    float trasX = 0.25;
+    float trasY = 0.33;
 
     //faz as camadas percorrendo a linha X e quando acabar sobe uma posiçao de Y.
     for (i = 0; i < camadas; i++) {
@@ -100,9 +98,20 @@ void box(float c, float l, float a, int camadas, string f){
             normal.push_back(Ponto(0,0,1));
             normal.push_back(Ponto(0,0,1));
             normal.push_back(Ponto(0,0,1));
+            normal.push_back(Ponto(0,0,1));
+            normal.push_back(Ponto(0,0,1));
+            normal.push_back(Ponto(0,0,1));
 
             //texturas
-            text.push_back(Ponto(textx1,))
+            text.push_back(Ponto(frenteX, frenteY, 0));
+            text.push_back(Ponto(frenteX + textX, frenteY, 0));
+            text.push_back(Ponto(frenteX + textX, frenteY + textY, 0));
+
+            text.push_back(Ponto(frenteX + textX, frenteY + textY, 0));
+            text.push_back(Ponto(frenteX, frenteY + textY, 0));
+            text.push_back(Ponto(frenteX, frenteY, 0));
+
+
 
             //face de trás
             file << r << "," << s << "," << zz << endl;
@@ -112,12 +121,40 @@ void box(float c, float l, float a, int camadas, string f){
             file << pontoX << "," << pontoY << "," << zz << endl;
             file << pontoX << "," << s << "," << zz << endl;
             file << r << "," << s << "," << zz << endl;
+
+            //normal
+            normal.push_back(Ponto(0,0,-1));
+            normal.push_back(Ponto(0,0,-1));
+            normal.push_back(Ponto(0,0,-1));
+            normal.push_back(Ponto(0,0,-1));
+            normal.push_back(Ponto(0,0,-1));
+            normal.push_back(Ponto(0,0,-1));
+
+            //texturas
+            text.push_back(Ponto(trasX, trasY, 0));
+            text.push_back(Ponto(trasX + textX, trasY, 0));
+            text.push_back(Ponto(trasX + textX, trasY + textY, 0));
+
+            text.push_back(Ponto(trasX + textX, trasY + textY, 0));
+            text.push_back(Ponto(trasX, trasY + textY, 0));
+            text.push_back(Ponto(trasX, trasY, 0));
+
+            frenteX += textX;
+            trasX += textX;
         }
+
+        frenteY += textY;
+        trasY += textY;
+
     }
 
     //face de cima e de baixo
     //começa numa posição Z e depois faz a linha toda de X e no fim sobe uma posição de Y
 
+    float cimaX = 0.25;
+    float cimaY = 0.66;
+    float baixoX = 0;
+    float baixoY = 0;
 
     y = a / 2;
     yy = -y;
@@ -146,7 +183,22 @@ void box(float c, float l, float a, int camadas, string f){
             file << pontoX << "," << y << "," << pontoZ << endl;
             file << pontoX << "," << y << "," << s<< endl;
 
+            //normal
+            normal.push_back(Ponto(0,1,0));
+            normal.push_back(Ponto(0,1,0));
+            normal.push_back(Ponto(0,1,0));
+            normal.push_back(Ponto(0,1,0));
+            normal.push_back(Ponto(0,1,0));
+            normal.push_back(Ponto(0,1,0));
 
+            //texturas
+            text.push_back(Ponto(cimaX, cimaY, 0));
+            text.push_back(Ponto(cimaX + textX, cimaY, 0));
+            text.push_back(Ponto(cimaX + textX, cimaY + textY, 0));
+
+            text.push_back(Ponto(cimaX + textX, cimaY + textY, 0));
+            text.push_back(Ponto(cimaX, cimaY + textY, 0));
+            text.push_back(Ponto(cimaX, cimaY, 0));
 
             //face de baixo
             file << r << "," << yy << "," << s << endl;
@@ -156,7 +208,31 @@ void box(float c, float l, float a, int camadas, string f){
             file << pontoX << "," << yy << "," << pontoZ << endl;
             file << r << "," << yy << "," << pontoZ << endl;
             file << r << "," << yy << "," << s << endl;
+
+            //normal
+            normal.push_back(Ponto(0,-1,0));
+            normal.push_back(Ponto(0,-1,0));
+            normal.push_back(Ponto(0,-1,0));
+            normal.push_back(Ponto(0,-1,0));
+            normal.push_back(Ponto(0,-1,0));
+            normal.push_back(Ponto(0,-1,0));
+
+            //texturas
+            text.push_back(Ponto(baixoX, baixoY, 0));
+            text.push_back(Ponto(baixoX + textX, baixoY, 0));
+            text.push_back(Ponto(baixoX + textX, baixoY + textY, 0));
+
+            text.push_back(Ponto(baixoX + textX, baixoY + textY, 0));
+            text.push_back(Ponto(baixoX, baixoY + textY, 0));
+            text.push_back(Ponto(baixoX, baixoY, 0));
+
+            cimaX += textX;
+            baixoX += textX;
         }
+
+        cimaY += textY;
+        baixoY += textY;
+
     }
 
     //face da esquerda e da direita
@@ -167,6 +243,11 @@ void box(float c, float l, float a, int camadas, string f){
     xx = -x;
     z = l / 2;
     zz = -z;
+
+    float esquerdaX = 0;
+    float esquerdaY = 0.33;
+    float direitaX = 0.25;
+    float direitaY = 0.33;
 
     for (i = 0; i < camadas; i++) {
         s = yy + (espA * i);
@@ -186,7 +267,22 @@ void box(float c, float l, float a, int camadas, string f){
             file << xx << "," << pontoY << "," << r << endl;
             file << xx << "," << s << "," << r << endl;
 
+            //normal
+            normal.push_back(Ponto(-1,0,0));
+            normal.push_back(Ponto(-1,0,0));
+            normal.push_back(Ponto(-1,0,0));
+            normal.push_back(Ponto(-1,0,0));
+            normal.push_back(Ponto(-1,0,0));
+            normal.push_back(Ponto(-1,0,0));
 
+            //texturas
+            text.push_back(Ponto(esquerdaX, esquerdaY, 0));
+            text.push_back(Ponto(esquerdaX + textX, esquerdaY, 0));
+            text.push_back(Ponto(esquerdaX + textX, esquerdaY + textY, 0));
+
+            text.push_back(Ponto(esquerdaX + textX, esquerdaY + textY, 0));
+            text.push_back(Ponto(esquerdaX, esquerdaY + textY, 0));
+            text.push_back(Ponto(esquerdaX, esquerdaY, 0));
 
             //face da direita
             file << x << "," << s << "," << r << endl;
@@ -196,7 +292,30 @@ void box(float c, float l, float a, int camadas, string f){
             file << x << "," << pontoY << "," << r << endl;
             file << x << "," << pontoY << "," << pontoZ << endl;
             file << x << "," << s << "," << pontoZ << endl;
+
+            //normal
+            normal.push_back(Ponto(1,0,0));
+            normal.push_back(Ponto(1,0,0));
+            normal.push_back(Ponto(1,0,0));
+            normal.push_back(Ponto(1,0,0));
+            normal.push_back(Ponto(1,0,0));
+            normal.push_back(Ponto(1,0,0));
+
+            //texturas
+            text.push_back(Ponto(direitaX, direitaY, 0));
+            text.push_back(Ponto(direitaX + textX, direitaY, 0));
+            text.push_back(Ponto(direitaX + textX, direitaY + textY, 0));
+
+            text.push_back(Ponto(direitaX + textX, direitaY + textY, 0));
+            text.push_back(Ponto(direitaX, direitaY + textY, 0));
+            text.push_back(Ponto(direitaX, direitaY, 0));
+
+            esquerdaX+= textX;
+            direitaX += textX;
         }
+
+        esquerdaY += textY;
+        direitaY += textY;
     }
     file.close();
 
@@ -290,9 +409,11 @@ void sphere(float r, int cv, int ch, string f){
     ofstream file(f);
     float espV = 2 * M_PI / cv;
     float espH = M_PI / ch;
-    int i, j;
+    int i, j, x, y;
     float angH, angV;
     float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
+    vector<Ponto> normal;
+    vector<Ponto> text;
 
 
     for(i = 0; i < ch; i++){
@@ -325,10 +446,48 @@ void sphere(float r, int cv, int ch, string f){
             file << x2 << "," << y2 << "," << z2 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
 
+            //normal
+            normal.push_back(Ponto(sin(i*espV), y1/ r, cos(i*espV)));
+            normal.push_back(Ponto(sin((i+1)*espV), y1/ r, cos((i+1)*espV)));
+            normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV))));
+
+
+            //texturas
+            x = (-atan2(-x1, z1) + M_PI) / 2*M_PI;
+            y = 1 - ((-y1/r)+1) / 2;
+            text.push_back(Ponto(x, y, 0));
+
+            x = (-atan2(-x2, z2) + M_PI) / 2*M_PI;
+            y = 1 - ((-y2/r)+1) / 2;
+            text.push_back(Ponto(x, y, 0));
+
+            x = (-atan2(-x3, z3) + M_PI) / 2*M_PI;
+            y = 1 - ((-y3/r)+1) / 2;
+            text.push_back(Ponto(x, y, 0));
+
+
 
             file << x1 << "," << y1 << "," << z1 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
             file << x4 << "," << y4 << "," << z4 << endl;
+
+            //normal
+            normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV)));
+            normal.push_back(Ponto(sin(i*espV), y3/ r, cos(i*espV)));
+            normal.push_back(Ponto(sin(i*espV), y1/ r, cos(i*espV)));
+
+            //texturas
+            x = (-atan2(-x1, z1) + M_PI) / 2*M_PI;
+            y = 1 - ((-y1/r)+1) / 2;
+            text.push_back(Ponto(x, y, 0));
+
+            x = (-atan2(-x3, z3) + M_PI) / 2*M_PI;
+            y = 1 - ((-y3/r)+1) / 2;
+            text.push_back(Ponto(x, y, 0));
+
+            x = (-atan2(-x4, z4) + M_PI) / 2*M_PI;
+            y = 1 - ((-y4/r)+1) / 2;
+            text.push_back(Ponto(x, y, 0));
 
 
         }
