@@ -103,6 +103,7 @@ void box(float c, float l, float a, int camadas, string f){
             normal.push_back(Ponto(0,0,1));
 
             //texturas
+<<<<<<< HEAD
             text.push_back(Ponto(frenteX, frenteY, 0));
             text.push_back(Ponto(frenteX + textX, frenteY, 0));
             text.push_back(Ponto(frenteX + textX, frenteY + textY, 0));
@@ -112,6 +113,9 @@ void box(float c, float l, float a, int camadas, string f){
             text.push_back(Ponto(frenteX, frenteY, 0));
 
 
+=======
+            text.push_back(Ponto(textx1,));
+>>>>>>> bec33cf88ba3ccc58a20b56e38998568a9008b7b
 
             //face de trás
             file << r << "," << s << "," << zz << endl;

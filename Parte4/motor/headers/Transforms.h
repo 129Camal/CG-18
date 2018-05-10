@@ -9,9 +9,12 @@
 #include <string>
 
 #ifdef __APPLE__
-#include <GLUT/glut.h>
+#include <IL/il.h>
+#include <GL/glut.h>
 #else
+#include <IL/il.h>
 #include <GL/glew.h>
+#include <GL/glut.h>
 #endif
 
 
@@ -22,6 +25,7 @@ using namespace std;
 
 
 class Transforms{
+    string text; //nome da imagem que se vai buscar ao XML
     string tipo;
     Transformacao t;
     vector<Ponto> pontos;
@@ -30,6 +34,11 @@ class Transforms{
     vector<Transforms> subgrupo;
     vector<Ponto> normal;
     vector<Ponto> textura;
+
+    //Textura:
+    unsigned int tt, width, height;
+    unsigned int texID;
+    unsigned char *data;
 
 public:
     Transforms();
@@ -46,6 +55,7 @@ public:
     void setVBO();
     void draw();
     void push_child(Transforms t){subgrupo.push_back(t);}
+    void newText();
 };
 
 
