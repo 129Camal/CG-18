@@ -34,8 +34,11 @@ void Transforms::setVBO() {
     int i;
 
     glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     float* v = (float*) malloc(sizeof(float)*pontos.size()*3);
+    float+ n = (float*) malloc(sizeof(float))
 
     for(i=0; i < pontos.size(); i++) {
         v[pos] = pontos[i].getX();

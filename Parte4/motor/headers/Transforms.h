@@ -28,6 +28,8 @@ class Transforms{
     GLuint buffer[3];
     int pos;
     vector<Transforms> subgrupo;
+    vector<Ponto> normal;
+    vector<Ponto> textura;
 
 public:
     Transforms();

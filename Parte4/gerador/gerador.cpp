@@ -67,7 +67,7 @@ void box(float c, float l, float a, int camadas, string f){
     z = l / 2;
     zz = -z;
 
-    //formulas texturas
+    //formulas textura
     texty1 = l / ((l * 2) + a); // verificar se é mm este. tem de ser  Z
     texty2 = (l + a) / ((l * 2) + a);
     textx1 = l / ((l * 2) + (c * 2));
