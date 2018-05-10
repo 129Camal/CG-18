@@ -102,7 +102,7 @@ void box(float c, float l, float a, int camadas, string f){
             normal.push_back(Ponto(0,0,1));
 
             //texturas
-            text.push_back(Ponto(textx1,))
+            text.push_back(Ponto(textx1,));
 
             //face de trás
             file << r << "," << s << "," << zz << endl;
