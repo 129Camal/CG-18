@@ -73,6 +73,7 @@ void Transforms::setVBO() {
     free(v);
     free(n);
     free(text);
+    newText();
     }
 
 void Transforms::draw() {

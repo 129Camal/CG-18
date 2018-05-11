@@ -14,6 +14,8 @@ int draw = GL_LINE;
 int window;
 vector<Transforms> transformacoes;
 vector<Ponto> pontos;
+vector<Ponto> normal;
+vector<Ponto> texturaz;
 Camara cam = Camara();
 
 // função que desenha as órbitas
