@@ -456,6 +456,9 @@ void sphere(float r, int cv, int ch, string f){
     vector<Ponto> normal;
     vector<Ponto> text;
 
+    float texV = 1 / (float)cv;
+    float texH = 1 / (float)ch;
+
 
     for(i = 0; i < ch; i++){
 
@@ -493,21 +496,6 @@ void sphere(float r, int cv, int ch, string f){
             normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV)));
 
 
-            //texturas
-            x = (-atan2(-x1, z1) + M_PI) / 2*M_PI;
-            y = 1 - ((-y1/r)+1) / 2;
-            text.push_back(Ponto(x, y, 0));
-
-            x = (-atan2(-x2, z2) + M_PI) / 2*M_PI;
-            y = 1 - ((-y2/r)+1) / 2;
-            text.push_back(Ponto(x, y, 0));
-
-            x = (-atan2(-x3, z3) + M_PI) / 2*M_PI;
-            y = 1 - ((-y3/r)+1) / 2;
-            text.push_back(Ponto(x, y, 0));
-
-
-
             file << x1 << "," << y1 << "," << z1 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
             file << x4 << "," << y4 << "," << z4 << endl;
@@ -518,25 +506,22 @@ void sphere(float r, int cv, int ch, string f){
             normal.push_back(Ponto(sin(i*espV), y1/ r, cos(i*espV)));
 
             //texturas
-            x = (-atan2(-x1, z1) + M_PI) / 2*M_PI;
-            y = 1 - ((-y1/r)+1) / 2;
-            text.push_back(Ponto(x, y, 0));
+            text.push_back(Ponto(j*texV, i*texH, 0));
+            text.push_back(Ponto(j*texV + texV, i*texH + texH, 0));
+            text.push_back(Ponto(j*texV + texV, i*texH, 0));
 
-            x = (-atan2(-x3, z3) + M_PI) / 2*M_PI;
-            y = 1 - ((-y3/r)+1) / 2;
-            text.push_back(Ponto(x, y, 0));
-
-            x = (-atan2(-x4, z4) + M_PI) / 2*M_PI;
-            y = 1 - ((-y4/r)+1) / 2;
-            text.push_back(Ponto(x, y, 0));
+            text.push_back(Ponto(j*texV + texV, i*texH + texH, 0));
+            text.push_back(Ponto(j*texV, i*texH, 0));
+            text.push_back(Ponto(j*texV, i*texH + texH, 0));
 
 
         }
     }
+    file << "--normais--" << endl;
     for(i = 0; i < normal.size(); i++){
         file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
     }
-
+    file << "--texturas--" << endl;
     for(i = 0; i < text.size(); i++){
         file << text[i].getX() << "," << text[i].getY() << "," << text[i].getZ() << endl;
     }
