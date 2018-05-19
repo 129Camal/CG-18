@@ -43,15 +43,19 @@ class Transforms{
 public:
     Transforms();
     Transforms(string tipo, Transformacao t, vector<Transforms> sub, vector<Ponto> pontos);
+    string getText(){ return text; }
     string getTipo(){ return tipo; }
     Transformacao getTransformacao(){ return t; }
     vector<Transforms> getSubgrupo(){ return subgrupo; }
     vector<Ponto> getPontos(){ return pontos; }
     unsigned int getTexID(){ return texID;}
+    void setText(string t){ text = t;}
     void setTipo(string t){ tipo = t; }
     void setTrans(Transformacao trans){ t = trans;}
     void setSubgrupo(vector<Transforms> sub){ subgrupo = sub; }
     void setPontos(vector<Ponto> p){ pontos = p;}
+    void setNormal(vector<Ponto> n){ normal = n;}
+    void setTextura(vector<Ponto> tex){ textura = tex;}
     void toVertex();
     void setVBO();
     void draw();

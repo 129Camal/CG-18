@@ -19,7 +19,7 @@ vector<Ponto> texturaz;
 Camara cam = Camara();
 
 //luzinhas
-string luz;
+string tipoluz;
 float luzX, luzY, luzZ;
 
 // função que desenha as órbitas
@@ -207,7 +207,14 @@ void mouseMotion(int x, int y){
 }
 
 void setVBO(){
+
     glPolygonMode(GL_FRONT, GL_FILL);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_TEXTURE_2D);
+    glShadeModel (GL_SMOOTH);
+
     for(size_t i = 0; i < transformacoes.size(); i++){
         transformacoes[i].setVBO();
 
@@ -233,9 +240,9 @@ void readFile(string fich){
 
     ifstream file(fich);
 
-    if(file.is_open()){
+    if(file.is_open()) {
 
-        while(getline (file,linha) && (strcmp(linha, "--textura--") != 0)){
+        while (getline(file, linha) && (linha.compare("--normais--")) != 0) {
 
             pos = linha.find(delimiter);
             novo = linha.substr(0, pos);
@@ -256,17 +263,57 @@ void readFile(string fich){
             p.setZ(zz);
 
             pontos.push_back(p);
+        }
+        if ((linha.compare("--normais--")) == 0) {
+            while (getline(file, linha) && (linha.compare("--texturas--")) != 0) {
+                pos = linha.find(delimiter);
+                novo = linha.substr(0, pos);
+                xx = atof(novo.c_str());
+                linha.erase(0, pos + delimiter.length());
+                p.setX(xx);
 
+                pos = linha.find(delimiter);
+                novo = linha.substr(0, pos);
+                yy = atof(novo.c_str());
+                linha.erase(0, pos + delimiter.length());
+                p.setY(yy);
+
+                pos = linha.find(delimiter);
+                novo = linha.substr(0, pos);
+                zz = atof(novo.c_str());
+                linha.erase(0, pos + delimiter.length());
+                p.setZ(zz);
+
+                normal.push_back(p);
+            }
         }
 
-        //while(getline())
+        if ((linha.compare("--texturas--")) == 0) {
+            while (getline(file, linha)) {
+                pos = linha.find(delimiter);
+                novo = linha.substr(0, pos);
+                xx = atof(novo.c_str());
+                linha.erase(0, pos + delimiter.length());
+                p.setX(xx);
 
-        file.close();
+                pos = linha.find(delimiter);
+                novo = linha.substr(0, pos);
+                yy = atof(novo.c_str());
+                linha.erase(0, pos + delimiter.length());
+                p.setY(yy);
 
+                pos = linha.find(delimiter);
+                novo = linha.substr(0, pos);
+                zz = atof(novo.c_str());
+                linha.erase(0, pos + delimiter.length());
+                p.setZ(zz);
 
+                texturaz.push_back(p);
+            }
+        }
+        file.close();  //todo: verificar se esta merda é aqui, colei o pisto com as chavetas
     }
     else {
-
         cout << "ERRO AO LER FICHEIRO" << endl;
     }
 }
@@ -405,10 +452,15 @@ void Parser(XMLElement *group , Transformacao transf, string p){
         Transforms tran;
 
         tran.setTipo(models->Attribute("fich"));
+        if (models->Attribute("text")) tran.setText(models->Attribute("text"));
         cout << tran.getTipo() << endl;
         readFile(tran.getTipo());
         tran.setPontos(pontos);
+        tran.setNormal(normal);
+        tran.setTextura(texturaz);
         pontos.clear();
+        normal.clear();
+        texturaz.clear();
         tran.setTrans(trf);
 
         cout << "Translacao ->" << trf.getTranslacao().getTime() << endl;
@@ -454,13 +506,18 @@ void lerXML(string fich) {
 
             XMLElement * scene = doc.FirstChildElement("scene");
             XMLElement * group = scene-> FirstChildElement("group");
+            XMLElement * luzes = scene-> FirstChildElement("lights");
+            XMLElement * luz = luzes-> FirstChildElement("light");
+            tipoluz = luz -> Attribute("luz");
+            luzX = atof(luz->Attribute("posX"));
+            luzY = atof(luz->Attribute("posY"));
+            luzZ = atof(luz->Attribute("posZ"));
 
             Transformacao t = Transformacao();
             Escala esc = Escala(1,1,1);
             t.setEscala(esc);
 
             Parser(group,t,"I");
-
 
         }else {
         cout << "Ficheiro XML não foi encontrado" << endl;
