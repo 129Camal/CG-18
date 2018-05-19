@@ -1,5 +1,5 @@
 #include "gerador.h"
-#include <vector>
+
 
 void plano(float ladox, float ladoz, string f){
     float x, y = 0, z;
