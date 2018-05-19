@@ -47,6 +47,7 @@ public:
     Transformacao getTransformacao(){ return t; }
     vector<Transforms> getSubgrupo(){ return subgrupo; }
     vector<Ponto> getPontos(){ return pontos; }
+    unsigned int getTexID(){ return texID;}
     void setTipo(string t){ tipo = t; }
     void setTrans(Transformacao trans){ t = trans;}
     void setSubgrupo(vector<Transforms> sub){ subgrupo = sub; }

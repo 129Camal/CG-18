@@ -18,6 +18,10 @@ vector<Ponto> normal;
 vector<Ponto> texturaz;
 Camara cam = Camara();
 
+//luzinhas
+string luz;
+float luzX, luzY, luzZ;
+
 // função que desenha as órbitas
 
 
@@ -42,6 +46,25 @@ void renderScene(void){
         glPushMatrix();
         Transforms trf = transformacoes[i];
         Transformacao transform = transformacoes[i].getTransformacao();
+
+        //sol
+        if(i==0){
+            GLfloat pos[4] = { luzX, luzY, luzZ, 1};
+            GLfloat amb[3] = { 0.0, 0.0, 0.0 };
+            GLfloat diff[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+            GLfloat matt[3] = { 1, 1, 1 };
+
+            glMaterialf(GL_FRONT, GL_SHININESS, 20);
+            glLightfv(GL_LIGHT0, GL_POSITION, pos); // posição da luz
+            glLightfv(GL_LIGHT0, GL_AMBIENT, amb); // luz ambiente
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, diff); // luz difusa
+
+            glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matt);
+        }
+        else {
+            GLfloat matt[3] = { 0, 0, 0 };
+            glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matt);
+        }
 
         //planetas
 
@@ -108,15 +131,23 @@ void renderScene(void){
                     if (!cor.semCor())
                         glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
 
-
+                    glBindTexture(GL_TEXTURE_2D, subg[j].getTexID());
+                    glEnable(GL_LIGHTING);
                     subg[j].draw();
+                    glDisable(GL_LIGHTING);
+                    glBindTexture(GL_TEXTURE_2D, 0);
                     glPopMatrix();
                 }
             }
             Cor cor = transform.getCor();
             if (!cor.semCor())
                 glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
+
+            glBindTexture(GL_TEXTURE_2D, trf.getTexID());
+            glEnable(GL_LIGHTING);
             trf.draw();
+            glDisable(GL_LIGHTING);
+            glBindTexture(GL_TEXTURE_2D, 0);
             glPopMatrix();
         }
     cam.displayFPS();
@@ -204,7 +235,7 @@ void readFile(string fich){
 
     if(file.is_open()){
 
-        while(getline (file,linha)) {
+        while(getline (file,linha) && (strcmp(linha, "--textura--") != 0)){
 
             pos = linha.find(delimiter);
             novo = linha.substr(0, pos);
@@ -227,6 +258,8 @@ void readFile(string fich){
             pontos.push_back(p);
 
         }
+
+        //while(getline())
 
         file.close();
 
