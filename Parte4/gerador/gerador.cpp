@@ -316,6 +316,13 @@ void box(float c, float l, float a, int camadas, string f){
         esquerdaY += textY;
         direitaY += textY;
     }
+    for(i = 0; i < normal.size(); i++){
+        file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
+    }
+
+    for(i = 0; i < text.size(); i++){
+        file << text[i].getX() << "," << text[i].getY() << "," << text[i].getZ() << endl;
+    }
     file.close();
 
 
@@ -431,6 +438,11 @@ void cone(float r, float a, int slices, int cH, string f){
         }
 
     }
+
+    for(i = 0; i < normal.size(); i++){
+        file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
+    }
+
     file.close();
 }
 
@@ -520,6 +532,13 @@ void sphere(float r, int cv, int ch, string f){
 
 
         }
+    }
+    for(i = 0; i < normal.size(); i++){
+        file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
+    }
+
+    for(i = 0; i < text.size(); i++){
+        file << text[i].getX() << "," << text[i].getY() << "," << text[i].getZ() << endl;
     }
     file.close();
 }
@@ -625,8 +644,11 @@ void cylinder(float raio, float altura, int slices, int slicesH, string f){
         }
 
     }
-    file.close();
+    for(i = 0; i < normal.size(); i++){
+        file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
+    }
 
+    file.close();
 }
 
 void torus(float raioI, float raioE, float slices, float stacks, string fich){
@@ -694,6 +716,13 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
             phi = shiftP * (j+1);
         }
         theta = shiftT * (i+1) ;
+    }
+    for(i = 0; i < normal.size(); i++){
+        file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
+    }
+
+    for(i = 0; i < text.size(); i++){
+        file << text[i].getX() << "," << text[i].getY() << "," << text[i].getZ() << endl;
     }
     file.close();
 }
