@@ -103,7 +103,7 @@ void box(float c, float l, float a, int camadas, string f){
             normal.push_back(Ponto(0,0,1));
 
             //texturas
-<<<<<<< HEAD
+
             text.push_back(Ponto(frenteX, frenteY, 0));
             text.push_back(Ponto(frenteX + textX, frenteY, 0));
             text.push_back(Ponto(frenteX + textX, frenteY + textY, 0));
@@ -111,11 +111,6 @@ void box(float c, float l, float a, int camadas, string f){
             text.push_back(Ponto(frenteX + textX, frenteY + textY, 0));
             text.push_back(Ponto(frenteX, frenteY + textY, 0));
             text.push_back(Ponto(frenteX, frenteY, 0));
-
-
-=======
-            text.push_back(Ponto(textx1,));
->>>>>>> bec33cf88ba3ccc58a20b56e38998568a9008b7b
 
             //face de trás
             file << r << "," << s << "," << zz << endl;
@@ -338,6 +333,9 @@ void cone(float r, float a, int slices, int cH, string f){
     int i, j;
     float ang, camadaB, camadaA, raioB, raioA;
 
+    vector<Ponto> normal;
+    vector<Ponto> text;
+
     //fazer a circunferência da base
     for (i = 0; i < slices; i++){
 
@@ -355,9 +353,17 @@ void cone(float r, float a, int slices, int cH, string f){
         y3 = alt;
         z3 = r * cos(ang);
 
+
+
         file << x1 << "," << y1 << "," << z1 << endl;
         file << x2 << "," << y2 << "," << z2 << endl;
         file << x3 << "," << y3 << "," << z3 << endl;
+
+        //normal
+        normal.push_back(Ponto(0,-1,0));
+        normal.push_back(Ponto(0,-1,0));
+        normal.push_back(Ponto(0,-1,0));
+
 
     }
 
@@ -370,35 +376,54 @@ void cone(float r, float a, int slices, int cH, string f){
         raioA = r - ((r / cH) * (i+1));
 
         for(j = 0; j < slices; j++){
-            a = espS * j;
+            float alpha = espS * j;
 
-            x4 = raioB * sin(a);
+            x4 = raioB * sin(alpha);
             y4 = camadaB;
-            z4 = raioB * cos(a);
+            z4 = raioB * cos(alpha);
 
-            x5 = raioA * sin(a + espS);
+            //normal
+            normal.push_back(Ponto(sin(alpha), a/cH, cos(alpha)));
+
+            x5 = raioA * sin(alpha + espS);
             y5 = camadaA;
-            z5 = raioA * cos(a + espS);
+            z5 = raioA * cos(alpha + espS);
 
-            x6 = raioA * sin(a);
+            //normal
+            normal.push_back(Ponto(sin(alpha + espS), a/cH, cos(alpha + espS)));
+
+            x6 = raioA * sin(alpha);
             y6 = camadaA;
-            z6 = raioA * cos(a);
+            z6 = raioA * cos(alpha);
+
+            //normal
+            normal.push_back(Ponto(sin(alpha), a/cH, cos(alpha)));
+
 
             file << x4 << "," << y4 << "," << z4 << endl;
             file << x5 << "," << y5 << "," << z5 << endl;
             file << x6 << "," << y6 << "," << z6 << endl;
 
-            x7 = raioB * sin(a);
+            x7 = raioB * sin(alpha);
             y7 = camadaB;
-            z7 = raioB * cos(a);
+            z7 = raioB * cos(alpha);
 
-            x8 = raioB * sin(a + espS);
+            //normal
+            normal.push_back(Ponto(sin(alpha), a/cH, cos(alpha)));
+
+            x8 = raioB * sin(alpha + espS);
             y8 = camadaB;
-            z8 = raioB * cos(a + espS);
+            z8 = raioB * cos(alpha + espS);
 
-            x9 = raioA * sin(a + espS);
+            //normal
+            normal.push_back(Ponto(sin(alpha + espS), a/cH, cos(alpha + espS)));
+
+            x9 = raioA * sin(alpha + espS);
             y9 = camadaA;
-            z9 = raioA * cos(a + espS);
+            z9 = raioA * cos(alpha + espS);
+
+            //normal
+            normal.push_back(Ponto(sin(alpha + espS), a/cH, cos(alpha + espS)));
 
             file << x7 << "," << y7 << "," << z7 << endl;
             file << x8 << "," << y8 << "," << z8 << endl;
@@ -453,7 +478,7 @@ void sphere(float r, int cv, int ch, string f){
             //normal
             normal.push_back(Ponto(sin(i*espV), y1/ r, cos(i*espV)));
             normal.push_back(Ponto(sin((i+1)*espV), y1/ r, cos((i+1)*espV)));
-            normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV))));
+            normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV)));
 
 
             //texturas
@@ -502,6 +527,7 @@ void sphere(float r, int cv, int ch, string f){
 void cylinder(float raio, float altura, int slices, int slicesH, string f){
     ofstream file(f);
 
+    vector<Ponto> normal;
     float espS = 2 * M_PI / slices;
     float espSH = altura / slicesH;
     float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
@@ -531,10 +557,21 @@ void cylinder(float raio, float altura, int slices, int slicesH, string f){
         file << x1 << "," << yC << "," << z1 << endl;
         file << x2 << "," << yC << "," << z2 << endl;
         file << x3 << "," << yC << "," << z3 << endl;
+
+        //normal
+        normal.push_back(Ponto(0, 1, 0));
+        normal.push_back(Ponto(0, 1, 0));
+        normal.push_back(Ponto(0, 1, 0));
+
         //circunferência de baixo
         file << x2 << "," << y2 << "," << z2 << endl;
         file << x1 << "," << y1 << "," << z1 << endl;
         file << x3 << "," << y3 << "," << z3 << endl;
+
+        //normal
+        normal.push_back(Ponto(0, -1, 0));
+        normal.push_back(Ponto(0, -1, 0));
+        normal.push_back(Ponto(0, -1, 0));
 
 
 
@@ -570,9 +607,20 @@ void cylinder(float raio, float altura, int slices, int slicesH, string f){
             file << x2 << "," << y2 << "," << z2 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
 
+            //normal
+            normal.push_back(Ponto(sin(ang), 0, cos(ang)));
+            normal.push_back(Ponto(sin(ang), 0, cos(ang)));
+            normal.push_back(Ponto(sin(ang + espS), 0, cos(ang + espS)));
+
+
             file << x3 << "," << y3 << "," << z3 << endl;
             file << x4 << "," << y4 << "," << z4 << endl;
             file << x1 << "," << y1 << "," << z1 << endl;
+
+            //normal
+            normal.push_back(Ponto(sin(ang + espS), 0, cos(ang + espS)));
+            normal.push_back(Ponto(sin(ang + espS), 0, cos(ang + espS)));
+            normal.push_back(Ponto(sin(ang), 0, cos(ang)));
 
         }
 
@@ -585,6 +633,13 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
     ofstream file(fich);
     int i,j;
     float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
+
+    vector<Ponto> normal;
+    vector<Ponto> text;
+
+    float textureS = float(1)/ stacks;
+    float textureR = float(1)/ slices;
+
     float theta=0, phi=0, shiftT, shiftP;
     shiftT = 2 * M_PI / slices;
     shiftP = 2 * M_PI / stacks;
@@ -612,9 +667,29 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
             file<< x2 << "," << y2 << "," << z2 << endl;
             file<< x3 << "," << y3 << "," << z3 << endl;
 
+            //normal
+            normal.push_back(Ponto(cos(theta)*cos(phi), sin(theta) * cos(phi), sin(phi)));
+            normal.push_back(Ponto(cos(theta + shiftT)*cos(phi), sin(theta + shiftT) * cos(phi), sin(phi)));
+            normal.push_back(Ponto(cos(theta + shiftT)*cos(phi + shiftP), sin(theta + shiftT) * cos(phi + shiftP), sin(phi + shiftP)));
+
+            //texturas
+            text.push_back(Ponto(i*textureR, j*textureS, 0));
+            text.push_back(Ponto((i+1)*textureR, j*textureS, 0));
+            text.push_back(Ponto((i+1)*textureR, (j+1)*textureS, 0));
+
             file<< x3 << "," << y3 << "," << z3 << endl;
             file<< x4 << "," << y4 << "," << z4 << endl;
             file<< x1 << "," << y1 << "," << z1 << endl;
+
+            //normal
+            normal.push_back(Ponto(cos(theta + shiftT)*cos(phi + shiftP), sin(theta + shiftT) * cos(phi + shiftP), sin(phi + shiftP)));
+            normal.push_back(Ponto(cos(theta)*cos(phi + shiftP), sin(theta) * cos(phi + shiftP), sin(phi + shiftP)));
+            normal.push_back(Ponto(cos(theta)*cos(phi), sin(theta) * cos(phi), sin(phi)));
+
+            //texturas
+            text.push_back(Ponto((i+1)*textureR, (j+1)*textureS, 0));
+            text.push_back(Ponto(i*textureR, (j+1)*textureS, 0));
+            text.push_back(Ponto(i*textureR, j*textureS, 0));
 
             phi = shiftP * (j+1);
         }
