@@ -3,7 +3,7 @@ project(gerador4)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(gerador4 gerador/gerador.cpp motor/headers/Camara.h)
+add_executable(gerador4 gerador/gerador.cpp motor/Ponto.cpp)
 
 project(motor4)
 
