@@ -10,7 +10,7 @@
 
 #ifdef __APPLE__
 #include <IL/il.h>
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 #else
 #include <IL/il.h>
 #include <GL/glew.h>

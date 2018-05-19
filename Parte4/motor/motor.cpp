@@ -345,7 +345,7 @@ void Parser(XMLElement *group , Transformacao transf, string p){
     XMLAttribute* ac;
     XMLAttribute* pt;
 
-    for(transfor; (strcmp(transfor->Value(),"models")!=0); transfor = transfor->NextSiblingElement()){
+    for( ; (strcmp(transfor->Value(),"models")!=0); transfor = transfor->NextSiblingElement()){
 
         if(strcmp(transfor->Value(), "translate")==0) {
 
