@@ -1,12 +1,15 @@
 <scene>
+    <lights>
+        <light luz="POINT" posX="0.0" posY="0.0" posZ="0.0" />
+    </lights>
     <!--sol-->
     <group>
         <group>
-            <colour R="251" G="119" B="9" />
+
             <scale X="10" Y="10" Z="10"/>
             <rotate time="50" X="0" Y="1" Z="0" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_sun.jpg"/>
             </models>
         </group>
 
@@ -33,7 +36,7 @@
             <colour R="219" G="170" B="0" />
             <scale X="0.3525" Y="0.3525" Z="0.3525" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_mercury.jpg"/>
             </models>
         </group>
         <group>
@@ -69,7 +72,7 @@
             <colour R="254" G="198" B="115" />
             <scale X="0.8790" Y="0.8790" Z="0.8790" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_venus_surface.jpg"/>
             </models>
         </group>
         <group>
@@ -105,7 +108,7 @@
             <colour R="0" G="0" B="220" />
             <scale X="0.8865" Y="0.8865" Z="0.8865" />
             <models>
-                <model fich="esfera.3d" />
+                <model fich="esfera.3d" text = "2k_earth_daymap.jpg"/>
             </models>
             <group>
                 <!--   lua-->
@@ -140,7 +143,7 @@
                 <colour R="255" G="255" B="255" />
                 <scale X="0.30" Y="0.30" Z="0.30" />
                 <models>
-                    <model fich = "esfera.3d"/>
+                    <model fich = "esfera.3d" text = "2k_moon.jpg"/>
                 </models>
             </group>
         </group>
@@ -177,7 +180,7 @@
             <colour R="254" G="135" B="1" />
             <scale X="0.3720" Y="0.3720" Z="0.3720" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_mars.jpg"/>
             </models>
         </group>
         <group>
@@ -213,7 +216,7 @@
             <colour R="231" G="232" B="197" />
             <scale X="2.5" Y="2.5" Z="2.5" />
             <models>
-                <model fich = "esfera.3d" />
+                <model fich = "esfera.3d" text = "2k_jupiter.jpg"/>
             </models>
             <!--satelite IO-->
             <group>
@@ -299,14 +302,14 @@
             <colour R="255" G="223" B="161" />
             <scale X="1.995" Y="1.995" Z="1.995" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_saturn.jpg"/>
             </models>
             <!--anel-->
             <group>
                 <colour R="255" G="10" B="100" />
                 <scale X="0.5" Y="0.5" Z="0.0"/>
                 <models>
-                    <model fich = "torus.3d" />
+                    <model fich = "torus.3d" text = "saturn_ring_alpha.png"/>
                 </models>
             </group>
             <!-- satelite Titã -->
@@ -381,7 +384,7 @@
             <colour R="148" G="193" B="255" />
             <scale X="1.290" Y="1.290" Z="1.290" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_uranus.jpg"/>
             </models>
         </group>
         <group>
@@ -417,7 +420,7 @@
             <colour R="0" G="83" B="255" />
             <scale X="1.275" Y="1.275" Z="1.275" />
             <models>
-                <model fich = "esfera.3d"/>
+                <model fich = "esfera.3d" text = "2k_neptune.jpg"/>
             </models>
             <!-- satelite Titânia-->
             <rotate time="1" X="0" Y="3" Z="1"/>
@@ -452,7 +455,7 @@
             <rotate time="370" X="1" Y="0" Z="0"/>
             <scale X="0.8" Y="0.8" Z="0.8" />
             <models>
-                <model fich = "bezier.3d"/>
+                <model fich = "bezier.3d" text = "cometa.jpg"/>
             </models>
         </group>
     </group>
