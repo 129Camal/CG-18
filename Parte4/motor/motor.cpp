@@ -20,6 +20,7 @@ Camara cam = Camara();
 
 //luzinhas
 string tipoluz;
+float isPoint = 0;
 float luzX, luzY, luzZ;
 
 // função que desenha as órbitas
@@ -49,12 +50,12 @@ void renderScene(void){
 
         //sol
         if(i==0){
-            GLfloat pos[4] = { luzX, luzY, luzZ, 1};
+            GLfloat pos[4] = { luzX, luzY, luzZ, isPoint};
             GLfloat amb[3] = { 0.0, 0.0, 0.0 };
             GLfloat diff[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-            GLfloat matt[3] = { 1, 1, 1 };
+            GLfloat matt[3] = { 5, 5, 5 };
 
-            glMaterialf(GL_FRONT, GL_SHININESS, 20);
+            glMaterialf(GL_FRONT, GL_SHININESS, 50);
             glLightfv(GL_LIGHT0, GL_POSITION, pos); // posição da luz
             glLightfv(GL_LIGHT0, GL_AMBIENT, amb); // luz ambiente
             glLightfv(GL_LIGHT0, GL_DIFFUSE, diff); // luz difusa
@@ -131,9 +132,10 @@ void renderScene(void){
                     if (!cor.semCor())
                         glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
 
-
-                    glBindTexture(GL_TEXTURE_2D, subg[j].getTexID());
-                    glEnable(GL_LIGHTING);
+                    if(subg[j].getText().compare("") != 0) {
+                        glBindTexture(GL_TEXTURE_2D, subg[j].getTexID());
+                        glEnable(GL_LIGHTING);
+                    }
                     subg[j].draw();
                     glDisable(GL_LIGHTING);
                     glBindTexture(GL_TEXTURE_2D, 0);
@@ -144,8 +146,10 @@ void renderScene(void){
             if (!cor.semCor())
                 glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
 
-            glBindTexture(GL_TEXTURE_2D, trf.getTexID());
-            glEnable(GL_LIGHTING);
+            if(trf.getText().compare("") != 0) {
+                glBindTexture(GL_TEXTURE_2D, trf.getTexID());
+                glEnable(GL_LIGHTING);
+            }
             trf.draw();
             glDisable(GL_LIGHTING);
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -381,8 +385,6 @@ void Parser(XMLElement *group , Transformacao transf, string p){
 
             }
 
-
-
                 trl = Translacao(transX, transY, transZ, time, trp.size(), trp);
 
         }
@@ -507,6 +509,9 @@ void lerXML(string fich) {
             XMLElement * luzes = scene-> FirstChildElement("lights");
             XMLElement * luz = luzes-> FirstChildElement("light");
             tipoluz = luz -> Attribute("luz");
+            if(luz->Attribute("luz") && !tipoluz.compare(luz->Attribute("luz")))
+                isPoint = 1;
+
             luzX = atof(luz->Attribute("posX"));
             luzY = atof(luz->Attribute("posY"));
             luzZ = atof(luz->Attribute("posZ"));

@@ -308,7 +308,7 @@
                 <colour R="255" G="10" B="100" />
                 <scale X="0.5" Y="0.5" Z="0.0"/>
                 <models>
-                    <model fich = "torus.3d" text = "saturn_ring_alpha.png"/>
+                    <model fich = "torus.3d" text = "anel.jpeg"/>
                 </models>
             </group>
             <!-- satelite Titã -->
