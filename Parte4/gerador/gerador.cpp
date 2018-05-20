@@ -522,8 +522,10 @@ void sphere(float r, int cv, int ch, string f){
         file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
     }
     file << "--texturas--" << endl;
-    for(i = 0; i < text.size(); i++){
+    for(i = text.size() - 1; i >= 0; i-=3){
         file << text[i].getX() << "," << text[i].getY() << "," << text[i].getZ() << endl;
+        file << text[i-1].getX() << "," << text[i-1].getY() << "," << text[i-1].getZ() << endl;
+        file << text[i-2].getX() << "," << text[i-2].getY() << "," << text[i-2].getZ() << endl;
     }
     file.close();
 }
