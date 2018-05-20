@@ -29,11 +29,16 @@ class Transforms{
     string tipo;
     Transformacao t;
     vector<Ponto> pontos;
-    GLuint buffer[3];
+
     int pos;
     vector<Transforms> subgrupo;
     vector<Ponto> normal;
     vector<Ponto> textura;
+
+    // VBO
+    GLuint buffer[3];
+    float *v, *n, *textu;
+    float p_tam, n_tam, tex_tam;
 
     //Textura:
     unsigned int tt, width, height;

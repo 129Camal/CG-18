@@ -552,8 +552,6 @@ int main(int argc, char** argv){
     ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
 // OpenGL settings
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
     setVBO();
 
 // enter GLUT's main loop

@@ -37,9 +37,9 @@ void Transforms::setVBO() {
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    float* v = (float*) malloc(sizeof(float) * pontos.size()*3);
-    float* n = (float*) malloc(sizeof(float) * normal.size()*3);
-    float* textu = (float*) malloc(sizeof(float) * textura.size()*2);
+    v = (float*) malloc(sizeof(float) * pontos.size()*3);
+    n = (float*) malloc(sizeof(float) * normal.size()*3);
+    textu = (float*) malloc(sizeof(float) * textura.size()*2);
 
     for(i=0; i < pontos.size(); i++) {
         v[pos] = pontos[i].getX();
@@ -61,13 +61,17 @@ void Transforms::setVBO() {
         pos+=2;
     }
 
+    p_tam = pontos.size() * 3;
+    n_tam = normal.size() * 3;
+    tex_tam = textura.size() * 2;
+
     glGenBuffers(3,buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size() * 3, v, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * p_tam, v, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER,buffer[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normal.size() * 3, n, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * n_tam, n, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size() * 3, textu, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * tex_tam, textu, GL_STATIC_DRAW);
 
     free(v);
     free(n);
@@ -79,10 +83,10 @@ void Transforms::draw() {
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
     glVertexPointer(3 , GL_FLOAT, 0 , 0);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
-    glVertexPointer(3 , GL_FLOAT, 0 , 0);
+    glNormalPointer(GL_FLOAT, 0 , 0);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
     glTexCoordPointer(2 , GL_FLOAT, 0 , 0); // 2 porque é o numero de coordenadas das texturas
-    glDrawArrays(GL_TRIANGLES,0, pos);
+    glDrawArrays(GL_TRIANGLES,0, p_tam);
 }
 
 void Transforms::newText() {
@@ -90,8 +94,8 @@ void Transforms::newText() {
     ilGenImages(1, &tt);
     ilBindImage(tt);
     ilLoadImage((ILstring) path.c_str());
-    width = ilGetInteger(IL_IMAGE_WIDTH);
-    height = ilGetInteger(IL_IMAGE_HEIGHT);
+    width =  (unsigned int) ilGetInteger(IL_IMAGE_WIDTH);
+    height = (unsigned int) ilGetInteger(IL_IMAGE_HEIGHT);
     ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
     data = ilGetData();
     glGenTextures(1, &texID);
