@@ -131,6 +131,7 @@ void renderScene(void){
                     if (!cor.semCor())
                         glColor3f(cor.getR()/255, cor.getG()/255, cor.getB()/255);
 
+
                     glBindTexture(GL_TEXTURE_2D, subg[j].getTexID());
                     glEnable(GL_LIGHTING);
                     subg[j].draw();

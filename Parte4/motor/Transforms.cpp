@@ -85,10 +85,14 @@ void Transforms::setVBO() {
 void Transforms::draw() {
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
     glVertexPointer(3 , GL_FLOAT, 0 , 0);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
-    glNormalPointer(GL_FLOAT, 0 , 0);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-    glTexCoordPointer(2 , GL_FLOAT, 0 , 0); // 2 porque é o numero de coordenadas das texturas
+    if(normal.size() != 0){
+        glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
+        glNormalPointer(GL_FLOAT, 0 , 0);
+    }
+    if(textura.size() != 0){
+        glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
+        glTexCoordPointer(2 , GL_FLOAT, 0 , 0); // 2 porque é o numero de coordenadas das texturas
+    }
     glDrawArrays(GL_TRIANGLES,0, p_tam);
 }
 
