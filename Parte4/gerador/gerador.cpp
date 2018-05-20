@@ -702,10 +702,11 @@ void torus(float raioI, float raioE, float slices, float stacks, string fich){
         }
         theta = shiftT * (i+1) ;
     }
+    file << "--normais--" << endl;
     for(i = 0; i < normal.size(); i++){
         file << normal[i].getX() << "," << normal[i].getY() << "," << normal[i].getZ() << endl;
     }
-
+    file << "--texturas--" << endl;
     for(i = 0; i < text.size(); i++){
         file << text[i].getX() << "," << text[i].getY() << "," << text[i].getZ() << endl;
     }

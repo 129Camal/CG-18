@@ -32,7 +32,7 @@ void Transforms::toVertex() {
 
 void Transforms::setVBO() {
     int i;
-
+    int p = 0;
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -42,23 +42,26 @@ void Transforms::setVBO() {
     textu = (float*) malloc(sizeof(float) * textura.size()*2);
 
     for(i=0; i < pontos.size(); i++) {
-        v[pos] = pontos[i].getX();
-        v[pos + 1] = pontos[i].getY();
-        v[pos + 2] = pontos[i].getZ();
-        pos += 3;
+        v[p] = pontos[i].getX();
+        v[p + 1] = pontos[i].getY();
+        v[p + 2] = pontos[i].getZ();
+        p += 3;
     }
+
+    p = 0;
 
     for(i=0; i < normal.size(); i++){
-        n[pos] = normal[i].getX();
-        n[pos+1] = normal[i].getY();
-        n[pos+2] = normal[i].getZ();
-        pos+=3;
+        n[p] = normal[i].getX();
+        n[p+1] = normal[i].getY();
+        n[p+2] = normal[i].getZ();
+        p+=3;
     }
 
+    p = 0;
     for(i=0; i < textura.size(); i++){
-        textu[pos] = textura[i].getX();
-        textu[pos+1]  = textura[i].getY();
-        pos+=2;
+        textu[p] = textura[i].getX();
+        textu[p+1]  = textura[i].getY();
+        p+=2;
     }
 
     p_tam = pontos.size() * 3;
