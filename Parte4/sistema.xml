@@ -5,7 +5,6 @@
     <!--sol-->
     <group>
         <group>
-
             <scale X="10" Y="10" Z="10"/>
             <rotate time="50" X="0" Y="1" Z="0" />
             <models>
@@ -455,7 +454,7 @@
             <rotate time="370" X="1" Y="0" Z="0"/>
             <scale X="0.8" Y="0.8" Z="0.8" />
             <models>
-                <model fich = "bezier.3d" text = "cometa.jpg"/>
+                <model fich = "bezier.3d"/>
             </models>
         </group>
     </group>

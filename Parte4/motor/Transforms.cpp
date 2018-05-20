@@ -39,7 +39,7 @@ void Transforms::setVBO() {
 
     float* v = (float*) malloc(sizeof(float) * pontos.size()*3);
     float* n = (float*) malloc(sizeof(float) * normal.size()*3);
-    float* text = (float*) malloc(sizeof(float) * textura.size()*3);
+    float* textu = (float*) malloc(sizeof(float) * textura.size()*2);
 
     for(i=0; i < pontos.size(); i++) {
         v[pos] = pontos[i].getX();
@@ -56,10 +56,9 @@ void Transforms::setVBO() {
     }
 
     for(i=0; i < textura.size(); i++){
-        text[pos] = textura[i].getX();
-        text[pos+1]  = textura[i].getY();
-        text[pos+2] = textura[i].getZ();
-        pos+=3;
+        textu[pos] = textura[i].getX();
+        textu[pos+1]  = textura[i].getY();
+        pos+=2;
     }
 
     glGenBuffers(3,buffer);
@@ -68,11 +67,11 @@ void Transforms::setVBO() {
     glBindBuffer(GL_ARRAY_BUFFER,buffer[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normal.size() * 3, n, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size() * 3, text, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size() * 3, textu, GL_STATIC_DRAW);
 
     free(v);
     free(n);
-    free(text);
+    free(textu);
     newText();
     }
 
@@ -87,10 +86,10 @@ void Transforms::draw() {
 }
 
 void Transforms::newText() {
-    string path = "../texturas" + text;
+    string path = "../../Parte4/texturas/" + text;
     ilGenImages(1, &tt);
     ilBindImage(tt);
-    ilLoadImage((ILstring)path.c_str());
+    ilLoadImage((ILstring) path.c_str());
     width = ilGetInteger(IL_IMAGE_WIDTH);
     height = ilGetInteger(IL_IMAGE_HEIGHT);
     ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);

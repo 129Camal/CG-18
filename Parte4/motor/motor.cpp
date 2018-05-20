@@ -434,9 +434,6 @@ void Parser(XMLElement *group , Transformacao transf, string p){
             printf("processei color\n");
 
         }
-
-
-
     }
 
 
@@ -549,6 +546,10 @@ int main(int argc, char** argv){
     glutKeyboardFunc(keyboard);
     glutPassiveMotionFunc(mouseMotion);
     glutSetCursor(GLUT_CURSOR_NONE);
+
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
 // OpenGL settings
     glEnable(GL_DEPTH_TEST);
