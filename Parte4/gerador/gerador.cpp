@@ -491,19 +491,19 @@ void sphere(float r, int cv, int ch, string f){
             file << x3 << "," << y3 << "," << z3 << endl;
 
             //normal
-            normal.push_back(Ponto(sin(i*espV), y1/ r, cos(i*espV)));
-            normal.push_back(Ponto(sin((i+1)*espV), y1/ r, cos((i+1)*espV)));
-            normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV)));
-
+            normal.push_back(Ponto(x1 / r, y1 / r, z1 / r));
+            normal.push_back(Ponto(x2 / r, y2 / r, z2 / r));
+            normal.push_back(Ponto(x3 / r, y3 / r, z3 / r));
 
             file << x1 << "," << y1 << "," << z1 << endl;
             file << x3 << "," << y3 << "," << z3 << endl;
             file << x4 << "," << y4 << "," << z4 << endl;
 
             //normal
-            normal.push_back(Ponto(sin((i+1)*espV), y3/ r, cos((i+1)*espV)));
-            normal.push_back(Ponto(sin(i*espV), y3/ r, cos(i*espV)));
-            normal.push_back(Ponto(sin(i*espV), y1/ r, cos(i*espV)));
+
+            normal.push_back(Ponto(x1 / r, y1 / r, z1 / r));
+            normal.push_back(Ponto(x3 / r, y3 / r, z3 / r));
+            normal.push_back(Ponto(x4 / r, y4 / r, z4 / r));
 
             //texturas
             text.push_back(Ponto(j*texV, i*texH, 0));
