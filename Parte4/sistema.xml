@@ -244,7 +244,7 @@
                 <colour R="0" G="235" B="255" />
                 <scale X="0.0353" Y="0.0353" Z="0.0353" />
                 <models>
-                    <model fich = "esfera.3d" />
+                    <model fich = "esfera.3d" text = "2k_saturn_ring_alpha.png" />
                 </models>
             </group>
             <!--   satelite Ganimedes-->
@@ -254,7 +254,7 @@
                 <colour R="255" G="0" B="255" />
                 <scale X="0.1" Y="0.1" Z="0.1" />
                 <models>
-                    <model fich = "esfera.3d" />
+                    <model fich = "esfera.3d" text = "cometa.jpg"/>
                 </models>
             </group>
             <!-- satelite Calisto-->
