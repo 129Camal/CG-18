@@ -22,14 +22,14 @@ void plano(float ladox, float ladoz, string f){
 
     file << "--normais--" << endl;
     //triangulo1
-    file << 0 << "," << 0 << "," << 1 << endl;
-    file << 0 << "," << 0 << "," << 1 << endl;
-    file << 0 << "," << 0 << "," << 1 << endl;
+    file << 0 << "," << 1 << "," << 0 << endl;
+    file << 0 << "," << 1 << "," << 0 << endl;
+    file << 0 << "," << 1 << "," << 0 << endl;
 
     //triangulo2
-    file << 0 << "," << 0 << "," << 1 << endl;
-    file << 0 << "," << 0 << "," << 1 << endl;
-    file << 0 << "," << 0 << "," << 1 << endl;
+    file << 0 << "," << 1 << "," << 0 << endl;
+    file << 0 << "," << 1 << "," << 0 << endl;
+    file << 0 << "," << 1 << "," << 0 << endl;
 
     file << "--texturas--" << endl; //VERIFICAR SE OS PONTOS ESTAO CERTOS
     //triangulo1

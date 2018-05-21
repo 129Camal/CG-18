@@ -99,6 +99,7 @@ void Transforms::draw() {
 }
 
 void Transforms::newText() {
+    //string path = "../../Parte4/texturas/" + text;
     string path = "../../Parte4/texturas/" + text;
     ilGenImages(1, &tt);
     ilBindImage(tt);
