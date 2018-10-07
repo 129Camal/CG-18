@@ -1,20 +1,23 @@
 #include "gerador.h"
 
+// algoritmo para criação do plano
 void plano(float ladox, float ladoz, string f){
     float x, y = 0, z;
+    
+    //abrir o ficheiro
     ofstream file(f);
 
-
+    // divisão dos lados para ficar centrado na origem
     x = ladox/2;
     z = ladoz/2;
 
-    // Triangulo 1
+    // Triangulo 1 (inferior)
     file << x << "," << y << "," << z << endl;
     file << x << "," << y << "," << -z << endl;
     file << -x << "," << y << "," << -z << endl;
 
 
-    // Triangulo 2
+    // Triangulo 2 (superior)
     file << -x << "," << y << "," << z << endl;
     file << x << "," << y << "," << z << endl;
     file << -x << "," << y << "," << -z << endl;
@@ -22,6 +25,8 @@ void plano(float ladox, float ladoz, string f){
 
     file.close();
 }
+
+//algoritmo para a criação da caixa 
 void box(float c, float l, float a, int camadas, string f){
     ofstream file(f);
     float x,y,z, xx, yy, zz;
@@ -160,6 +165,7 @@ void box(float c, float l, float a, int camadas, string f){
 
 }
 
+//algoritmo para a criação do cone
 void cone(float r, float a, int slices, int cH, string f){
     ofstream file(f);
     float x1, x2, x3, y1, y2, y3, z1, z2, z3;
@@ -243,6 +249,7 @@ void cone(float r, float a, int slices, int cH, string f){
     file.close();
 }
 
+//algoritmo para a criação da esfera
 void sphere(float r, int cv, int ch, string f){
     ofstream file(f);
     float espV = 2 * M_PI / cv;
@@ -294,6 +301,7 @@ void sphere(float r, int cv, int ch, string f){
     file.close();
 }
 
+//algoritmo para a criação do cilindro
 void cylinder(float raio, float altura, int slices, int slicesH, string f){
     ofstream file(f);
 
@@ -376,6 +384,7 @@ void cylinder(float raio, float altura, int slices, int slicesH, string f){
 
 }
 
+//Menu de Ajuda
 void help() {
 
     cout <<" ---------------------> MENU DE AJUDA <---------------------"<< endl;
